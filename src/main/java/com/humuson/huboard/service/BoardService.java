@@ -23,10 +23,13 @@ public class BoardService {
 		return boardRepo.findAll();
 	}
 	
-	public List<BoardVo> getPagingPost(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
+	public Page<BoardVo> getPagingPost(Model model,@PageableDefault(size=2, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
 		Page<BoardVo> pager = boardRepo.findAll(pageable);
 		List<BoardVo> paged_list = pager.getContent();
-		return paged_list;
+		System.out.println("총 페이지 수: " + pager.getTotalPages());
+		System.out.println("총 게시글 수: " + pager.getTotalElements());
+		System.out.println("페이지당 게시글 수: " + pager.getNumberOfElements());
+		return pager;
 	}
 	
 	public Optional<BoardVo> getPost(Long id){

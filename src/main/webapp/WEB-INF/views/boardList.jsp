@@ -29,7 +29,7 @@
 		</thead>
 
 		<tbody>
-			<c:forEach var="list" items="${list}" >
+			<c:forEach var="list" items="${list.getContent()}" >
 				<tr style="text-align:center" class='clickable-row' data-href='http://localhost:8080/view?id=${list.boardId}'>
 					<td>${list.boardId}</td>
 					<td>${list.subject}</td>
@@ -41,6 +41,21 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+	    	<li class="page-item disabled">
+	      		<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+	    	</li>
+	    	<c:forEach var="page" begin="0" end="${list.getTotalPages() - 1}">
+			    <li class="page-item"><a class="page-link" href="?page=${page}">${page}</a></li>
+			</c:forEach>
+	    
+	    	<li class="page-item">
+	      		<a class="page-link" href="#">Next</a>
+	    	</li>
+	  	</ul>
+	</nav>
 	
 	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/write'">±Û¾²±â</button>
 	

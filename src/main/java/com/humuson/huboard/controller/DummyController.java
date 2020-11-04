@@ -23,6 +23,7 @@ public class DummyController {
 	@Autowired
 	BoardRepository boardRepo;
 	
+	//페이지 더미
 	@GetMapping("/dummy/user")
 	public List<BoardVo> pageList(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
 		Page<BoardVo> pager = boardRepo.findAll(pageable);
