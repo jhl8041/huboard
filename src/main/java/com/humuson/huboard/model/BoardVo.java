@@ -57,6 +57,5 @@ public class BoardVo implements Serializable{
 		this.date = date;
 	}
 	
-	
 }
 

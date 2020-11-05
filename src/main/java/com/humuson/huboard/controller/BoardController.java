@@ -82,5 +82,10 @@ public class BoardController {
 		return "boardList";
 	}
 	
+	@RequestMapping("/goLogin")
+	public String goLogin() {
+		return "member/memberJoin";
+	}
+	
 	
 }

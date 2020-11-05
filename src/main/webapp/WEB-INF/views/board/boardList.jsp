@@ -117,6 +117,7 @@
 	</c:if>
 	
 	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/write'">글쓰기</button>
+	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/goLogin'">로그인</button>
 	
 	
 	
