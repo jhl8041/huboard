@@ -27,19 +27,19 @@ public class BoardController {
 	@Autowired
 	BoardRepository boardRepo;
 	
-	@RequestMapping("/")
-	public String main(Model model) {
-		model.addAttribute("list",boardService.getAllPost());
-		return "boardList"; 
-	}
+//	@RequestMapping("/")
+//	public String main(Model model) {
+//		model.addAttribute("list",boardService.getAllPost());
+//		return "boardList"; 
+//	}
 	
 	@RequestMapping("/write")
 	public String write_page() {
 		return "writePage";
 	}
 	
-	@GetMapping("/list")
-	public String page_board(Model model,@PageableDefault(size=2, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable) {
+	@GetMapping("/")
+	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable) {
 		model.addAttribute("list",boardService.getPagingPost(pageable));
 		return "boardList";
 	}
@@ -60,6 +60,12 @@ public class BoardController {
 	public String delete_board(@RequestParam Long id) {
 		boardService.deletePost(id);
 		return "redirect:/";
+	}
+	
+	@GetMapping("/search")
+	public String search(Model model, @RequestParam String subject, @PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
+		model.addAttribute("list",boardService.findPost(subject, pageable));
+		return "boardList";
 	}
 	
 	@PostMapping("/proceed_edit")

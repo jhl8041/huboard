@@ -26,13 +26,17 @@ public class BoardService {
 	
 	public Page<BoardVo> getPagingPost(Pageable pageable){
 		Page<BoardVo> pager = boardRepo.findAll(pageable);
-		List<BoardVo> paged_list = pager.getContent();
-		System.out.println("총 페이지 수: " + pager.getTotalPages());
-		System.out.println("총 게시글 수: " + pager.getTotalElements());
-		System.out.println("페이지당 게시글 수: " + pager.getNumberOfElements());
-		System.out.println("현재페이지: " + pager.getNumber());
-		System.out.println("사이즈: " + pager.getSize());
+//		List<BoardVo> paged_list = pager.getContent();
+//		System.out.println("총 페이지 수: " + pager.getTotalPages());
+//		System.out.println("총 게시글 수: " + pager.getTotalElements());
+//		System.out.println("페이지당 게시글 수: " + pager.getNumberOfElements());
+//		System.out.println("현재페이지: " + pager.getNumber());
+//		System.out.println("사이즈: " + pager.getSize());
 		return pager;
+	}
+	
+	public Page<BoardVo> findPost(String subject, Pageable pageable) {
+		return boardRepo.findBySubject(subject, pageable);
 	}
 	
 	public Optional<BoardVo> getPost(Long id){
@@ -50,4 +54,6 @@ public class BoardService {
 	public void addPost(BoardVo boardVo){
 		boardRepo.save(boardVo);
 	}
+	
+	
 }

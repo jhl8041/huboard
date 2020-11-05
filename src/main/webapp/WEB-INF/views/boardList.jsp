@@ -17,6 +17,13 @@
 	
 </head>
 <body>
+	<nav class="navbar navbar-light bg-light">
+		<form class="form-inline" method="get" action="search">
+	    	<input class="form-control mr-sm-2" name="subject" type="search" placeholder="검색" aria-label="Search">
+	    	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
+	  	</form>
+	</nav>
+
 	<table class="table table-hover">
 		<thead>
 			<tr style="text-align:center">
@@ -96,6 +103,8 @@
 	</nav>
 	
 	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/write'">글쓰기</button>
+	
+	
 	
 	<!-- 스트립트 -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
