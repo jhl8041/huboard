@@ -35,8 +35,19 @@ public class BoardService {
 		return pager;
 	}
 	
-	public Page<BoardVo> findPost(String subject, Pageable pageable) {
-		return boardRepo.findBySubject(subject, pageable);
+	public Page<BoardVo> findPostBySearch(String keyword, Pageable pageable, String search_type) {
+		Page<BoardVo> searchPage = boardRepo.findAll(pageable);
+		System.out.println(search_type);
+		if (search_type.equals("subject")) {
+			searchPage = boardRepo.findBySubjectContaining(keyword, pageable);
+		}
+		else if (search_type.equals("userId")) {
+			searchPage = boardRepo.findByUserIdContaining(keyword, pageable);
+		}
+		else if (search_type.equals("content")) {
+			searchPage = boardRepo.findByContentContaining(keyword, pageable);
+		}
+		return searchPage;
 	}
 	
 	public Optional<BoardVo> getPost(Long id){

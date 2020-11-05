@@ -27,56 +27,60 @@ public class BoardController {
 	@Autowired
 	BoardRepository boardRepo;
 	
-//	@RequestMapping("/")
-//	public String main(Model model) {
-//		model.addAttribute("list",boardService.getAllPost());
-//		return "boardList"; 
-//	}
-	
 	@RequestMapping("/write")
 	public String write_page() {
-		return "writePage";
+		return "board/boardWrite";
 	}
 	
+	//게시글 목록 조회
 	@GetMapping("/")
 	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable) {
 		model.addAttribute("list",boardService.getPagingPost(pageable));
-		return "boardList";
+		return "board/boardList";
 	}
 	
-	@GetMapping("/view")
-	public String view_board(Model model, @RequestParam Long id) {
-		model.addAttribute("post", boardService.getPost(id).get());
-		return "boardView";
-	}
-	
-	@GetMapping("/edit")
-	public String edit_board(Model model, @RequestParam Long id) {
-		model.addAttribute("post", boardService.getPost(id).get());
-		return "boardEdit";
-	}
-	
-	@GetMapping("/delete")
-	public String delete_board(@RequestParam Long id) {
-		boardService.deletePost(id);
+	//게시글 추가
+	@PostMapping("/add")
+	public String submitForm(BoardVo boardVo){
+		boardService.addPost(boardVo);
 		return "redirect:/";
 	}
 	
-	@GetMapping("/search")
-	public String search(Model model, @RequestParam String subject, @PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
-		model.addAttribute("list",boardService.findPost(subject, pageable));
-		return "boardList";
+	//게시글 조회
+	@GetMapping("/view")
+	public String view_board(Model model, @RequestParam Long id) {
+		model.addAttribute("post", boardService.getPost(id).get());
+		return "board/boardView";
 	}
 	
+	//게시글 수정페이지로 이동
+	@GetMapping("/edit")
+	public String edit_board(Model model, @RequestParam Long id) {
+		model.addAttribute("post", boardService.getPost(id).get());
+		return "board/boardEdit";
+	}
+	
+	//게시글 수정
 	@PostMapping("/proceed_edit")
 	public String proceed_edit(BoardVo boardVo) {
 		boardService.editPost(boardVo);
 		return "redirect:/view?id="+ boardVo.getBoardId().toString();
 	}
 	
-	@PostMapping("/add")
-	public String submitForm(BoardVo boardVo){
-		boardService.addPost(boardVo);
+	//게시글 삭제
+	@GetMapping("/delete")
+	public String delete_board(@RequestParam Long id) {
+		boardService.deletePost(id);
 		return "redirect:/";
 	}
+	
+	//게시글 검색
+	@GetMapping("/search")
+	public String search(Model model, @RequestParam String keyword, @RequestParam String search_type,
+			@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
+		model.addAttribute("list",boardService.findPostBySearch(keyword, pageable, search_type));
+		return "boardList";
+	}
+	
+	
 }

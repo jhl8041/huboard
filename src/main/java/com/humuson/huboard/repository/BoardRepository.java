@@ -10,5 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.humuson.huboard.model.BoardVo;
 
 public interface BoardRepository extends JpaRepository<BoardVo, Long> {
-	public Page<BoardVo> findBySubject(String subject, Pageable pageable);
+	public Page<BoardVo> findBySubjectContaining(String subject, Pageable pageable);
+	public Page<BoardVo> findByContentContaining(String content, Pageable pageable);
+	public Page<BoardVo> findByUserIdContaining(String userId, Pageable pageable);
 }
