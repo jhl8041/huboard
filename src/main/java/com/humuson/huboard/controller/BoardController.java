@@ -40,7 +40,7 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public String page_board(Model model,@PageableDefault(size=2, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable) {
-		model.addAttribute("list",boardService.getPagingPost(model, pageable));
+		model.addAttribute("list",boardService.getPagingPost(pageable));
 		return "boardList";
 	}
 	

@@ -2,6 +2,7 @@ package com.humuson.huboard.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,12 +24,14 @@ public class BoardService {
 		return boardRepo.findAll();
 	}
 	
-	public Page<BoardVo> getPagingPost(Model model,@PageableDefault(size=2, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
+	public Page<BoardVo> getPagingPost(Pageable pageable){
 		Page<BoardVo> pager = boardRepo.findAll(pageable);
 		List<BoardVo> paged_list = pager.getContent();
 		System.out.println("총 페이지 수: " + pager.getTotalPages());
 		System.out.println("총 게시글 수: " + pager.getTotalElements());
 		System.out.println("페이지당 게시글 수: " + pager.getNumberOfElements());
+		System.out.println("현재페이지: " + pager.getNumber());
+		System.out.println("사이즈: " + pager.getSize());
 		return pager;
 	}
 	
