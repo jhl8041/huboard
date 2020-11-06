@@ -20,15 +20,22 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	
+	// JSP용
 	compile 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	compile 'javax.servlet:jstl:1.2'
 	
+	// MariaDB
 	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.6.0'
 	
+	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	
+	// 이메일 전송용
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+	// Security
+	compile("org.springframework.boot:spring-boot-starter-security")
 }
 
 test {
