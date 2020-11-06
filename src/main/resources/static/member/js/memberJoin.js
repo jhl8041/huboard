@@ -2,7 +2,7 @@
  * 
  */
  
-//포커스 처리
+ //포커스 처리
 $(function(){
 	$("#id").blur(function(){$("#alertid").hide();});
 	$("#pwd").blur(function(){$("#alertpwd").hide();});
@@ -13,6 +13,7 @@ $(function(){
 
 //아이디 형식 맞는지 체크
 function idCheck(){
+	console.log("id sending");
     var idStr = document.getElementById("id").value;
     $.ajax({
         url : "/idcheck",
@@ -20,6 +21,7 @@ function idCheck(){
         data : JSON.stringify({userId:idStr}),
         contentType: 'application/json',
         success : function(data){
+        	console.log("id receiving");
         	function good(){
         		document.getElementById("alertid").className="alert alert-success";
                 document.getElementById("id").className="form-control is-valid";
@@ -210,6 +212,7 @@ function nicknameCheck(){
 function goPopup(){
     var pop = window.open("/addressPop","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
 }
+
 function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
 						, detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){
 	document.form.roadAddrPart1.value = roadAddrPart1;
@@ -384,3 +387,9 @@ function formCheck(){
 		return false;
 	}
 }
+
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+$(document).ajaxSend(function(e, xhr, options) {
+    xhr.setRequestHeader(header, token);
+});

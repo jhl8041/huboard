@@ -4,12 +4,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="utf-8">
+	
+	<!-- Spring Security에서 ajax 통신을 위한 meta tag -->
+	<meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-	<script type="text/javascript" src="/resources/member/js/memberForm.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/resources/member/js/memberJoin.js" charset="utf-8"></script>
 	
 	<title>Insert title here</title>
 </head>

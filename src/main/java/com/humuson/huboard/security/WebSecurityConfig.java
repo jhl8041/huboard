@@ -10,20 +10,44 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import lombok.extern.java.Log;
 
+
+@Log
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().and().authorizeRequests()
-		.antMatchers("/gologin").permitAll()
-		.and().logout().permitAll()
-		.and().formLogin()
-		.loginPage("/gologin")
-		.loginProcessingUrl("/proceed_login")
-		.defaultSuccessUrl("/");
+//		http.httpBasic().and().authorizeRequests()
+//		.antMatchers("/gologin").permitAll()
+//		.and().logout().permitAll()
+//		.and().formLogin()
+//		.loginPage("/gologin")
+//		.loginProcessingUrl("/proceed_login")
+//		.defaultSuccessUrl("/");
+		
+		log.info("security config.................");
+		
+		http.authorizeRequests().antMatchers("/gojoin").permitAll();
+		http.authorizeRequests().antMatchers("/addressDo").permitAll();
+		//http.authorizeRequests().antMatchers("/idcheck").permitAll();
+		
+		http.csrf().disable();
+		http.httpBasic()
+			.and()
+        .authorizeRequests()
+            .antMatchers("/resources/**").permitAll()
+            .and()
+        .authorizeRequests()
+            .antMatchers("/idcheck").hasAnyRole("ADMIN")
+            .and()
+        .authorizeRequests()
+            .antMatchers("/addressPop").hasAnyRole("ADMIN")
+            .anyRequest().authenticated();
+		
+		
 	}
 	
 	@Autowired

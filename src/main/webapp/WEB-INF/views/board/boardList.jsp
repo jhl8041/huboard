@@ -96,8 +96,6 @@
 	   	<fmt:parseNumber var="previous" value="${start_page - 1}" integerOnly="true"/>
 	   	<fmt:parseNumber var="next" value="${end_page + 1}" integerOnly="true"/>
 	   	
-	   	
-	
 	   	<!-- 페이징 구현 -->
 		<nav aria-label="Page navigation example">
 			<ul class="pagination justify-content-center">

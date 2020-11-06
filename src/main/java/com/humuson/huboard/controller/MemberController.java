@@ -32,7 +32,7 @@ public class MemberController {
 	@Autowired
 	MemberRepository memberRepo;
 	
-	//아이디 유효성 검사 및 중복검사
+	//아이디 유효성 검사 및 중복검사 ("/idcheck")
 	@PostMapping("/idcheck")
 	@ResponseBody
 	public String idCheck(@RequestBody MemberVo membervo) {
@@ -151,6 +151,12 @@ public class MemberController {
 		return "member/addressPop";
 	}
 	
+	@RequestMapping("/addressDo")
+	public String addressDo() {
+		return "redirect: http://www.juso.go.kr/addrlink/addrLinkUrl.do";
+	}
+	
+	
 	//이메일 중복 검사
 	@PostMapping("/emailcheck")
 	@ResponseBody
@@ -170,7 +176,8 @@ public class MemberController {
         
         return emailcheck;
 	}
-
+	
+	//이메일 보내기
 	@PostMapping("/sendemail")
 	@ResponseBody
 	public String sendEmail(@RequestBody EmailDto dto) {

@@ -3,39 +3,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<% 
-	//request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
-	request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
-	String inputYn = request.getParameter("inputYn"); 
-	String roadFullAddr = request.getParameter("roadFullAddr"); 
-	String roadAddrPart1 = request.getParameter("roadAddrPart1"); 
-	String roadAddrPart2 = request.getParameter("roadAddrPart2"); 
-	String engAddr = request.getParameter("engAddr"); 
-	String jibunAddr = request.getParameter("jibunAddr"); 
-	String zipNo = request.getParameter("zipNo"); 
-	String addrDetail = request.getParameter("addrDetail"); 
-	String admCd    = request.getParameter("admCd");
-	String rnMgtSn = request.getParameter("rnMgtSn");
-	String bdMgtSn  = request.getParameter("bdMgtSn");
-	/** API 서비스 제공항목 확대 (2017.02) **/
-	String detBdNmList  = request.getParameter("detBdNmList");
-	String bdNm  = request.getParameter("bdNm");
-	String bdKdcd  = request.getParameter("bdKdcd");
-	String siNm  = request.getParameter("siNm");
-	String sggNm  = request.getParameter("sggNm");
-	String emdNm  = request.getParameter("emdNm");
-	String liNm  = request.getParameter("liNm");
-	String rn  = request.getParameter("rn");
-	String udrtYn  = request.getParameter("udrtYn");
-	String buldMnnm  = request.getParameter("buldMnnm");
-	String buldSlno  = request.getParameter("buldSlno");
-	String mtYn  = request.getParameter("mtYn");
-	String lnbrMnnm  = request.getParameter("lnbrMnnm");
-	String lnbrSlno  = request.getParameter("lnbrSlno");
-	String emdNo  = request.getParameter("emdNo");
-%>
+	<!-- Spring Security에서 ajax 통신을 위한 meta tag -->
+	<meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	<% 
+		//request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
+		request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
+		String inputYn = request.getParameter("inputYn"); 
+		String roadFullAddr = request.getParameter("roadFullAddr"); 
+		String roadAddrPart1 = request.getParameter("roadAddrPart1"); 
+		String roadAddrPart2 = request.getParameter("roadAddrPart2"); 
+		String engAddr = request.getParameter("engAddr"); 
+		String jibunAddr = request.getParameter("jibunAddr"); 
+		String zipNo = request.getParameter("zipNo"); 
+		String addrDetail = request.getParameter("addrDetail"); 
+		String admCd    = request.getParameter("admCd");
+		String rnMgtSn = request.getParameter("rnMgtSn");
+		String bdMgtSn  = request.getParameter("bdMgtSn");
+		/** API 서비스 제공항목 확대 (2017.02) **/
+		String detBdNmList  = request.getParameter("detBdNmList");
+		String bdNm  = request.getParameter("bdNm");
+		String bdKdcd  = request.getParameter("bdKdcd");
+		String siNm  = request.getParameter("siNm");
+		String sggNm  = request.getParameter("sggNm");
+		String emdNm  = request.getParameter("emdNm");
+		String liNm  = request.getParameter("liNm");
+		String rn  = request.getParameter("rn");
+		String udrtYn  = request.getParameter("udrtYn");
+		String buldMnnm  = request.getParameter("buldMnnm");
+		String buldSlno  = request.getParameter("buldSlno");
+		String mtYn  = request.getParameter("mtYn");
+		String lnbrMnnm  = request.getParameter("lnbrMnnm");
+		String lnbrSlno  = request.getParameter("lnbrSlno");
+		String emdNo  = request.getParameter("emdNo");
+	%>
 </head>
 <script>
 function init(){
@@ -56,6 +60,13 @@ function init(){
 			, "<%=buldMnnm%>", "<%=buldSlno%>", "<%=mtYn%>", "<%=lnbrMnnm%>", "<%=lnbrSlno%>", "<%=emdNo%>");
 		window.close();
 	}
+	
+	// spring security bypass
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(document).ajaxSend(function(e, xhr, options) {
+	    xhr.setRequestHeader(header, token);
+	});
 }
 </script>
 <body onload="init();">
