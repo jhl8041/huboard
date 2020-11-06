@@ -79,11 +79,11 @@ public class BoardController {
 	public String search(Model model, @RequestParam String keyword, @RequestParam String search_type,
 			@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
 		model.addAttribute("list",boardService.findPostBySearch(keyword, pageable, search_type));
-		return "boardList";
+		return "board/boardList";
 	}
 	
-	@RequestMapping("/goLogin")
-	public String goLogin() {
+	@RequestMapping("/gojoin")
+	public String goJoin() {
 		return "member/memberJoin";
 	}
 	

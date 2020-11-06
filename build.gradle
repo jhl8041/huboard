@@ -24,8 +24,11 @@ dependencies {
 	compile 'javax.servlet:jstl:1.2'
 	
 	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.6.0'
+	
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 test {

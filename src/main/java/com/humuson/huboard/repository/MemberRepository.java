@@ -8,4 +8,6 @@ import com.humuson.huboard.model.MemberVo;
 
 public interface MemberRepository extends JpaRepository<MemberVo, Long>{
 	public Optional<MemberVo> findByUserId(String userId);
+	public Optional<MemberVo> findByNickname(String nickname);
+	public Optional<MemberVo> findByEmail(String email);
 }
