@@ -29,24 +29,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //		.defaultSuccessUrl("/");
 		
 		log.info("security config.................");
+		http.csrf().disable();
 		
 		http.authorizeRequests().antMatchers("/gojoin").permitAll();
 		http.authorizeRequests().antMatchers("/addressDo").permitAll();
-		//http.authorizeRequests().antMatchers("/idcheck").permitAll();
+		http.authorizeRequests().antMatchers("/idcheck").permitAll();
 		
-		http.csrf().disable();
+		
 		http.httpBasic()
 			.and()
         .authorizeRequests()
             .antMatchers("/resources/**").permitAll()
             .and()
         .authorizeRequests()
-            .antMatchers("/idcheck").hasAnyRole("ADMIN")
-            .and()
-        .authorizeRequests()
             .antMatchers("/addressPop").hasAnyRole("ADMIN")
             .anyRequest().authenticated();
-		
 		
 	}
 	
