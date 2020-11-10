@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="proceed_edit" method="post" name="form">
+	<form action="doEdit" method="post" name="form">
 		<input style="display: none"  name="boardId" value="${post.boardId}"/>
 		글제목: <input name="subject" value="${post.subject}"/><br/>
 		내용: <input name="content" value="${post.content}"/><br/>

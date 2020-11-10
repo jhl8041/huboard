@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -177,33 +178,38 @@ public class MemberController {
         return emailcheck;
 	}
 	
-	//이메일 보내기
-	@PostMapping("/sendemail")
+	//이메일 전송
+	@PostMapping("/doSendEmail")
 	@ResponseBody
 	public String sendEmail(@RequestBody EmailDto dto) {
 		memberService.mailSend(dto);
 		return "success";
 	}
 	
-	//회원정보 DB에 등록
-	@PostMapping("/proceed_join")
+	//회원가입 페이지 이동
+	@GetMapping("/goJoin")
+	public String goJoin() {
+		return "member/memberJoin";
+	}
+	
+	//회원가입 등록
+	@PostMapping("/doJoin")
 	public String submitForm(MemberVo membervo){
 		memberService.addMember(membervo);
 		return "member/memberLogin";
 	}
 	
 	//로그인 페이지 이동
-	@RequestMapping("/goLogin")
+	@GetMapping("/goLogin")
 	public String goLogin() {
 		return "member/memberLogin";
 	}
 	
 	//로그인 진행
-	@RequestMapping("/doLogin")
+	@GetMapping("/doLogin")
 	public String doLogin() {
 		return "redirect:/";
 	}
-	
 	
 	
 	//로그아웃

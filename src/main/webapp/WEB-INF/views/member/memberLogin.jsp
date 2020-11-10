@@ -31,7 +31,7 @@
 				<input class="btn btn-primary" type=submit value=로그인>
 			</div>
 			<div class="form-group">	
-				<input class="btn btn-primary" style="margin-top:10px" type=button value=회원가입 onclick="location.href='/gojoin'">
+				<input class="btn btn-primary" style="margin-top:10px" type=button value=회원가입 onclick="location.href='/goJoin'">
 			</div>
 		</form>
 	</div>

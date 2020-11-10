@@ -48,11 +48,33 @@
 		</div>
 	</form>
 	
-	<!-- 댓글 AJAX -->
-	<div class="input-group" role="group" aria-label="..." style="margin-top: 10px; width: 100%;">
-	    <div id="showComment" style="text-align: center;"></div>
-	</div>
-
+	<table class="table table-hover table-fixed">									
+		<tbody style="text-align:center">
+ 			<c:forEach var="comment" items="${comment}" >
+				<tr>
+					<td style="width:600px;text-align:left">
+						${comment.userId}<br>${comment.commentContent}
+					</td>
+				</tr>
+				<tr class="hide">
+					<td><input type="text" value="${comment.groupId}"/></td>
+				</tr>
+				<tr class="hide">
+					<td>${comment.parentCommentId}</td>
+				</tr>
+				<tr class="hide">
+					<td>${comment.depth}</td>
+				</tr>
+				<tr class="hide">
+					<td>${comment.orderNo}</td>
+				</tr>
+				<tr class="hide">
+					<td>${comment.commentId}</td>
+				</tr>
+				<input type=text class="form-control" style="width:300px" id="innercontent" onclick="addCoComment()"/>
+			</c:forEach>
+		</tbody>
+	</table>
 	<input type="button" value="수정" onclick="location.href='http://localhost:8080/goEdit?id=${post.boardId}'"/>
 	<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
 	<input type="button" value="삭제" onclick="location.href='http://localhost:8080/doDelete?id=${post.boardId}'"/>

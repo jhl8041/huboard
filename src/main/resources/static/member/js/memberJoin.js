@@ -284,7 +284,7 @@ function sendCode(){
 	if(auth>1000000)
 		auth = auth - 100000;
 	$.ajax({
-        url : "/sendemail",
+        url : "/doSendEmail",
         type : "POST",
  		data : JSON.stringify({email:emailStr, code:auth, name:nicknameStr}),
         contentType: 'application/json',

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<form action="add" method="post" name="form">
+	<form action="doCreate" method="post" name="form">
 		글제목: <input name="subject"/><br/>
 		내용: <input name="content"/><br/>
 		<input type="hidden" name="userId" value="${member.getUserId()}"/><br/>

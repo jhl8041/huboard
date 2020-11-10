@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,17 +24,22 @@ import lombok.ToString;
 public class CommentVo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long commentID;
-	private String boardId;
-	private int depth;
-	private int bundleId;
-	private int bundleOrder;
+	private Long commentId;
+	private Long boardId;
+	
+	@ColumnDefault("0")
+	private Long parentCommentId;
+	
+	@ColumnDefault("1")
+	private Long groupId;
+	
+	@ColumnDefault("1")
+	private Long orderNo;
+	
+	@ColumnDefault("0")
+	private Long depth;
+	
 	private String userId;
-	private String nickname;
-	private String ip;
-	private String comment;
-	private boolean isDeleted;
-	private Timestamp createDate;
-	private Timestamp updateDate;
-	private Timestamp deleteDate;
+	private String commentContent;
+	
 }

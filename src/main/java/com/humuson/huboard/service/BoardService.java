@@ -13,12 +13,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.humuson.huboard.model.BoardVo;
+import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.repository.BoardRepository;
+import com.humuson.huboard.repository.CommentRepository;
 
 @Service
 public class BoardService {
 	@Autowired
 	private BoardRepository boardRepo;
+	
+	@Autowired
+	private CommentRepository commentRepo;
 	
 	public List<BoardVo> getAllPost(){
 		return boardRepo.findAll();
@@ -64,6 +69,15 @@ public class BoardService {
 	
 	public void addPost(BoardVo boardVo){
 		boardRepo.save(boardVo);
+	}
+	
+	//댓글서비스
+	public void addComment(CommentVo commentvo) {
+		commentRepo.save(commentvo);
+	}
+	
+	public List<CommentVo> getComment(Long boardId) {
+		return commentRepo.findByBoardId(boardId);
 	}
 	
 	

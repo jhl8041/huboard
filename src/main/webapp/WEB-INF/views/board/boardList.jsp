@@ -18,7 +18,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-light bg-light">
-		<form class="form-inline" method="get" action="search">
+		<form class="form-inline" method="get" action="doSearch">
 	    	<input class="form-control mr-sm-2" name="keyword" type="search" placeholder="검색" aria-label="Search">
 	    	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
 	    	<select class="custom-select" name="search_type">
@@ -45,7 +45,7 @@
 		<c:if test="${list.isEmpty() eq false}">
 			<tbody>
 				<c:forEach var="list" items="${list.getContent()}" >
-					<tr style="text-align:center" class='clickable-row' data-href='http://10.172.17.4:8080/view?id=${list.boardId}'>
+					<tr style="text-align:center" class='clickable-row' data-href='http://localhost:8080/goView?id=${list.boardId}'>
 						<td>${list.boardId}</td>
 						<td>${list.subject}</td>
 						<td>${list.date}</td>
@@ -115,7 +115,7 @@
 		</nav>
 	</c:if>
 	
-	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/write'">글쓰기</button>
+	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/goCreate'">글쓰기</button>
 	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/goLogin'">로그인</button>
 	
 	

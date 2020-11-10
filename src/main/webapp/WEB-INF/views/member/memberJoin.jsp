@@ -19,7 +19,7 @@
 </head>
 <body>
 	<div class="d-flex justify-content-center">
-		<form action="/proceed_join" method=post name=form id=form  onsubmit="return formCheck()">
+		<form action="/doJoin" method=post name=form id=form  onsubmit="return formCheck()">
 			<div class="form-group">
 				<h1>회원가입</h1>
 			</div>
