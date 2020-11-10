@@ -45,7 +45,7 @@
 		<c:if test="${list.isEmpty() eq false}">
 			<tbody>
 				<c:forEach var="list" items="${list.getContent()}" >
-					<tr style="text-align:center" class='clickable-row' data-href='http://localhost:8080/view?id=${list.boardId}'>
+					<tr style="text-align:center" class='clickable-row' data-href='http://10.172.17.4:8080/view?id=${list.boardId}'>
 						<td>${list.boardId}</td>
 						<td>${list.subject}</td>
 						<td>${list.date}</td>

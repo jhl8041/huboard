@@ -36,30 +36,27 @@
 		<div class="form-inline">
 			<label for="commentTextArea">댓글작성</label>
 			<textarea class="form-control" id="commentTextArea" rows="3"></textarea>
-			<input class="btn btn-primary" style="margin-top:10px" type=button value=회원가입 onclick="addComment()">
+			<input class="btn btn-primary" style="margin-top:10px" type=button value=댓글작성 onclick="addComment()">
 		</div>
 	</div>
 	<table class="table table-hover table-fixed">									
-		<thead >
-			<tr style="text-align:center">
-				<th>작성자</th>
-				<th>내용</th>
-				<th>작성시간</th>
-			</tr>
-		</thead>
 		<tbody style="text-align:center">
 <%-- 			<c:forEach var="comment" items="${list_c}" > --%>
 				<tr>
-					<td>${post.userId}</td>
-					<td style="width:600px;text-align:left"><b>${post.content}</b></td>
-					<td>${post.date}</td>
+					<td style="width:600px;text-align:left">
+						${post.userId}<br>
+						${post.content}
+					</td>
+					<td>
+						${post.date}
+					</td>
 				</tr>
 			<%-- </c:forEach> --%>
 		</tbody>
 	</table>
-	<input type="button" value="수정" onclick="location.href='http://localhost:8080/edit?id=${post.boardId}'"/>
-	<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
-	<input type="button" value="삭제" onclick="location.href='http://localhost:8080/delete?id=${post.boardId}'"/>
+	<input type="button" value="수정" onclick="location.href='http://10.172.17.4:8080/edit?id=${post.boardId}'"/>
+	<input type="button" value="목록" onclick="location.href='http://10.172.17.4:8080/'"/>
+	<input type="button" value="삭제" onclick="location.href='http://10.172.17.4:8080/delete?id=${post.boardId}'"/>
 	
 	
 </body>

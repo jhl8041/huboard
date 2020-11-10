@@ -44,7 +44,7 @@ public class BoardVo implements Serializable{
 	private int view;
 	
 	@Column(name="date")
-	private Timestamp date = Timestamp.valueOf(LocalDateTime.now());;
+	private Timestamp date = Timestamp.valueOf(LocalDateTime.now());
 	
 	public BoardVo() {}
 	
