@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -151,11 +152,10 @@ public class MemberController {
 		return "member/addressPop";
 	}
 	
-	@RequestMapping("/addressDo")
+	@PostMapping("/addressDo")
 	public String addressDo() {
 		return "redirect: http://www.juso.go.kr/addrlink/addrLinkUrl.do";
 	}
-	
 	
 	//이메일 중복 검사
 	@PostMapping("/emailcheck")
@@ -189,12 +189,27 @@ public class MemberController {
 	@PostMapping("/proceed_join")
 	public String submitForm(MemberVo membervo){
 		memberService.addMember(membervo);
-		return "redirect:/";
+		return "member/memberLogin";
 	}
 	
 	//로그인 페이지 이동
-	@RequestMapping("/gologin")
+	@RequestMapping("/goLogin")
 	public String goLogin() {
 		return "member/memberLogin";
 	}
+	
+	//로그인 진행
+	@RequestMapping("/doLogin")
+	public String doLogin() {
+		return "redirect:/";
+	}
+	
+	
+	
+	//로그아웃
+	@PostMapping("/doLogout")
+	public String doLogout() {
+		return "member/memberLogin";
+	}
+	
 }

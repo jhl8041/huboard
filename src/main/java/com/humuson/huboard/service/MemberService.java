@@ -1,8 +1,20 @@
 package com.humuson.huboard.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.humuson.huboard.model.EmailDto;
@@ -10,7 +22,8 @@ import com.humuson.huboard.model.MemberVo;
 import com.humuson.huboard.repository.MemberRepository;
 
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
+	
 	@Autowired
 	private MemberRepository memberRepo;
 	
@@ -33,15 +46,18 @@ public class MemberService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mailDto.getEmail());
         message.setFrom("jhl8041@naver.com");
-        message.setSubject("[휴보드] 안녕하세요 '" + mailDto.getName() + "'님 회원가입 인증번호입니다");
+        message.setSubject("[휴보드] 안녕하세요 회원가입 인증번호입니다");
         message.setText("인증번호: " + mailDto.getCode());
         mailSender.send(message);
     }
 	
 	public void addMember(MemberVo membervo) {
+		
+		String encryptPw = BCrypt.hashpw(membervo.getPassword(), BCrypt.gensalt());
+		
 		memberRepo.save(new MemberVo(
 				membervo.getUserId(),
-				membervo.getPassword(),
+				encryptPw,
 				membervo.getUserName(),
 				membervo.getNickname(),
 				membervo.getPhone(),
@@ -50,5 +66,20 @@ public class MemberService {
 				membervo.getGender(),
 				membervo.makeAddress(membervo.getRoadAddrPart1(), membervo.getAddrDetail())
 				));
+	}
+	
+	public MemberVo getMemberByUserId(String userId) {
+		return memberRepo.findByUserId(userId).get();
+	}
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+		Optional<MemberVo> memberWrapper = memberRepo.findByUserId(username);
+		MemberVo member = memberWrapper.get();
+		
+		//List<GrantedAuthority> authorities = new ArrayList<>();
+		//System.out.println(memberWrapper.toString());
+		
+		return new User(member.getUserId(), member.getPassword(), Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
 	}
 }

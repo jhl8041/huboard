@@ -27,6 +27,9 @@
 			  <option value="content">내용</option>
 			</select>
 	  	</form>
+	  	<div class="form-group">
+			<p>${member.getUserName()}님 환영합니다!</p>
+		</div>
 	</nav>
 
 	<table class="table table-hover">
@@ -34,7 +37,6 @@
 			<tr style="text-align:center">
 				<th scope="col">번호</th>
 				<th scope="col">제목</th>
-				<th scope="col">내용</th>
 				<th scope="col">작성시간</th>
 				<th scope="col">작성자</th>
 				<th scope="col">조회수</th>
@@ -46,7 +48,6 @@
 					<tr style="text-align:center" class='clickable-row' data-href='http://localhost:8080/view?id=${list.boardId}'>
 						<td>${list.boardId}</td>
 						<td>${list.subject}</td>
-						<td>${list.content}</td>
 						<td>${list.date}</td>
 						<td>${list.userId}</td>
 						<td>${list.view}</td>

@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.security.core.userdetails.User;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,6 +39,8 @@ public class MemberVo {
 	private String gender;
 	private Timestamp joinDate;
 	private String address;
+	private String auth;
+	//private int enabled;
 	
 	@Transient
 	private String birthyear;

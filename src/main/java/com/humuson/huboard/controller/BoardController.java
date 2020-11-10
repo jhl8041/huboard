@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.humuson.huboard.model.BoardVo;
+import com.humuson.huboard.model.MemberVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.service.BoardService;
+import com.humuson.huboard.service.MemberService;
 
 @Controller
 public class BoardController {
@@ -25,17 +29,22 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
 	BoardRepository boardRepo;
 	
 	@RequestMapping("/write")
-	public String write_page() {
+	public String write_page(Model model, @AuthenticationPrincipal User user) {
+		model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardWrite";
 	}
 	
 	//게시글 목록 조회
 	@GetMapping("/")
-	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable) {
+	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user) {
 		model.addAttribute("list",boardService.getPagingPost(pageable));
+		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardList";
 	}
 	
