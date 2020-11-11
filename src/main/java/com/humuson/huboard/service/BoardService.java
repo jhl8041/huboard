@@ -73,6 +73,10 @@ public class BoardService {
 	
 	//댓글서비스
 	public void addComment(CommentVo commentvo) {
+		commentvo.setParentCommentId(0L);
+		commentvo.setDepth(0L);
+		commentvo.setGroupId(1L);
+		commentvo.setOrderNo(1L);
 		commentRepo.save(commentvo);
 	}
 	

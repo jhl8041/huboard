@@ -38,7 +38,6 @@ public class BoardController {
 	BoardRepository boardRepo;
 	
 	
-	
 	//게시글 목록 조회
 	@GetMapping("/")
 	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user) {

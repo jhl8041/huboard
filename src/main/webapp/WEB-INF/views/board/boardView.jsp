@@ -38,9 +38,9 @@
 	
 	<form action="doComment" method="post">
 		<div class="form-group">
+			<label for="commentTextArea">댓글작성</label>
 			<div class="form-inline">
-				<label for="commentTextArea">댓글작성</label>
-				<textarea class="form-control" name="commentContent" id="commentContent" rows="3"></textarea>
+				<textarea style="resize: none; width: 500px;" class="form-control" name="commentContent" id="commentContent" rows="2"></textarea>
 				<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
 				<input type="hidden" name="userId" id="userId" value="${member.userId}"/>
 				<input class="btn btn-primary" style="margin-top:10px" type=button value=댓글작성 onClick="addComment()">

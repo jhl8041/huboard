@@ -28,6 +28,11 @@ function addComment(){
     });
 }
 
+function addCoComent(){
+
+
+}
+
 function showAllComment(){
 	var boardIdStr = document.getElementById("boardId").value;
 
@@ -46,10 +51,11 @@ function showAllComment(){
 }
 
 function showHtml(data) {
-        var html = "<table class='table table-hover table-fixed'><tbody style='text-align:center'>";
+        var html = "<table class='table table-hover table-fixed'><tbody style='text-align:left;'>";
+        
         $.each(data, function(i) {
             html += "<tr>";
-            html += "<td style='width:600px;text-align:left'>" 
+            html += "<td style='width:600px;padding-left:" + data[i].depth*2 + "em;'>" 
             html += data[i].userId + '<br>' + data[i].commentContent;
             html += "</td>";
             html += "</tr>";
