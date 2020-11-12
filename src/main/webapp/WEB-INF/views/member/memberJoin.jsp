@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	<script type="text/javascript" src="/resources/member/js/memberJoin.js" charset="utf-8"></script>
 	
-	<title>Insert title here</title>
+	<title>회원가입</title>
 </head>
 <body>
 	<div class="d-flex justify-content-center">

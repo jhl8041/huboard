@@ -71,17 +71,62 @@ public class BoardService {
 		boardRepo.save(boardVo);
 	}
 	
-	//댓글서비스
+	//원댓글 추가
 	public void addComment(CommentVo commentvo) {
 		commentvo.setParentCommentId(0L);
 		commentvo.setDepth(0L);
-		commentvo.setGroupId(1L);
+		
+		//새로운 그룹아이디 부여
+		Long newGroupId = commentRepo.findTopByOrderByGroupIdDesc().get().getGroupId();
+		commentvo.setGroupId(newGroupId+1);
+		
 		commentvo.setOrderNo(1L);
 		commentRepo.save(commentvo);
 	}
 	
+	//대댓글 추가
+	public void addCoComment(CommentVo comment) {
+		Long groupId = comment.getGroupId();
+		
+		Long parentOrderNo = comment.getOrderNo();
+		Long currentOrderNo = parentOrderNo+1;
+		
+		Long parentDepth = comment.getDepth();
+		Long currentDepth = parentDepth+1;
+		
+		comment.setParentCommentId(comment.getParentCommentId());
+		comment.setDepth(currentDepth);
+		comment.setGroupId(groupId);
+		
+		Long endOrderNo = commentRepo.findTopByGroupIdOrderByOrderNoDesc(groupId).get().getOrderNo();
+		
+		if(commentRepo.findTopByGroupIdAndOrderNoAndDepth(groupId,currentOrderNo,currentDepth).isEmpty()) {			
+			comment.setOrderNo(endOrderNo+1);
+			System.out.println("if");
+		}
+		else {
+			Long limit_start = parentOrderNo;
+			Long limit_end = endOrderNo - limit_start;
+			
+			List<CommentVo> pushList = commentRepo.findByGroupIdOrderAndMore(groupId, limit_start, limit_end);
+			
+			for(CommentVo push: pushList) {
+				CommentVo tempcommentvo = push;
+				Long prevOrderNo = tempcommentvo.getOrderNo(); 
+				tempcommentvo.setOrderNo(prevOrderNo+1);
+				commentRepo.save(tempcommentvo);
+			}
+			
+			comment.setOrderNo(currentOrderNo);
+			System.out.println("else");
+		}
+		
+		commentRepo.save(comment);
+	}
+	
 	public List<CommentVo> getComment(Long boardId) {
-		return commentRepo.findByBoardId(boardId);
+		//return commentRepo.findByBoardId(boardId);
+		return commentRepo.findByBoardIdOrderByGroupIdAscOrderNoAsc(boardId);
 	}
 	
 	

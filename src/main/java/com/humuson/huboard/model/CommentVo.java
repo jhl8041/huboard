@@ -19,7 +19,7 @@ import lombok.ToString;
 //https://lightcode.tistory.com/22
 
 @Entity
-@Table(name="comment")
+@Table(name="commentvo")
 @Getter @Setter
 @ToString
 public class CommentVo {

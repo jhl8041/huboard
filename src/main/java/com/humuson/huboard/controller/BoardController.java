@@ -81,7 +81,8 @@ public class BoardController {
 		boardService.editPost(boardVo);
 		return "redirect:/goView?id="+ boardVo.getBoardId().toString();
 	}
-	
+
+
 	//게시글 삭제
 	@GetMapping("/doDelete")
 	public String doDelete(@RequestParam Long id) {
@@ -102,6 +103,13 @@ public class BoardController {
 	@ResponseBody
 	public List<CommentVo> doComment(@RequestBody CommentVo commentvo) {
 		boardService.addComment(commentvo);
+		return boardService.getComment(commentvo.getBoardId());
+	}
+	
+	@PostMapping("/doCoComment")
+	@ResponseBody
+	public List<CommentVo> doCoComment(@RequestBody CommentVo commentvo) {
+		boardService.addCoComment(commentvo);
 		return boardService.getComment(commentvo.getBoardId());
 	}
 	

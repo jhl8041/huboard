@@ -11,8 +11,6 @@
 		<input style="display: none"  name="boardId" value="${post.boardId}"/>
 		글제목: <input name="subject" value="${post.subject}"/><br/>
 		내용: <input name="content" value="${post.content}"/><br/>
-		아이디: <input name="userId" value="${post.userId}"/><br/>
-		이름: <input name="userName" value="${post.userName}"/><br/>
 		<input type="submit" value="수정"/>	
 	</form>
 </body>
