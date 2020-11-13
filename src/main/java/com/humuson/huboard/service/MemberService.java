@@ -74,12 +74,12 @@ public class MemberService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-		Optional<MemberVo> memberWrapper = memberRepo.findByUserId(username);
-		MemberVo member = memberWrapper.get();
+		MemberVo member = memberRepo.findByUserId(username).get();
+		String role = member.getAuth();
 		
-		//List<GrantedAuthority> authorities = new ArrayList<>();
-		//System.out.println(memberWrapper.toString());
-		
-		return new User(member.getUserId(), member.getPassword(), Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+		List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+		auth.add(new SimpleGrantedAuthority(role));
+
+		return new User(member.getUserId(), member.getPassword(), auth);
 	}
 }

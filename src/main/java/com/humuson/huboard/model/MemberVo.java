@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import lombok.Getter;
@@ -39,7 +42,7 @@ public class MemberVo {
 	private String gender;
 	private Timestamp joinDate;
 	private String address;
-	private String auth;
+	private String auth = "ROLE_MEMBER";
 	//private int enabled;
 	
 	@Transient

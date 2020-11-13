@@ -1,6 +1,10 @@
 package com.humuson.huboard.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.swing.filechooser.FileSystemView;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CommentVo;
@@ -38,6 +43,8 @@ public class BoardController {
 	BoardRepository boardRepo;
 	
 	
+	/*---------------------------------------- 게시글 컨트롤러 ---------------------------------------------*/
+	
 	//게시글 목록 조회
 	@GetMapping("/")
 	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user) {
@@ -53,17 +60,48 @@ public class BoardController {
 		return "board/boardWrite";
 	}
 	
-	//게시글 쓰기
+	//게시글 쓰기 + 다중파일 업로드
 	@PostMapping("/doCreate")
-	public String doCreate(BoardVo boardVo){
+	public String doCreate(@RequestParam("files") List<MultipartFile> files, BoardVo boardVo) throws Exception {
+		//String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
+		//String basePath = rootPath + "/" + "multi";
+		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\uploads";
+		
+		for(MultipartFile file : files) {
+			String originalName = file.getOriginalFilename();
+			String filePath = basePath + "/" + originalName;
+			
+			file.transferTo(new File(filePath));	
+		}
+			
 		boardService.addPost(boardVo);
 		return "redirect:/";
+	}
+	
+	@PostMapping("/doUpload")
+	@ResponseBody
+	public String doUpload(@RequestBody List<MultipartFile> files) throws Exception {
+		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\uploads";
+		
+		for(MultipartFile file : files) {
+			String originalName = file.getOriginalFilename();
+			String filePath = basePath + "/" + originalName;
+			
+			file.transferTo(new File(filePath));	
+		}
+		
+		return "success";
 	}
 	
 	//게시글 보기페이지 이동
 	@GetMapping("/goView")
 	public String goView(Model model, @RequestParam Long id, @AuthenticationPrincipal User user) {
-		model.addAttribute("post", boardService.getPost(id).get());
+		//조회수 증가
+		BoardVo post = boardService.getPost(id).get();
+		post.setView(post.getView()+1);
+		boardService.editPost(post);
+		
+		model.addAttribute("post", post);
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardView";
 	}
@@ -82,7 +120,6 @@ public class BoardController {
 		return "redirect:/goView?id="+ boardVo.getBoardId().toString();
 	}
 
-
 	//게시글 삭제
 	@GetMapping("/doDelete")
 	public String doDelete(@RequestParam Long id) {
@@ -98,6 +135,8 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
+	
+	/*---------------------------------------- 댓글 컨트롤러 ---------------------------------------------*/
 	//댓글 등록
 	@PostMapping("/doComment")
 	@ResponseBody

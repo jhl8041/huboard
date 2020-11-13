@@ -116,7 +116,9 @@
 	</c:if>
 	
 	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/goCreate'">글쓰기</button>
-	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/goLogin'">로그인</button>
+	<form action="/doLogout" method=post name=logout>
+		 	<input class="btn btn-primary" type=submit value=로그아웃>
+	</form>
 	
 	
 	

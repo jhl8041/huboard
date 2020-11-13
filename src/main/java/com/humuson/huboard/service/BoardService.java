@@ -71,14 +71,19 @@ public class BoardService {
 		boardRepo.save(boardVo);
 	}
 	
-	//원댓글 추가
+	//메인댓글 추가
 	public void addComment(CommentVo commentvo) {
 		commentvo.setParentCommentId(0L);
 		commentvo.setDepth(0L);
 		
-		//새로운 그룹아이디 부여
-		Long newGroupId = commentRepo.findTopByOrderByGroupIdDesc().get().getGroupId();
-		commentvo.setGroupId(newGroupId+1);
+		if (commentRepo.findAll().isEmpty()) {
+			commentvo.setGroupId(1L);
+		}
+		else {
+			//새로운 그룹아이디 부여
+			Long newGroupId = commentRepo.findTopByOrderByGroupIdDesc().get().getGroupId();
+			commentvo.setGroupId(newGroupId+1);
+		}
 		
 		commentvo.setOrderNo(1L);
 		commentRepo.save(commentvo);

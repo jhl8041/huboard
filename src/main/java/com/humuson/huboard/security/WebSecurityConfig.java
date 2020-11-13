@@ -30,15 +30,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		log.info("security config.................");
 				
 		http.csrf().disable().authorizeRequests()
-			.antMatchers("/view").hasRole("ADMIN")
-			.antMatchers("/").hasRole("ADMIN")
+			.antMatchers("/resources/**").permitAll()
+			.antMatchers("/goView").hasRole("MEMBER")
+			.antMatchers("/").hasRole("MEMBER")
 			.anyRequest().permitAll()
 			.and()
 		.formLogin()
 			.loginPage("/goLogin")
 			.loginProcessingUrl("/doLogin")
 			.usernameParameter("userId")
-			.passwordParameter("password");	
+			.passwordParameter("password")
+			.permitAll();
+		
+		http
+			.logout()
+			.logoutUrl("/doLogout")
+			.logoutSuccessUrl("/goLogin")
+			.invalidateHttpSession(true)
+			.deleteCookies("JSESSIONID");
+		
 	}
 	
 	@Autowired

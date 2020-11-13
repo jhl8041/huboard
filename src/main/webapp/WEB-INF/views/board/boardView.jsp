@@ -10,7 +10,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-	<script type="text/javascript" src="/resources/member/js/boardView.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/resources/board/js/boardView.js" charset="utf-8"></script>
 		
 </head>
 <body>

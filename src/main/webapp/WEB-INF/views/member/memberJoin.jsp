@@ -121,9 +121,7 @@
 				<input class="btn btn-primary" style="margin-top:10px" type=button value=로그인화면으로 onclick="location.href='/goLogin'">
 			</div>
 		 </form>
-		 <form action="/doLogout" method=post name=logout>
-		 	<input class="btn btn-primary" type=submit value=로그아웃>
-		 </form>
+		
 	</div> 
 	
 	<!-- 스트립트 -->
