@@ -16,10 +16,7 @@ public interface CommentRepository extends JpaRepository<CommentVo, Long> {
 	
 	//댓글,대댓글용
 	public Optional<CommentVo> findTopByOrderByGroupIdDesc();
-	//public Optional<CommentVo> findTopByGroupIdAndOrderNo(Long groupId, Long orderNo);
-	public Optional<CommentVo> findTopByGroupIdAndOrderNoAndDepth(Long groupId, Long orderNo, Long depth);
-	public Optional<CommentVo> findTopByGroupIdOrderByOrderNoDesc(Long groupId);
+	public Optional<CommentVo> findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(Long groupId, Long depth, Long parentCommentId);	
+	public List<CommentVo> findByGroupIdAndOrderNoGreaterThanEqual(Long groupId, Long length);
 	
-	@Query(value="SELECT * FROM CommentVo c WHERE group_id LIKE ?1 ORDER BY order_no LIMIT ?2,?3", nativeQuery=true)
-	public List<CommentVo> findByGroupIdOrderAndMore(Long groupId, Long limitStart, Long limitEnd);
 }

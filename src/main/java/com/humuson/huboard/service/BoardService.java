@@ -91,42 +91,40 @@ public class BoardService {
 	
 	//대댓글 추가
 	public void addCoComment(CommentVo comment) {
-		Long groupId = comment.getGroupId();
-		
+		//부모댓글 정보 가져오기
+		Long parentGroupId = comment.getGroupId();
 		Long parentOrderNo = comment.getOrderNo();
-		Long currentOrderNo = parentOrderNo+1;
-		
 		Long parentDepth = comment.getDepth();
-		Long currentDepth = parentDepth+1;
+		Long parentCommentId = comment.getParentCommentId();
 		
-		comment.setParentCommentId(comment.getParentCommentId());
-		comment.setDepth(currentDepth);
-		comment.setGroupId(groupId);
+		Long currentOrderNo = 0L;
 		
-		Long endOrderNo = commentRepo.findTopByGroupIdOrderByOrderNoDesc(groupId).get().getOrderNo();
+		//group_id & depth & parent_id 같은애들 조회 -> 그중 가장 큰 orderNo 조회 -> 그 orderNo +1이 현재 순서
+		Optional<CommentVo> cocoPrev  = commentRepo.findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(parentGroupId, parentDepth+1, parentCommentId);
 		
-		if(commentRepo.findTopByGroupIdAndOrderNoAndDepth(groupId,currentOrderNo,currentDepth).isEmpty()) {			
-			comment.setOrderNo(endOrderNo+1);
-			System.out.println("if");
+		if (cocoPrev.isEmpty()) {
+			currentOrderNo = parentOrderNo+1;
 		}
 		else {
-			Long limit_start = parentOrderNo;
-			Long limit_end = endOrderNo - limit_start;
-			
-			List<CommentVo> pushList = commentRepo.findByGroupIdOrderAndMore(groupId, limit_start, limit_end);
-			
-			for(CommentVo push: pushList) {
-				CommentVo tempcommentvo = push;
-				Long prevOrderNo = tempcommentvo.getOrderNo(); 
-				tempcommentvo.setOrderNo(prevOrderNo+1);
-				commentRepo.save(tempcommentvo);
-			}
-			
-			comment.setOrderNo(currentOrderNo);
-			System.out.println("else");
+			currentOrderNo = cocoPrev.get().getOrderNo()+1;
 		}
 		
+		//현재 대댓글에 정보 부여
+		comment.setParentCommentId(parentCommentId);
+		comment.setDepth(parentDepth+1);
+		comment.setGroupId(parentGroupId);
+		comment.setOrderNo(currentOrderNo);
+		
+		//현재 대댓글 이후에 올 댓글들 순서 1씩 추가
+		List<CommentVo> pushList = commentRepo.findByGroupIdAndOrderNoGreaterThanEqual(parentGroupId, currentOrderNo);
+		for(CommentVo push: pushList) {
+			push.setOrderNo(push.getOrderNo()+1);
+			commentRepo.save(push);
+		}
+		
+		//대댓글 저장
 		commentRepo.save(comment);
+
 	}
 	
 	public List<CommentVo> getComment(Long boardId) {

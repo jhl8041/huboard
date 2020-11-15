@@ -38,8 +38,6 @@
 			</script>
 		</div>
 		
-		
-			
 		<div class="hidden">
 			<input type="hidden" name="userId" value="${member.getUserId()}"/><br/>
 		</div>
