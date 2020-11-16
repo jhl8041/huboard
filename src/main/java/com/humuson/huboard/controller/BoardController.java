@@ -146,6 +146,7 @@ public class BoardController {
 	public String doUpload(@RequestBody List<MultipartFile> files) throws Exception {
 		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\uploads";
 		
+		
 		List<String> storedList = new ArrayList<>();
 		String storedName = "";
 		

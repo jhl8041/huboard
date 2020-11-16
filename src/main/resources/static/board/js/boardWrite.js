@@ -89,12 +89,17 @@ function addFileList(fIndex, fileName, fileSize){
     html += "    <td class='left' >";
     html +=         fileName + " / " + fileSize + "MB "  ;
     html +=         "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>";
-    html += "    </td>"
-    html += "</tr>"
+    html += 		"<div id='progress' class='progress_"+fIndex+"'>";
+	html +=			"	<div id='bar' class='bar_"+fIndex+"'></div>";
+	html +=			"	<div id='percent' class='percent_"+fIndex+"'>0%</div>";
+	html += 		"</div>";
+	html += 		"<div id='status"+fIndex+"'></div>";
+    html += "    </td>";
+    html += "</tr>";
     
     $('#fileTableTbody').append(html);
     addFileToDB(fileName, fileSize);
-    uploadFile();
+    uploadFile(fIndex);
 }
 
 //업로드 파일 DB에 등록
@@ -131,7 +136,7 @@ function deleteFile(fIndex){
 }
  
 // 파일 등록
-function uploadFile(){
+function uploadFile(fIndex){
 	console.log("uploading");
     var uploadFileList = Object.keys(fileList); // 등록할 파일 리스트
  
@@ -147,16 +152,17 @@ function uploadFile(){
         return;
     }
             
-
     // 등록할 파일 리스트를 formData로 데이터 입력
     var formData = new FormData($('formm')[0]);
-    for(var i = 0; i < uploadFileList.length; i++){
-        formData.append('files', fileList[uploadFileList[i]]);
-    }
-        
-    var bar = $('.bar');
-    var percent = $('.percent');
-    var status = $('status');    
+    //for(var i = 0; i < uploadFileList.length; i++){
+    //    formData.append('files', fileList[uploadFileList[i]]);
+    //}
+    
+    formData.append('files', fileList[uploadFileList[uploadFileList.length-1]]);
+    
+    var bar = $('.bar_'+fIndex);
+    var percent = $('.percent_'+fIndex);
+    var status = $('status_'+fIndex);    
         
     $.ajax({
     	xhr: function(){

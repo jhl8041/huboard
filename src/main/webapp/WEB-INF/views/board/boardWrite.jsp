@@ -10,20 +10,20 @@
 		.ck-editor__editable{
 			min-height: 500px;
 		}
-		.progress{
+		#progress{
 			position:relative;
 			width: 100%; 
 			border: 1px solid #ddd; 
 			padding: 1px;
 			border-radius: 3px;
 		}
-		.bar{
+		#bar{
 			background-color: #337ab7;
 			width:0%;
 			height:20px;
 			border-radius: 3px;
 		}
-		.percent{
+		#percent{
 			position:absolute;
 			display:inline-block;
 			top:1px;
@@ -80,11 +80,7 @@
 		
 	</form>
 	
-	<div class="progress">
-		<div class="bar"></div>
-		<div class="percent">0%</div>
-	</div>
-	<div id="status"></div>
+	
 	
 	
 	
