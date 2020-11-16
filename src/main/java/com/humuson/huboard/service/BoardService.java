@@ -1,5 +1,7 @@
 package com.humuson.huboard.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,8 +16,10 @@ import org.springframework.ui.Model;
 
 import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CommentVo;
+import com.humuson.huboard.model.FileVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.repository.CommentRepository;
+import com.humuson.huboard.repository.FileRepository;
 
 @Service
 public class BoardService {
@@ -24,6 +28,9 @@ public class BoardService {
 	
 	@Autowired
 	private CommentRepository commentRepo;
+	
+	@Autowired
+	private FileRepository fileRepo;
 	
 	public List<BoardVo> getAllPost(){
 		return boardRepo.findAll();
@@ -128,9 +135,29 @@ public class BoardService {
 	}
 	
 	public List<CommentVo> getComment(Long boardId) {
-		//return commentRepo.findByBoardId(boardId);
 		return commentRepo.findByBoardIdOrderByGroupIdAscOrderNoAsc(boardId);
 	}
 	
-	
+	public void addFileToDB(FileVo filevo) {
+		String originFileName = filevo.getOriginFileName();
+		String newFileName = "";
+		
+		Long nextBoardId = boardRepo.findTopByOrderByBoardIdDesc().get().getBoardId()+1;
+		filevo.setBoardId(nextBoardId);
+		
+		
+		if (fileRepo.findByOriginFileName(originFileName).isEmpty()) {
+			newFileName = originFileName;
+			
+		}
+		else {
+			int fileCount = fileRepo.findByOriginFileName(originFileName).size();
+			newFileName = originFileName + "(" + fileCount + ")";
+		}
+		filevo.setStoredFileName(newFileName);
+		filevo.setRegDate(Timestamp.valueOf(LocalDateTime.now()));
+		fileRepo.save(filevo);
+		
+		
+	}
 }

@@ -2,7 +2,9 @@ package com.humuson.huboard.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.swing.filechooser.FileSystemView;
@@ -27,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CommentVo;
+import com.humuson.huboard.model.FileVo;
 import com.humuson.huboard.model.MemberVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.service.BoardService;
@@ -69,20 +72,7 @@ public class BoardController {
 		return "redirect:/";
 	}
 	
-	@PostMapping("/doUpload")
-	@ResponseBody
-	public String doUpload(@RequestBody List<MultipartFile> files) throws Exception {
-		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\uploads";
-		
-		for(MultipartFile file : files) {
-			String originalName = file.getOriginalFilename();
-			String filePath = basePath + "/" + originalName;
-			
-			file.transferTo(new File(filePath));	
-		}
-		
-		return "success";
-	}
+	
 	
 	//게시글 보기페이지 이동
 	@GetMapping("/goView")
@@ -148,5 +138,41 @@ public class BoardController {
 	public List<CommentVo> getComment(@RequestBody CommentVo commentvo) {
 		return boardService.getComment(commentvo.getBoardId());
 	}
+	
+	
+	/*---------------------------------------- 파일 컨트롤러 ---------------------------------------------*/
+	@PostMapping("/doUpload")
+	@ResponseBody
+	public String doUpload(@RequestBody List<MultipartFile> files) throws Exception {
+		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\uploads";
+		
+		List<String> storedList = new ArrayList<>();
+		String storedName = "";
+		
+		for(MultipartFile file : files) {
+			UUID uuid = UUID.randomUUID();
+			storedName = uuid.toString()+"_"+file.getOriginalFilename();
+			String filePath = basePath + "/" + storedName;
+			storedList.add(storedName);
+			file.transferTo(new File(filePath));	
+		}
+		int cnt=1;
+		for (String i:storedList) {
+			System.out.println(cnt+": "+i);
+			cnt++;
+		}
+		
+		return "success";
+	}
+	
+	
+	@PostMapping("/doFileToDB")
+	@ResponseBody
+	public String doFileToDB(@RequestBody FileVo filevo) throws Exception {
+		boardService.addFileToDB(filevo);
+		return "success";
+	}
+	
+	
 	
 }

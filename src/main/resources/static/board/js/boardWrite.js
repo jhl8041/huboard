@@ -50,7 +50,7 @@
  			alert("에러");
  		}
  		console.log("dropping");
- 		uploadFile();
+ 		
  	});
 }
 
@@ -92,8 +92,34 @@ function addFileList(fIndex, fileName, fileSize){
     html += "    </td>"
     html += "</tr>"
     
- 
     $('#fileTableTbody').append(html);
+    addFileToDB(fileName, fileSize);
+    uploadFile();
+}
+
+//업로드 파일 DB에 등록
+function addFileToDB(fileName, fileSize){
+	var userIdStr = document.getElementById("userId").value;
+	var fileNameStr = fileName;
+	var fileSizeStr = fileSize;
+	
+	$.ajax({
+        url : "/doFileToDB",
+        type : "POST",
+        data : JSON.stringify({
+        	userId:userIdStr,
+        	originFileName: fileNameStr,
+        	fileSize: fileSizeStr
+        }),
+        contentType: 'application/json',
+        success : function(data){
+        	//alert("db에 등록되었습니다");   	
+        },
+		error:function(xhr,status,error){
+			console.log('error:'+error);
+		}
+    });
+
 }
  
 // 업로드 파일 삭제

@@ -10,6 +10,26 @@
 		.ck-editor__editable{
 			min-height: 500px;
 		}
+		.progress{
+			position:relative;
+			width: 100%; 
+			border: 1px solid #ddd; 
+			padding: 1px;
+			border-radius: 3px;
+		}
+		.bar{
+			background-color: #337ab7;
+			width:0%;
+			height:20px;
+			border-radius: 3px;
+		}
+		.percent{
+			position:absolute;
+			display:inline-block;
+			top:1px;
+			left:48%;
+		}
+		
 	</style>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -39,8 +59,7 @@
 		</div>
 		
 		<div class="hidden">
-			<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
-			<input type="hidden" name="userId" value="${member.getUserId()}"/><br/>	
+			<input type="hidden" name="userId" id="userId" value="${member.getUserId()}"/><br/>	
 		</div>
 		
 		<div>
@@ -58,6 +77,7 @@
 		<div class="form-group">
 			<input class="btn btn-primary" type="submit" value="글쓰기"/>
 		</div>
+		
 	</form>
 	
 	<div class="progress">
@@ -65,6 +85,8 @@
 		<div class="percent">0%</div>
 	</div>
 	<div id="status"></div>
+	
+	
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
