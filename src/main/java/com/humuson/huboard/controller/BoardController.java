@@ -48,7 +48,6 @@ public class BoardController {
 	
 	
 	/*---------------------------------------- 게시글 컨트롤러 ---------------------------------------------*/
-	
 	//게시글 목록 조회
 	@GetMapping("/")
 	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user) {
@@ -56,24 +55,18 @@ public class BoardController {
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardList";
 	}
-	
 	//게시글 쓰기페이지 이동
 	@GetMapping("/goCreate")
 	public String goCreate(Model model, @AuthenticationPrincipal User user) {
 		model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardWrite";
 	}
-	
 	//게시글 쓰기 + 다중파일 업로드
 	@PostMapping("/doCreate")
 	public String doCreate(BoardVo boardVo) throws Exception {
-			
 		boardService.addPost(boardVo);
 		return "redirect:/";
-	}
-	
-	
-	
+	}	
 	//게시글 보기페이지 이동
 	@GetMapping("/goView")
 	public String goView(Model model, @RequestParam Long id, @AuthenticationPrincipal User user) {
@@ -82,32 +75,29 @@ public class BoardController {
 		post.setView(post.getView()+1);
 		boardService.editPost(post);
 		
+		model.addAttribute("files", boardService.getFiles(id));
 		model.addAttribute("post", post);
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardView";
 	}
-	
 	//게시글 수정페이지 이동
 	@GetMapping("/goEdit")
 	public String goEdit(Model model, @RequestParam Long id) {
 		model.addAttribute("post", boardService.getPost(id).get());
 		return "board/boardEdit";
 	}
-	
 	//게시글 수정
 	@PostMapping("/doEdit")
 	public String doEdit(BoardVo boardVo) {
 		boardService.editPost(boardVo);
 		return "redirect:/goView?id="+ boardVo.getBoardId().toString();
 	}
-
 	//게시글 삭제
 	@GetMapping("/doDelete")
 	public String doDelete(@RequestParam Long id) {
 		boardService.deletePost(id);
 		return "redirect:/";
 	}
-	
 	//게시글 검색
 	@GetMapping("/doSearch")
 	public String doSearch(Model model, @RequestParam String keyword, @RequestParam String search_type,
@@ -125,14 +115,14 @@ public class BoardController {
 		boardService.addComment(commentvo);
 		return boardService.getComment(commentvo.getBoardId());
 	}
-	
+	//대댓글 등록
 	@PostMapping("/doCoComment")
 	@ResponseBody
 	public List<CommentVo> doCoComment(@RequestBody CommentVo commentvo) {
 		boardService.addCoComment(commentvo);
 		return boardService.getComment(commentvo.getBoardId());
 	}
-	
+	//댓글리스트 불러오기
 	@PostMapping("/getComment")
 	@ResponseBody
 	public List<CommentVo> getComment(@RequestBody CommentVo commentvo) {
@@ -143,29 +133,18 @@ public class BoardController {
 	/*---------------------------------------- 파일 컨트롤러 ---------------------------------------------*/
 	@PostMapping("/doUpload")
 	@ResponseBody
-	public String doUpload(@RequestBody List<MultipartFile> files) throws Exception {
-		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\uploads";
+	public String doUpload(@RequestBody MultipartFile file) throws Exception {
+		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\uploads";
 		
+		UUID uuid = UUID.randomUUID();
+		String storedName = uuid.toString()+"_"+file.getOriginalFilename();
+		String filePath = basePath + "/" + storedName;
+		file.transferTo(new File(filePath));
 		
-		List<String> storedList = new ArrayList<>();
-		String storedName = "";
+		System.out.println(storedName);
 		
-		for(MultipartFile file : files) {
-			UUID uuid = UUID.randomUUID();
-			storedName = uuid.toString()+"_"+file.getOriginalFilename();
-			String filePath = basePath + "/" + storedName;
-			storedList.add(storedName);
-			file.transferTo(new File(filePath));	
-		}
-		int cnt=1;
-		for (String i:storedList) {
-			System.out.println(cnt+": "+i);
-			cnt++;
-		}
-		
-		return "success";
+		return '"'+ storedName +'"';
 	}
-	
 	
 	@PostMapping("/doFileToDB")
 	@ResponseBody

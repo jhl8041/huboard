@@ -78,6 +78,8 @@ public class BoardService {
 		boardRepo.save(boardVo);
 	}
 	
+	
+	/*---------------------------------------- 댓글 서비스 ---------------------------------------------*/
 	//메인댓글 추가
 	public void addComment(CommentVo commentvo) {
 		commentvo.setParentCommentId(0L);
@@ -138,26 +140,17 @@ public class BoardService {
 		return commentRepo.findByBoardIdOrderByGroupIdAscOrderNoAsc(boardId);
 	}
 	
+	
+	/*---------------------------------------- 파일 서비스 ---------------------------------------------*/
 	public void addFileToDB(FileVo filevo) {
-		String originFileName = filevo.getOriginFileName();
-		String newFileName = "";
-		
 		Long nextBoardId = boardRepo.findTopByOrderByBoardIdDesc().get().getBoardId()+1;
 		filevo.setBoardId(nextBoardId);
-		
-		
-		if (fileRepo.findByOriginFileName(originFileName).isEmpty()) {
-			newFileName = originFileName;
-			
-		}
-		else {
-			int fileCount = fileRepo.findByOriginFileName(originFileName).size();
-			newFileName = originFileName + "(" + fileCount + ")";
-		}
-		filevo.setStoredFileName(newFileName);
 		filevo.setRegDate(Timestamp.valueOf(LocalDateTime.now()));
 		fileRepo.save(filevo);
-		
-		
 	}
+	
+	public List<FileVo> getFiles(Long boardId){
+		return fileRepo.findByBoardId(boardId);
+	}
+	
 }

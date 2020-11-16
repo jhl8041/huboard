@@ -36,6 +36,13 @@
 		${post.content}
 	</div>
 	
+	<div>
+		<c:forEach var="files" items="${files}" >
+			<a href="/resources/uploads/${files.storedFileName}">${files.originFileName}</a>
+			<br>
+		</c:forEach>
+	</div>
+	
 	<form action="doComment" method="post">
 		<div class="form-group">
 			<label for="commentTextArea">댓글작성</label>

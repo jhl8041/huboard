@@ -9,5 +9,6 @@ import com.humuson.huboard.model.FileVo;
 
 public interface FileRepository extends JpaRepository<FileVo, Long>{
 	List<FileVo> findByOriginFileName(String originFileName);
+	List<FileVo> findByBoardId(Long boardId);
 	
 }

@@ -49,8 +49,6 @@
  		else{
  			alert("에러");
  		}
- 		console.log("dropping");
- 		
  	});
 }
 
@@ -97,16 +95,26 @@ function addFileList(fIndex, fileName, fileSize){
     html += "    </td>";
     html += "</tr>";
     
+    var uuid = uuidv4();
     $('#fileTableTbody').append(html);
-    addFileToDB(fileName, fileSize);
-    uploadFile(fIndex);
+    
+    uploadFile(fileName, fileSize, fIndex);
+    //addFileToDB(fileName, fileSize, storedName);
+}
+
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
 
 //업로드 파일 DB에 등록
-function addFileToDB(fileName, fileSize){
+function addFileToDB(fileName, fileSize,storedName){
 	var userIdStr = document.getElementById("userId").value;
 	var fileNameStr = fileName;
 	var fileSizeStr = fileSize;
+	var storedFileNameStr = storedName;
 	
 	$.ajax({
         url : "/doFileToDB",
@@ -114,7 +122,8 @@ function addFileToDB(fileName, fileSize){
         data : JSON.stringify({
         	userId:userIdStr,
         	originFileName: fileNameStr,
-        	fileSize: fileSizeStr
+        	fileSize: fileSizeStr,
+        	storedFileName: storedFileNameStr
         }),
         contentType: 'application/json',
         success : function(data){
@@ -132,12 +141,13 @@ function deleteFile(fIndex){
     totalFileSize -= fileSizeList[fIndex]; // 전체 파일 사이즈 수정
     delete fileList[fIndex]; // 파일 배열에서 삭제
     delete fileSizeList[fIndex]; // 파일 사이즈 배열 삭제
+    
+    
     $("#fileTr_" + fIndex).remove(); // 업로드 파일 테이블 목록에서 삭제
 }
  
 // 파일 등록
-function uploadFile(fIndex){
-	console.log("uploading");
+function uploadFile(fileName, fileSize, fIndex){
     var uploadFileList = Object.keys(fileList); // 등록할 파일 리스트
  
     // 파일이 있는지 체크
@@ -151,18 +161,14 @@ function uploadFile(fIndex){
         alert("총 용량 초과\n총 업로드 가능 용량 : " + maxUploadSize + " MB"); // 파일 사이즈 초과 경고창
         return;
     }
-            
-    // 등록할 파일 리스트를 formData로 데이터 입력
+     
+    // 등록할 파일을 formData로 데이터 입력
     var formData = new FormData($('formm')[0]);
-    //for(var i = 0; i < uploadFileList.length; i++){
-    //    formData.append('files', fileList[uploadFileList[i]]);
-    //}
-    
-    formData.append('files', fileList[uploadFileList[uploadFileList.length-1]]);
+    formData.append('file', fileList[uploadFileList[uploadFileList.length-1]]);
     
     var bar = $('.bar_'+fIndex);
     var percent = $('.percent_'+fIndex);
-    var status = $('status_'+fIndex);    
+    var status = $('status_'+fIndex);
         
     $.ajax({
     	xhr: function(){
@@ -193,14 +199,12 @@ function uploadFile(fIndex){
         	percent.html(percentVal);
         },
         success:function(result){
-            if(result.data.length > 0){
-                alert("성공");
-                location.reload();
-            }else{
-                alert("실패");
-                location.reload();
-            }
+            addFileToDB(fileName, fileSize, result);
+        },
+        error:function(request,status,error){
+        	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
+        
     });
 }
 
