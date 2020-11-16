@@ -59,10 +59,12 @@
 	<div class="input-group" role="group" aria-label="..." style="margin-top: 10px; width: 100%;">
 	    <div id="showComment" style="text-align: center;"></div>
 	</div>
-
-	<input type="button" value="수정" onclick="location.href='http://localhost:8080/goEdit?id=${post.boardId}'"/>
 	<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
-	<input type="button" value="삭제" onclick="location.href='http://localhost:8080/doDelete?id=${post.boardId}'"/>
+	
+	<c:if test="${member.userId eq post.userId}">
+		<input type="button" value="수정" onclick="location.href='http://localhost:8080/goEdit?id=${post.boardId}'"/>
+		<input type="button" value="삭제" onclick="location.href='http://localhost:8080/doDelete?id=${post.boardId}'"/>
+	</c:if>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

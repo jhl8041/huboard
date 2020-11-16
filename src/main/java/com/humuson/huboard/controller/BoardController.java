@@ -70,11 +70,9 @@ public class BoardController {
 	//게시글 보기페이지 이동
 	@GetMapping("/goView")
 	public String goView(Model model, @RequestParam Long id, @AuthenticationPrincipal User user) {
-		//조회수 증가
 		BoardVo post = boardService.getPost(id).get();
-		post.setView(post.getView()+1);
+		post.setView(post.getView()+1); //조회수 증가
 		boardService.editPost(post);
-		
 		model.addAttribute("files", boardService.getFiles(id));
 		model.addAttribute("post", post);
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
@@ -128,31 +126,27 @@ public class BoardController {
 	public List<CommentVo> getComment(@RequestBody CommentVo commentvo) {
 		return boardService.getComment(commentvo.getBoardId());
 	}
+	//댓글삭제
 	
 	
 	/*---------------------------------------- 파일 컨트롤러 ---------------------------------------------*/
+	//파일 서버에 업로드
 	@PostMapping("/doUpload")
 	@ResponseBody
 	public String doUpload(@RequestBody MultipartFile file) throws Exception {
-		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\uploads";
-		
+		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\uploads";		
 		UUID uuid = UUID.randomUUID();
 		String storedName = uuid.toString()+"_"+file.getOriginalFilename();
 		String filePath = basePath + "/" + storedName;
-		file.transferTo(new File(filePath));
-		
-		System.out.println(storedName);
-		
+		file.transferTo(new File(filePath));	
+		System.out.println(storedName);	
 		return '"'+ storedName +'"';
 	}
-	
+	//파일 DB에 등록
 	@PostMapping("/doFileToDB")
 	@ResponseBody
 	public String doFileToDB(@RequestBody FileVo filevo) throws Exception {
 		boardService.addFileToDB(filevo);
 		return "success";
 	}
-	
-	
-	
 }

@@ -97,6 +97,15 @@ public class BoardService {
 		commentvo.setOrderNo(1L);
 		commentRepo.save(commentvo);
 	}
+	int cnt=0;
+	public Optional<CommentVo> recurr(Optional<CommentVo> cocoPrev){
+		if (commentRepo.findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(cocoPrev.get().getGroupId(),cocoPrev.get().getDepth()+1,cocoPrev.get().getCommentId()).isEmpty()) {
+			return cocoPrev; 
+		}
+		System.out.println(cnt);
+		cnt++;
+		return recurr(commentRepo.findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(cocoPrev.get().getGroupId(),cocoPrev.get().getDepth()+1,cocoPrev.get().getCommentId()));
+	}
 	
 	//대댓글 추가
 	public void addCoComment(CommentVo comment) {
@@ -107,15 +116,19 @@ public class BoardService {
 		Long parentCommentId = comment.getParentCommentId();
 		
 		Long currentOrderNo = 0L;
+		Long theEnd = commentRepo.findTopByGroupIdOrderByOrderNoDesc(parentGroupId).get().getOrderNo();
 		
 		//group_id & depth & parent_id 같은애들 조회 -> 그중 가장 큰 orderNo 조회 -> 그 orderNo +1이 현재 순서
 		Optional<CommentVo> cocoPrev  = commentRepo.findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(parentGroupId, parentDepth+1, parentCommentId);
 		
 		if (cocoPrev.isEmpty()) {
 			currentOrderNo = parentOrderNo+1;
+			System.out.println("empty");
 		}
 		else {
-			currentOrderNo = cocoPrev.get().getOrderNo()+1;
+			Optional<CommentVo> prev = recurr(cocoPrev);
+			currentOrderNo = prev.get().getOrderNo()+1;
+			System.out.println("not empty"); //문제
 		}
 		
 		//현재 대댓글에 정보 부여

@@ -90,6 +90,7 @@ function addCoComment(cocoid){
 
 function showHtml(data) {
         var html = "<table class='table table-hover table-fixed'><tbody style='text-align:left'>";
+        var userIdStr = document.getElementById("userId").value;
         
         $.each(data, function(i) {
             html += "<tr>";
@@ -97,6 +98,13 @@ function showHtml(data) {
             html += 		data[i].userId + '<br>';
             html +=			data[i].commentContent + '<br>';
             html +=			"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a>";
+            if (userIdStr == data[i].userId){
+            	html +=				"<a href='javascript:void(0);' onclick='editCoComment()'>수정</a>";
+           		html +=				"<a href='javascript:void(0);' onclick='deleteCoComment()'>삭제</a>";
+            }
+            html += 		"<c:if test='${"+userIdStr+" eq " + data[i].userId+"}'>"
+            
+            html +=         "</c:if>"
             html +=			"<div style='display:none' id='cocobox"+ data[i].commentId +"'>";
             html += 			"<input type='text' class='form-control' id='commentContentOf" + data[i].commentId + "'/>";
             html +=				"<input type='button' value='답글작성' onclick='addCoComment(" + data[i].commentId + ")'/>"
