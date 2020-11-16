@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.swing.filechooser.FileSystemView;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,17 +63,7 @@ public class BoardController {
 	
 	//게시글 쓰기 + 다중파일 업로드
 	@PostMapping("/doCreate")
-	public String doCreate(@RequestParam("files") List<MultipartFile> files, BoardVo boardVo) throws Exception {
-		//String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
-		//String basePath = rootPath + "/" + "multi";
-		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\uploads";
-		
-		for(MultipartFile file : files) {
-			String originalName = file.getOriginalFilename();
-			String filePath = basePath + "/" + originalName;
-			
-			file.transferTo(new File(filePath));	
-		}
+	public String doCreate(BoardVo boardVo) throws Exception {
 			
 		boardService.addPost(boardVo);
 		return "redirect:/";

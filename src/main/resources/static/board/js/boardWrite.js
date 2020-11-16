@@ -6,7 +6,7 @@
  var totalFileSize=0;
  var fileList=new Array();
  var fileSizeList = new Array();
- var uploadSize=50;
+ var uploadSize=500;
  var maxUploadSize=500;
  
  $(function(){
@@ -49,6 +49,8 @@
  		else{
  			alert("에러");
  		}
+ 		console.log("dropping");
+ 		uploadFile();
  	});
 }
 
@@ -85,9 +87,11 @@ function addFileList(fIndex, fileName, fileSize){
     var html = "";
     html += "<tr id='fileTr_" + fIndex + "'>";
     html += "    <td class='left' >";
-    html +=         fileName + " / " + fileSize + "MB "  + "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>"
+    html +=         fileName + " / " + fileSize + "MB "  ;
+    html +=         "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>";
     html += "    </td>"
     html += "</tr>"
+    
  
     $('#fileTableTbody').append(html);
 }
@@ -101,12 +105,13 @@ function deleteFile(fIndex){
 }
  
 // 파일 등록
-function uploadFile(){ 
+function uploadFile(){
+	console.log("uploading");
     var uploadFileList = Object.keys(fileList); // 등록할 파일 리스트
  
     // 파일이 있는지 체크
     if(uploadFileList.length == 0){
-        alert("파일이 없습니다.");
+        //alert("파일이 없습니다.");
         return;
     }
     
@@ -116,32 +121,56 @@ function uploadFile(){
         return;
     }
             
-    if(confirm("등록 하시겠습니까?")){
-        // 등록할 파일 리스트를 formData로 데이터 입력
-        var formData = new FormData($('formm2')[0]);
-        for(var i = 0; i < uploadFileList.length; i++){
-            formData.append('files', fileList[uploadFileList[i]]);
-        }
-            
-        $.ajax({
-            url:"/doUpload",
-            data:formData,
-            type:'POST',
-            enctype:'multipart/form-data',
-            processData:false,
-            contentType:false,
-            dataType:'json',
-            cache:false,
-            success:function(result){
-                if(result.data.length > 0){
-                    alert("성공");
-                    location.reload();
-                }else{
-                    alert("실패");
-                    location.reload();
-                }
-            }
-        });
+
+    // 등록할 파일 리스트를 formData로 데이터 입력
+    var formData = new FormData($('formm')[0]);
+    for(var i = 0; i < uploadFileList.length; i++){
+        formData.append('files', fileList[uploadFileList[i]]);
     }
+        
+    var bar = $('.bar');
+    var percent = $('.percent');
+    var status = $('status');    
+        
+    $.ajax({
+    	xhr: function(){
+    		var xhr = new window.XMLHttpRequest();
+    		xhr.upload.addEventListener("progress", function(evt) {
+    			if (evt.lengthComputable) {
+    				var percentComplete = Math.floor((evt.loaded/evt.total)*100);
+    				var percentVal = percentComplete + '%';
+    				bar.width(percentVal);
+    				percent.html(percentVal);
+    			}
+    		}, false);
+    		return xhr;
+    	},
+        url:"/doUpload",
+        data:formData,
+        type:'POST',
+        enctype:'multipart/form-data',
+        processData:false,
+        contentType:false,
+        //async: false,
+        dataType:'json',
+        cache:false,
+        beforeSend:function(){
+        	status.empty();
+        	var percentVal = '0%';
+        	bar.width(percentVal);
+        	percent.html(percentVal);
+        },
+        success:function(result){
+            if(result.data.length > 0){
+                alert("성공");
+                location.reload();
+            }else{
+                alert("실패");
+                location.reload();
+            }
+        }
+    });
 }
+
+
 

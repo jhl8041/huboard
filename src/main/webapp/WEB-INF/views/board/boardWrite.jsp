@@ -21,7 +21,7 @@
 </head>
 
 <body>
-	<form action="doCreate" method="post" name="formm" enctype="multipart/form-data">
+	<form action="doCreate" method="post" name="formm" id="formm" enctype="multipart/form-data" onsubmit="uploadFile()">
 		<div class="form-group">
 			<label for="subject">제목</label>
 			<input type="text" class="form-control" name="subject" id="subject"/>
@@ -34,20 +34,15 @@
 			        .create( document.querySelector( '#content' ) )
 			        .catch( error => {
 			            console.error( error );
-			        } );
+			        });
 			</script>
 		</div>
 		
 		<div class="hidden">
-			<input type="hidden" name="userId" value="${member.getUserId()}"/><br/>
+			<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
+			<input type="hidden" name="userId" value="${member.getUserId()}"/><br/>	
 		</div>
 		
-		<div class="form-group">
-			<input class="btn btn-primary" type="submit" value="글쓰기"/>
-		</div>
-	</form>
-	
-	<form method="post" name="formm2" enctype="multipart/form-data">
 		<div>
 			<table class="table" style="width: 100%;border:1px">
 				<tbody id="fileTableTbody">
@@ -59,9 +54,17 @@
 				</tbody>
 			</table>
 		</div>
+		
+		<div class="form-group">
+			<input class="btn btn-primary" type="submit" value="글쓰기"/>
+		</div>
 	</form>
 	
-	<a href="#" onclick="uploadFile(); return false;" class="btn bg_01">파일 업로드</a>
+	<div class="progress">
+		<div class="bar"></div>
+		<div class="percent">0%</div>
+	</div>
+	<div id="status"></div>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
