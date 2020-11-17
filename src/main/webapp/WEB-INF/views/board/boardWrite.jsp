@@ -41,7 +41,7 @@
 </head>
 
 <body>
-	<form action="doCreate" method="post" name="formm" id="formm" enctype="multipart/form-data" onsubmit="uploadFile()">
+	<form action="doCreate" method="post" name="formm" id="formm" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="subject">제목</label>
 			<input type="text" class="form-control" name="subject" id="subject"/>

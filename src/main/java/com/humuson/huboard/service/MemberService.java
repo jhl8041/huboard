@@ -23,12 +23,12 @@ import com.humuson.huboard.repository.MemberRepository;
 
 @Service
 public class MemberService implements UserDetailsService {
-	
 	@Autowired
 	private MemberRepository memberRepo;
 	
 	@Autowired
 	private JavaMailSender mailSender;
+	
 	
 	public boolean findSameId(String userId) {
 		return memberRepo.findByUserId(userId).isPresent();

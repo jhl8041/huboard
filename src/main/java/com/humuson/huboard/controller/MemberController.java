@@ -31,9 +31,6 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired
-	MemberRepository memberRepo;
-	
 	//아이디 유효성 검사 및 중복검사 ("/idcheck")
 	@PostMapping("/idcheck")
 	@ResponseBody

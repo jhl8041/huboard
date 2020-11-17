@@ -19,7 +19,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +34,7 @@ import com.humuson.huboard.model.FileVo;
 import com.humuson.huboard.model.MemberVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.service.BoardService;
+import com.humuson.huboard.service.FileService;
 import com.humuson.huboard.service.MemberService;
 
 @Controller
@@ -46,10 +46,8 @@ public class BoardController {
 	private MemberService memberService;
 	
 	@Autowired
-	BoardRepository boardRepo;
+	private FileService fileService;
 	
-	
-	/*---------------------------------------- 게시글 컨트롤러 ---------------------------------------------*/
 	//게시글 목록 조회
 	@GetMapping("/")
 	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user) {
@@ -76,7 +74,7 @@ public class BoardController {
 		post.setView(post.getView()+1); //조회수 증가
 		boardService.editPost(post);
 		
-		model.addAttribute("files", boardService.getFiles(boardId));
+		model.addAttribute("files", fileService.getFiles(boardId));
 		model.addAttribute("post", post);
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardView";
@@ -107,59 +105,4 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
-	
-	/*---------------------------------------- 댓글 컨트롤러 ---------------------------------------------*/
-	//댓글 등록
-	@PostMapping("/comment")
-	@ResponseBody
-	public List<CommentVo> doComment(@RequestBody CommentVo commentvo) {
-		boardService.addComment(commentvo);
-		return boardService.getComment(commentvo.getBoardId());
-	}
-	//대댓글 등록
-	@PostMapping("/cocomment")
-	@ResponseBody
-	public List<CommentVo> doCoComment(@RequestBody CommentVo commentvo) {
-		boardService.addCoComment(commentvo);
-		return boardService.getComment(commentvo.getBoardId());
-	}
-	
-	//댓글리스트 불러오기
-	@GetMapping("/comment/{boardId}")
-	@ResponseBody
-	public List<CommentVo> getComment(@PathVariable("boardId") Long boardId) {
-		return boardService.getComment(boardId);
-	}
-	
-	//댓글 수정
-	@PostMapping("/editComment")
-	@ResponseBody
-	public List<CommentVo> editComment(@RequestBody CommentVo commentvo) {
-		boardService.editComment(commentvo);
-		return boardService.getComment(commentvo.getBoardId());
-	}
-
-	//댓글 삭제
-	
-	
-	/*---------------------------------------- 파일 컨트롤러 ---------------------------------------------*/
-	//파일 서버에 업로드
-	@PostMapping("/doUpload")
-	@ResponseBody
-	public String doUpload(@RequestBody MultipartFile file) throws Exception {
-		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\uploads";		
-		UUID uuid = UUID.randomUUID();
-		String storedName = uuid.toString()+"_"+file.getOriginalFilename();
-		String filePath = basePath + "/" + storedName;
-		file.transferTo(new File(filePath));	
-		System.out.println(storedName);	
-		return '"'+ storedName +'"';
-	}
-	//파일 DB에 등록
-	@PostMapping("/doFileToDB")
-	@ResponseBody
-	public String doFileToDB(@RequestBody FileVo filevo) throws Exception {
-		boardService.addFileToDB(filevo);
-		return "success";
-	}
 }

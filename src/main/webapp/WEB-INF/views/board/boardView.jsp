@@ -38,7 +38,7 @@
 	
 	<div>
 		<c:forEach var="files" items="${files}" >
-			<a href="/resources/uploads/${files.storedFileName}">${files.originFileName}</a>
+			<a href="/resources/uploads/${files.storedFileName}" download="${files.originFileName}">${files.originFileName}</a>
 			<br>
 		</c:forEach>
 	</div>
