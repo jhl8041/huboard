@@ -156,6 +156,7 @@ public class BoardService {
 		commentRepo.save(newComment);
 	}
 	
+	
 	/*---------------------------------------- 파일 서비스 ---------------------------------------------*/
 	public void addFileToDB(FileVo filevo) {
 		Long nextBoardId = boardRepo.findTopByOrderByBoardIdDesc().get().getBoardId()+1;

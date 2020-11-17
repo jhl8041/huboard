@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -18,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,25 +57,26 @@ public class BoardController {
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardList";
 	}
-	//게시글 쓰기페이지 이동
+	//게시글 등록 페이지 이동
 	@GetMapping("/goCreate")
 	public String goCreate(Model model, @AuthenticationPrincipal User user) {
 		model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardWrite";
 	}
-	//게시글 쓰기 + 다중파일 업로드
+	//게시글 등록
 	@PostMapping("/doCreate")
 	public String doCreate(BoardVo boardVo) throws Exception {
 		boardService.addPost(boardVo);
 		return "redirect:/";
 	}	
 	//게시글 보기페이지 이동
-	@GetMapping("/goView")
-	public String goView(Model model, @RequestParam Long id, @AuthenticationPrincipal User user) {
-		BoardVo post = boardService.getPost(id).get();
+	@GetMapping("/goView/{boardId}")
+	public String goView(Model model, @PathVariable Long boardId, @AuthenticationPrincipal User user) {
+		BoardVo post = boardService.getPost(boardId).get();
 		post.setView(post.getView()+1); //조회수 증가
 		boardService.editPost(post);
-		model.addAttribute("files", boardService.getFiles(id));
+		
+		model.addAttribute("files", boardService.getFiles(boardId));
 		model.addAttribute("post", post);
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardView";
@@ -107,25 +110,27 @@ public class BoardController {
 	
 	/*---------------------------------------- 댓글 컨트롤러 ---------------------------------------------*/
 	//댓글 등록
-	@PostMapping("/doComment")
+	@PostMapping("/comment")
 	@ResponseBody
 	public List<CommentVo> doComment(@RequestBody CommentVo commentvo) {
 		boardService.addComment(commentvo);
 		return boardService.getComment(commentvo.getBoardId());
 	}
 	//대댓글 등록
-	@PostMapping("/doCoComment")
+	@PostMapping("/cocomment")
 	@ResponseBody
 	public List<CommentVo> doCoComment(@RequestBody CommentVo commentvo) {
 		boardService.addCoComment(commentvo);
 		return boardService.getComment(commentvo.getBoardId());
 	}
+	
 	//댓글리스트 불러오기
-	@PostMapping("/getComment")
+	@GetMapping("/comment/{boardId}")
 	@ResponseBody
-	public List<CommentVo> getComment(@RequestBody CommentVo commentvo) {
-		return boardService.getComment(commentvo.getBoardId());
+	public List<CommentVo> getComment(@PathVariable("boardId") Long boardId) {
+		return boardService.getComment(boardId);
 	}
+	
 	//댓글 수정
 	@PostMapping("/editComment")
 	@ResponseBody

@@ -1,13 +1,12 @@
 /**
  * 
  */
+ 
 
-//$('#editCommentModal').modal({ show: false});
 
 $(function(){
-    
-	showAllComment();
-    
+	var boardIdStr = document.getElementById("boardId").value;
+	showAllComment(boardIdStr);
 });
  
 function addComment(){
@@ -16,9 +15,13 @@ function addComment(){
     var commentContentStr = document.getElementById("commentContent").value;
     
     $.ajax({
-        url : "/doComment",
+        url : "/comment",
         type : "POST",
-        data : JSON.stringify({userId:userIdStr, commentContent: commentContentStr,  boardId:boardIdStr}),
+        data : JSON.stringify({
+	        		userId:userIdStr, 
+	        		commentContent: commentContentStr, 
+	        		boardId:boardIdStr
+				}),
         contentType: 'application/json',
         success : function(data){
         	$("#commentContent").val("");
@@ -31,14 +34,9 @@ function addComment(){
 }
 
 
-function showAllComment(){
-	var boardIdStr = document.getElementById("boardId").value;
-
+function showAllComment(boardIdStr){
     $.ajax({
-        url : "/getComment",
-        type : "POST",
-        data : JSON.stringify({boardId:boardIdStr}),
-        contentType: 'application/json',
+        url : "/comment/"+boardIdStr,
         success : function(data){
         	showHtml(data);    	
         },
@@ -65,7 +63,7 @@ function addCoComment(cocoid){
 					+ " ,commentContent: " + commentContentStr);
 	
 	$.ajax({
-        url : "/doCoComment",
+        url : "/cocomment",
         type : "POST",
         data : JSON.stringify({
         						boardId: boardIdStr,
