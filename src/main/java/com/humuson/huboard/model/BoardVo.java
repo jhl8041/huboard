@@ -25,25 +25,13 @@ public class BoardVo implements Serializable{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="boardid")
 	private Long boardId;
-	
-	@Column(name="userid")
 	private String userId;
-	
-	@Column(name="username")
 	private String userName;
-	
-	@Column(name="subject")
 	private String subject;
-	
-	@Column(name="content")
+	@Column(length = 10000)
 	private String content;
-	
-	@Column(name="view")
 	private int view;
-	
-	@Column(name="date")
 	private Timestamp date = Timestamp.valueOf(LocalDateTime.now());
 	
 	public BoardVo() {}

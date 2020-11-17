@@ -126,7 +126,15 @@ public class BoardController {
 	public List<CommentVo> getComment(@RequestBody CommentVo commentvo) {
 		return boardService.getComment(commentvo.getBoardId());
 	}
-	//댓글삭제
+	//댓글 수정
+	@PostMapping("/editComment")
+	@ResponseBody
+	public List<CommentVo> editComment(@RequestBody CommentVo commentvo) {
+		boardService.editComment(commentvo);
+		return boardService.getComment(commentvo.getBoardId());
+	}
+
+	//댓글 삭제
 	
 	
 	/*---------------------------------------- 파일 컨트롤러 ---------------------------------------------*/

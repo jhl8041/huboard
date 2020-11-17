@@ -82,31 +82,29 @@ public class BoardService {
 	/*---------------------------------------- 댓글 서비스 ---------------------------------------------*/
 	//메인댓글 추가
 	public void addComment(CommentVo commentvo) {
-		commentvo.setParentCommentId(0L);
-		commentvo.setDepth(0L);
+		commentvo.setParentCommentId(0L); //부모 아이디 초기화
+		commentvo.setDepth(0L); //깊이 초기화
+		commentvo.setOrderNo(1L); //순서 초기화
 		
+		//그룹아이디 부여
 		if (commentRepo.findAll().isEmpty()) {
 			commentvo.setGroupId(1L);
 		}
 		else {
-			//새로운 그룹아이디 부여
 			Long newGroupId = commentRepo.findTopByOrderByGroupIdDesc().get().getGroupId();
 			commentvo.setGroupId(newGroupId+1);
 		}
 		
-		commentvo.setOrderNo(1L);
 		commentRepo.save(commentvo);
 	}
-	int cnt=0;
+	//가장 마지막 순서를 구하기 위한 재귀함수
 	public Optional<CommentVo> recurr(Optional<CommentVo> cocoPrev){
-		if (commentRepo.findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(cocoPrev.get().getGroupId(),cocoPrev.get().getDepth()+1,cocoPrev.get().getCommentId()).isEmpty()) {
+		Optional<CommentVo> cocoTemp = commentRepo.findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(cocoPrev.get().getGroupId(),cocoPrev.get().getDepth()+1,cocoPrev.get().getCommentId());
+		if (cocoTemp.isEmpty()) {
 			return cocoPrev; 
 		}
-		System.out.println(cnt);
-		cnt++;
-		return recurr(commentRepo.findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(cocoPrev.get().getGroupId(),cocoPrev.get().getDepth()+1,cocoPrev.get().getCommentId()));
+		return recurr(cocoTemp);
 	}
-	
 	//대댓글 추가
 	public void addCoComment(CommentVo comment) {
 		//부모댓글 정보 가져오기
@@ -116,7 +114,6 @@ public class BoardService {
 		Long parentCommentId = comment.getParentCommentId();
 		
 		Long currentOrderNo = 0L;
-		Long theEnd = commentRepo.findTopByGroupIdOrderByOrderNoDesc(parentGroupId).get().getOrderNo();
 		
 		//group_id & depth & parent_id 같은애들 조회 -> 그중 가장 큰 orderNo 조회 -> 그 orderNo +1이 현재 순서
 		Optional<CommentVo> cocoPrev  = commentRepo.findTopByGroupIdAndDepthAndParentCommentIdOrderByOrderNoDesc(parentGroupId, parentDepth+1, parentCommentId);
@@ -128,7 +125,7 @@ public class BoardService {
 		else {
 			Optional<CommentVo> prev = recurr(cocoPrev);
 			currentOrderNo = prev.get().getOrderNo()+1;
-			System.out.println("not empty"); //문제
+			System.out.println("not empty");
 		}
 		
 		//현재 대댓글에 정보 부여
@@ -147,12 +144,17 @@ public class BoardService {
 		//대댓글 저장
 		commentRepo.save(comment);
 
-	}
-	
+	}	
+	//순서에 맞게 모든 댓글 조회
 	public List<CommentVo> getComment(Long boardId) {
 		return commentRepo.findByBoardIdOrderByGroupIdAscOrderNoAsc(boardId);
 	}
-	
+	//댓글 수정
+	public void editComment(CommentVo commentvo) {
+		CommentVo newComment = commentRepo.findById(commentvo.getCommentId()).get();
+		newComment.setCommentContent(commentvo.getCommentContent());
+		commentRepo.save(newComment);
+	}
 	
 	/*---------------------------------------- 파일 서비스 ---------------------------------------------*/
 	public void addFileToDB(FileVo filevo) {

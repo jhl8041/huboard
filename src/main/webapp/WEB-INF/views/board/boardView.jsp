@@ -43,6 +43,14 @@
 		</c:forEach>
 	</div>
 	
+	<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
+	<!-- 작성자 본인만 사용하는 기능 -->
+	<c:if test="${member.userId eq post.userId}">
+		<input type="button" value="수정" onclick="location.href='http://localhost:8080/goEdit?id=${post.boardId}'"/>
+		<input type="button" value="삭제" onclick="location.href='http://localhost:8080/doDelete?id=${post.boardId}'"/>
+	</c:if>
+	
+	<!-- 댓글 작성 -->
 	<form action="doComment" method="post">
 		<div class="form-group">
 			<label for="commentTextArea">댓글작성</label>
@@ -55,16 +63,32 @@
 		</div>
 	</form>
 	
-	<!-- 댓글 AJAX -->
+	<!-- 댓글 및 대댓글 표시 -->
 	<div class="input-group" role="group" aria-label="..." style="margin-top: 10px; width: 100%;">
 	    <div id="showComment" style="text-align: center;"></div>
 	</div>
-	<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
 	
-	<c:if test="${member.userId eq post.userId}">
-		<input type="button" value="수정" onclick="location.href='http://localhost:8080/goEdit?id=${post.boardId}'"/>
-		<input type="button" value="삭제" onclick="location.href='http://localhost:8080/doDelete?id=${post.boardId}'"/>
-	</c:if>
+	<!-- Modal -->
+	<div class="modal fade" id="editCommentModal" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editCommentModal">댓글 수정</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" class="form-control" id="editId"/>
+					<input type="text" class="form-control" id="editedContent"/>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" onclick="editComment()">수정 및 저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

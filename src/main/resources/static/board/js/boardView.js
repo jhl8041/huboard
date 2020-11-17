@@ -1,7 +1,9 @@
 /**
  * 
  */
- 
+
+//$('#editCommentModal').modal({ show: false});
+
 $(function(){
     
 	showAllComment();
@@ -46,11 +48,9 @@ function showAllComment(){
     });
 }
 
-
 function triggerBox(cocoid){
 	$("#cocobox"+cocoid).toggle();
 }
-
 
 function addCoComment(cocoid){
 	var boardIdStr = document.getElementById("boardId").value;
@@ -78,8 +78,7 @@ function addCoComment(cocoid){
         						}),
         contentType: 'application/json',
         success : function(data){
-        	$("#commentContent").val("");
-        	showHtml(data);    	
+        	showHtml(data);
         },
 		error:function(xhr,status,error){
 			console.log('error:'+error);
@@ -87,6 +86,37 @@ function addCoComment(cocoid){
     });
 }
 
+function editCommentShow(commentId, commentContent){
+	$('#editCommentModal').modal('show');
+	console.log(commentContent);
+	document.getElementById("editedContent").value = commentContent;
+	document.getElementById("editId").value = commentId;
+	
+}
+
+function editComment(){
+	var commentIdStr = document.getElementById("editId").value;
+	var commentContentStr = document.getElementById("editedContent").value;
+	var boardIdStr = document.getElementById("boardId").value;
+	
+	$.ajax({
+        url : "/editComment",
+        type : "POST",
+        data : JSON.stringify({
+        						commentId: commentIdStr,
+        						commentContent: commentContentStr,
+        						boardId: boardIdStr
+        						}),
+        contentType: 'application/json',
+        success : function(data){
+        	showHtml(data);
+        	$('#editCommentModal').modal('hide');
+        },
+		error:function(xhr,status,error){
+			console.log('error:'+error);
+		}
+    });
+}
 
 function showHtml(data) {
         var html = "<table class='table table-hover table-fixed'><tbody style='text-align:left'>";
@@ -97,14 +127,13 @@ function showHtml(data) {
             html += 	"<td style='width:600px;padding-left:" + data[i].depth*2 + "em'>";
             html += 		data[i].userId + '<br>';
             html +=			data[i].commentContent + '<br>';
-            html +=			"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a>";
-            if (userIdStr == data[i].userId){
-            	html +=				"<a href='javascript:void(0);' onclick='editCoComment()'>수정</a>";
-           		html +=				"<a href='javascript:void(0);' onclick='deleteCoComment()'>삭제</a>";
-            }
-            html += 		"<c:if test='${"+userIdStr+" eq " + data[i].userId+"}'>"
+            html +=			"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a>";  
             
-            html +=         "</c:if>"
+        if (userIdStr == data[i].userId){
+        	html +=			"<a href='javascript:void(0);' onclick='editCommentShow("+ data[i].commentId + ", `"+ data[i].commentContent +"`)'>수정</a>";
+       		html +=			"<a href='javascript:void(0);' onclick='deleteCoComment()'>삭제</a>";
+        }
+        
             html +=			"<div style='display:none' id='cocobox"+ data[i].commentId +"'>";
             html += 			"<input type='text' class='form-control' id='commentContentOf" + data[i].commentId + "'/>";
             html +=				"<input type='button' value='답글작성' onclick='addCoComment(" + data[i].commentId + ")'/>"
@@ -121,6 +150,4 @@ function showHtml(data) {
         html += "</tbody></table>";
 		
 		$("#showComment").html(html);
-        $("#commentContent").val("");
-        $("#commentContent").focus();
 }
