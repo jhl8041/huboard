@@ -38,7 +38,7 @@
 				<option value="content">내용</option>
 			</select>
 	    	<input class="form-control mr-sm-2" name="keyword" type="search" placeholder="검색" aria-label="Search">
-	    	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
+	    	<button class="btn btn-outline-success my-2 my-sm-0" onclick="boardSearch()">검색</button>
     	</form>
 	</nav>
 	
@@ -55,7 +55,7 @@
 		<c:if test="${list.isEmpty() eq false}">
 			<tbody>
 				<c:forEach var="list" items="${list.getContent()}" >
-					<tr style="text-align:center" class='clickable-row' data-href='http://localhost:8080/goView/${list.boardId}'>
+					<tr style="text-align:center" class='clickable-row' data-href='http://localhost:8080/board/${list.boardId}'>
 						<td>${list.boardId}</td>
 						<td>${list.subject}</td>
 						<td>${list.date}</td>
@@ -125,7 +125,7 @@
 		</nav>
 	</c:if>
 	
-	<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/goCreate'">글쓰기</button>
+	<button type="button" class="btn btn-primary" onclick="location.href='/editor/0'">글쓰기</button>
 	<form action="/doLogout" method=post name=logout>
 		 	<input class="btn btn-primary" type=submit value=로그아웃>
 	</form>

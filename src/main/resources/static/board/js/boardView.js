@@ -2,13 +2,28 @@
  * 
  */
  
-
-
 $(function(){
 	var boardIdStr = document.getElementById("boardId").value;
 	showAllComment(boardIdStr);
 });
- 
+
+function deletePost(){
+	var boardIdStr = document.getElementById("boardId").value;
+	if (confirm('정말 삭제하시겠습니까?')){
+	    $.ajax({
+	        url : "/board/"+boardIdStr,
+	        type : "delete",
+	        success : function(data){
+	  			window.location.href = "http://localhost:8080/"
+	        },
+			error:function(xhr,status,error){
+				console.log('error:'+status);
+			}
+	    });
+    }
+}
+
+
 function addComment(){
     var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;

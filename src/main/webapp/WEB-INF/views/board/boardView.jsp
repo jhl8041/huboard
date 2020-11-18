@@ -46,8 +46,8 @@
 	<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
 	<!-- 작성자 본인만 사용하는 기능 -->
 	<c:if test="${member.userId eq post.userId}">
-		<input type="button" value="수정" onclick="location.href='http://localhost:8080/goEdit?id=${post.boardId}'"/>
-		<input type="button" value="삭제" onclick="location.href='http://localhost:8080/doDelete?id=${post.boardId}'"/>
+		<input type="button" value="수정" onclick="location.href='/editor/${post.boardId}'"/>
+		<input type="button" value="삭제" onclick="deletePost()"/>
 	</c:if>
 	
 	<!-- 댓글 작성 -->

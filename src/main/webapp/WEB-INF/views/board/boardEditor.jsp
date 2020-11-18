@@ -41,44 +41,54 @@
 </head>
 
 <body>
-	<form action="doCreate" method="post" name="formm" id="formm" enctype="multipart/form-data">
-		<div class="form-group">
-			<label for="subject">제목</label>
-			<input type="text" class="form-control" name="subject" id="subject"/>
-		</div>
-		<div class="form-group">
-			<label for="content">내용</label>
-			<textarea class="form-control" id="content" name="content"></textarea>
-			<script>
-			    ClassicEditor
-			        .create( document.querySelector( '#content' ) )
-			        .catch( error => {
-			            console.error( error );
-			        });
-			</script>
-		</div>
+	<div class="form-group">
+		<label for="subject">제목</label>
+		<input type="text" class="form-control" name="subject" id="subject" value="${post.subject}"/>
+	</div>
+	<div class="form-group">
+		<label for="content">내용</label>
+		<textarea class="form-control" id="content" name="content">${post.content}</textarea>
+		<script>
+			ClassicEditor
+			    .create(document.querySelector('#content'))
+			    .then(editor => {
+			    	theEditor = editor;
+			    })
+			    .catch(error => {
+			        console.error( error );
+			});
+		</script>	
+	</div>
+	
+	<div class="hidden">
+		<input type="hidden" name="userId" id="userId" value="${member.getUserId()}"/>
+		<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
+		<input type="hidden" id="data" value="${data}"/>
+	</div>
+	
+	<div>
+		<table class="table" style="width: 100%;border:1px">
+			<tbody id="fileTableTbody">
+				<tr>
+					<td id="dropZone">
+						파일을 드래그 하세요
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="form-group">
+		<c:choose>
+			<c:when test="${data}">
+				<input class="btn btn-primary" type="button" value="수정하기" onclick="submitPost()"/>
+			</c:when>
+			<c:otherwise>
+				<input class="btn btn-primary" type="button" value="글쓰기" onclick="submitPost()"/>
+			</c:otherwise>
+		</c:choose>
+	</div>
 		
-		<div class="hidden">
-			<input type="hidden" name="userId" id="userId" value="${member.getUserId()}"/><br/>	
-		</div>
-		
-		<div>
-			<table class="table" style="width: 100%;border:1px">
-				<tbody id="fileTableTbody">
-					<tr>
-						<td id="dropZone">
-							파일을 드래그 하세요
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		
-		<div class="form-group">
-			<input class="btn btn-primary" type="submit" value="글쓰기"/>
-		</div>
-		
-	</form>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

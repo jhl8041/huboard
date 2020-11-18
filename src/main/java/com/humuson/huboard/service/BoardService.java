@@ -64,10 +64,6 @@ public class BoardService {
 		boardRepo.deleteById(id);
 	}
 	
-	public void editPost(BoardVo boardVo){
-		boardRepo.save(boardVo);
-	}
-	
 	public void addPost(BoardVo boardVo){
 		boardRepo.save(boardVo);
 	}

@@ -142,7 +142,6 @@ function deleteFile(fIndex){
     delete fileList[fIndex]; // 파일 배열에서 삭제
     delete fileSizeList[fIndex]; // 파일 사이즈 배열 삭제
     
-    
     $("#fileTr_" + fIndex).remove(); // 업로드 파일 테이블 목록에서 삭제
 }
  
@@ -189,7 +188,6 @@ function uploadFile(fileName, fileSize, fIndex){
         enctype:'multipart/form-data',
         processData:false,
         contentType:false,
-        //async: false,
         dataType:'json',
         cache:false,
         beforeSend:function(){
@@ -208,5 +206,57 @@ function uploadFile(fileName, fileSize, fIndex){
     });
 }
 
+
+function submitPost(){
+	var boardIdStr;
+    var userIdStr = document.getElementById("userId").value;
+    var subjectStr = document.getElementById("subject").value;
+    var contentStr = theEditor.getData();
+    var data = (document.getElementById("data").value == 'true');
+ 	
+	var urlStr,
+		typeStr,
+		dataStr,
+		successUrlStr;
+	
+	//글쓰기
+	if (!(data)){
+		urlStr="/board";
+		typeStr="post";
+		dataStr={
+			userId:userIdStr, 
+    		subject: subjectStr, 
+    		content: contentStr
+		};
+		successUrlStr = "http://localhost:8080/";
+	}
+	//수정하기
+	else {
+		boardIdStr = document.getElementById("boardId").value;
+		urlStr="/board/"+boardIdStr;
+		typeStr="patch";
+		dataStr={
+			boardId: boardIdStr,
+			userId:userIdStr, 
+    		subject: subjectStr, 
+    		content: contentStr
+		};
+		successUrlStr = "http://localhost:8080/board/"+boardIdStr;
+	}
+	
+    $.ajax({
+        url :  urlStr,
+        type : typeStr,
+        data : JSON.stringify(dataStr),
+        contentType: 'application/json',
+        success : function(xhr){
+        	window.location.href = successUrlStr;
+        },
+		error:function(xhr){
+			console.log(xhr.status);
+			console.log(xhr.responseText);
+		}
+    });
+}
 
 
