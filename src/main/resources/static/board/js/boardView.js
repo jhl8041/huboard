@@ -3,10 +3,14 @@
  */
  
 $(function(){
-	$("#nav-placeholder").load("http://localhost:8080/navbar");
+	
 	var boardIdStr = document.getElementById("boardId").value;
 	showAllComment(boardIdStr);
 });
+
+jQuery(document).ready(function($) {
+	$("#nav-placeholder").load("http://localhost:8080/navbar");
+}
 
 function deletePost(){
 	var boardIdStr = document.getElementById("boardId").value;

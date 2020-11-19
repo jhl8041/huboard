@@ -13,6 +13,8 @@
  	fileDropDown();
  });
  
+ $("#nav-placeholder").load("http://localhost:8080/navbar");
+ 
  function fileDropDown(){
  	var dropZone = $("#dropZone");
  	
