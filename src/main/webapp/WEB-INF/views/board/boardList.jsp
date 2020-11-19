@@ -50,7 +50,7 @@
 		<div id="boardRest" class="row justify-content-center">
 			<div id="tableArea" class="row justify-content-center">
 				<!-- 게시글 리스트 -->
-				<table class="table table-hover">
+				<table class="table table-hover" style="table-layout: fixed">
 					<thead>
 						<tr style="text-align:center">
 							<th style="width: 7%" scope="col">번호</th>

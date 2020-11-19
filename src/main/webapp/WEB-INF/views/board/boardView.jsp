@@ -50,30 +50,36 @@
 				<br>
 			</c:forEach>
 		</div>
-		
-		<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
-		<!-- 작성자 본인만 사용하는 기능 -->
-		<c:if test="${member.userId eq post.userId}">
-			<input type="button" value="수정" onclick="location.href='/editor/${post.boardId}'"/>
-			<input type="button" value="삭제" onclick="deletePost()"/>
-		</c:if>
-		
+		<hr>
+		<!-- 버튼 기능 -->
+		<div id="mainButtonRow" class="row justify-content-left">
+			<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
+			<!-- 작성자 본인만 사용하는 기능 -->
+			<c:if test="${member.userId eq post.userId}">
+				<input type="button" value="수정" onclick="location.href='/editor/${post.boardId}'"/>
+				<input type="button" value="삭제" onclick="deletePost()"/>
+			</c:if>
+		</div>
+		<hr>
 		<!-- 댓글 작성 -->
-		<form action="doComment" method="post">
+		<div id="mainCommentRow" class="row justify-content-left">
 			<div class="form-group">
 				<label for="commentTextArea">댓글작성</label>
 				<div class="form-inline">
-					<textarea style="resize: none; width: 500px;" class="form-control" name="commentContent" id="commentContent" rows="2"></textarea>
+					<textarea class="form-control" name="commentContent" id="commentContent" rows="2"></textarea>
 					<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
 					<input type="hidden" name="userId" id="userId" value="${member.userId}"/>
 					<input class="btn btn-primary" style="margin-top:10px" type=button value=댓글작성 onClick="addComment()">
 				</div>
 			</div>
-		</form>
+		</div>
+
 		
 		<!-- 댓글 및 대댓글 표시 -->
-		<div class="input-group" role="group" aria-label="..." style="margin-top: 10px; width: 100%;">
-		    <div id="showComment" style="text-align: center;"></div>
+		<div id="coCommentRow" class="row justify-content-left">
+			<div class="input-group" role="group" aria-label="..." style="margin-top: 10px; width: 100%;">
+			    <div id="showComment" style="text-align: center;"></div>
+			</div>
 		</div>
 	</div>
 	

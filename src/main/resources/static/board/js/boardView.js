@@ -138,15 +138,15 @@ function showHtml(data) {
         
         $.each(data, function(i) {
             html += "<tr>";
-            html += 	"<td style='width:600px;padding-left:" + data[i].depth*2 + "em'>";
+            html += 	"<td style='width:900px;padding-left:" + data[i].depth*2 + "em'>";
             html += 		data[i].userId + '<br>';
             html +=			data[i].commentContent + '<br>';
             html +=			"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a>";  
             
-        if (userIdStr == data[i].userId){
-        	html +=			"<a href='javascript:void(0);' onclick='editCommentShow("+ data[i].commentId + ", `"+ data[i].commentContent +"`)'>수정</a>";
-       		html +=			"<a href='javascript:void(0);' onclick='deleteCoComment()'>삭제</a>";
-        }
+	        if (userIdStr == data[i].userId){
+	        	html +=		"<a href='javascript:void(0);' onclick='editCommentShow("+ data[i].commentId + ", `"+ data[i].commentContent +"`)'>수정</a>";
+	       		html +=		"<a href='javascript:void(0);' onclick='deleteCoComment()'>삭제</a>";
+	        }
         
             html +=			"<div style='display:none' id='cocobox"+ data[i].commentId +"'>";
             html += 			"<input type='text' class='form-control' id='commentContentOf" + data[i].commentId + "'/>";
