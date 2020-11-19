@@ -1,71 +1,80 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="EUC-KR">
-	<title>Insert title here</title>
+	<title>${post.subject}</title>
 	
+	<!-- JQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/board/css/boardView.css" charset="utf-8"></link>
+	
+	<!-- Script -->
 	<script type="text/javascript" src="/resources/board/js/boardView.js" charset="utf-8"></script>
 		
 </head>
 <body>
-	<div class="form-group" style="margin-top:30px">
-		<div class="form-inline">
-			<label><h3>${post.subject}</h3></label> 
+	<!-- 네비게이션 바 -->
+	<div id="nav-placeholder"></div>
+	
+	<div class="container">
+		<div id="postTitle" class="row justify-content-left">
+			<h3>
+				${post.subject}
+			</h3>
 		</div>
-	</div>
-	<div class="form-group">
-		<div class="form-inline">
-			<label><b>작성자</b></label>
-			<label style="margin-left:10px;">${post.userId}</label>
-			
-			<label style="margin-left:20px;"><b>조회수</b></label>
-			<label style="margin-left:10px;">${post.view}</label> 
-			
-			<label style="margin-left:20px;"><b>작성일</b></label>
-			<label style="margin-left:10px;">${post.date}</label>
-		</div>
-	</div>
-	<hr>
-	<div class="form-group">
-		${post.content}
-	</div>
-	
-	<div>
-		<c:forEach var="files" items="${files}" >
-			<a href="/resources/uploads/${files.storedFileName}" download="${files.originFileName}">${files.originFileName}</a>
-			<br>
-		</c:forEach>
-	</div>
-	
-	<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
-	<!-- 작성자 본인만 사용하는 기능 -->
-	<c:if test="${member.userId eq post.userId}">
-		<input type="button" value="수정" onclick="location.href='/editor/${post.boardId}'"/>
-		<input type="button" value="삭제" onclick="deletePost()"/>
-	</c:if>
-	
-	<!-- 댓글 작성 -->
-	<form action="doComment" method="post">
-		<div class="form-group">
-			<label for="commentTextArea">댓글작성</label>
+		<div class="row justify-content-left">
 			<div class="form-inline">
-				<textarea style="resize: none; width: 500px;" class="form-control" name="commentContent" id="commentContent" rows="2"></textarea>
-				<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
-				<input type="hidden" name="userId" id="userId" value="${member.userId}"/>
-				<input class="btn btn-primary" style="margin-top:10px" type=button value=댓글작성 onClick="addComment()">
+				<label><b>작성자</b></label>
+				<label style="margin-left:10px;">${post.userId}</label>
+				
+				<label style="margin-left:20px;"><b>조회수</b></label>
+				<label style="margin-left:10px;">${post.view}</label> 
+				
+				<label style="margin-left:20px;"><b>작성일</b></label>
+				<label style="margin-left:10px;">${post.date}</label>
 			</div>
 		</div>
-	</form>
+		<hr>
+		<div id="postContent" class="row justify-content-left">
+			${post.content}
+		</div>
 	
-	<!-- 댓글 및 대댓글 표시 -->
-	<div class="input-group" role="group" aria-label="..." style="margin-top: 10px; width: 100%;">
-	    <div id="showComment" style="text-align: center;"></div>
+		<div>
+			<c:forEach var="files" items="${files}" >
+				<a href="/resources/uploads/${files.storedFileName}" download="${files.originFileName}">${files.originFileName}</a>
+				<br>
+			</c:forEach>
+		</div>
+		
+		<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
+		<!-- 작성자 본인만 사용하는 기능 -->
+		<c:if test="${member.userId eq post.userId}">
+			<input type="button" value="수정" onclick="location.href='/editor/${post.boardId}'"/>
+			<input type="button" value="삭제" onclick="deletePost()"/>
+		</c:if>
+		
+		<!-- 댓글 작성 -->
+		<form action="doComment" method="post">
+			<div class="form-group">
+				<label for="commentTextArea">댓글작성</label>
+				<div class="form-inline">
+					<textarea style="resize: none; width: 500px;" class="form-control" name="commentContent" id="commentContent" rows="2"></textarea>
+					<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
+					<input type="hidden" name="userId" id="userId" value="${member.userId}"/>
+					<input class="btn btn-primary" style="margin-top:10px" type=button value=댓글작성 onClick="addComment()">
+				</div>
+			</div>
+		</form>
+		
+		<!-- 댓글 및 대댓글 표시 -->
+		<div class="input-group" role="group" aria-label="..." style="margin-top: 10px; width: 100%;">
+		    <div id="showComment" style="text-align: center;"></div>
+		</div>
 	</div>
 	
 	<!-- Modal -->

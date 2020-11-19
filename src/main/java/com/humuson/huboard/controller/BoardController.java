@@ -56,10 +56,19 @@ public class BoardController {
 	
 	//게시글 목록 조회 - R
 	@GetMapping("/")
-	public String page_board(Model model,@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user) {
-		model.addAttribute("list",boardService.getPagingPost(pageable));
+	public String boardHome(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
+			@AuthenticationPrincipal User user) {
+	    
+		Page<BoardVo> pager = boardService.getPagingPost(pageable);
+		model.addAttribute("list",pager);
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardList";
+	}
+	
+	@GetMapping("/navbar")
+	public String navBar(Model model, @AuthenticationPrincipal User user) {
+		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
+		return "share/navBar";
 	}
 	
 	//게시글 에디터 - R
@@ -81,10 +90,8 @@ public class BoardController {
 			boardService.addPost(boardVo);
 			status = new ResponseEntity<>(boardVo, HttpStatus.OK);
 		}catch (Exception e){
-			//e.printStackTrace();
 			status = new ResponseEntity<>(boardVo, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		System.out.println(status);
 		return status;
 	}
 	
@@ -104,21 +111,29 @@ public class BoardController {
 	//게시글 수정 - U
 	@PatchMapping("/board/{boardId}")
 	@ResponseBody
-	public int boardEdit(Model model, @PathVariable Long boardId, @RequestBody BoardVo boardVo) {
-		boardService.addPost(boardVo);
-		int statusCode = ResponseEntity.ok(boardVo).getStatusCodeValue();
-		System.out.println(statusCode);
-		return statusCode;	
+	public ResponseEntity<BoardVo> boardEdit(Model model, @PathVariable Long boardId, @RequestBody BoardVo boardVo) {
+		ResponseEntity<BoardVo> status;
+		try {
+			boardService.addPost(boardVo);
+			status = new ResponseEntity<>(boardVo, HttpStatus.OK);
+		}catch (Exception e){
+			status = new ResponseEntity<>(boardVo, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return status;
 	}
 	
 	//게시글 삭제 - D
 	@DeleteMapping("/board/{boardId}")
 	@ResponseBody
-	public int boardDelete(@PathVariable Long boardId) {
-		boardService.deletePost(boardId);
-		int statusCode = ResponseEntity.ok(boardId).getStatusCodeValue();
-		System.out.println(statusCode);
-		return statusCode;
+	public ResponseEntity<Long> boardDelete(@PathVariable Long boardId) {
+		ResponseEntity<Long> status;
+		try {
+			boardService.deletePost(boardId);
+			status = new ResponseEntity<>(boardId, HttpStatus.OK);
+		}catch (Exception e){
+			status = new ResponseEntity<>(boardId, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return status;
 	}
 	
 	//게시글 검색 - R

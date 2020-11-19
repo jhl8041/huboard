@@ -25,6 +25,7 @@ public class CommentController {
 		commentService.addComment(commentvo);
 		return commentService.getComment(commentvo.getBoardId());
 	}
+	
 	//대댓글 등록
 	@PostMapping("/cocomment")
 	@ResponseBody

@@ -1,0 +1,84 @@
+@charset "utf-8";
+
+/*background-color:#cc3399;*/
+
+body {
+	background-color: #f3f2f2;
+}
+
+.container{
+	max-width: 900px;
+	margin-top:50px;
+	padding:0;
+}
+
+	#boardTitle {
+		background-color:transparent;
+	}
+	
+	#boardRest {
+		background-color:transparent;
+	}
+	
+		#tableArea {
+			background-color:#ffffff;
+			width:100%;
+		}
+		
+		#buttonArea {
+			width:100%;
+			margin-top: 0px;
+			padding:0;
+		}
+		
+		#paginavArea {
+			width:100%;
+			height:38px;
+			margin-top:5px;	
+		}
+		
+		#searchArea {
+			margin-top:30px;
+			width:100%;
+			
+		}
+		
+
+.row{
+	width:100%;
+	margin-left:0px;
+	margin-right:0px;
+}		
+
+.table{
+	height: fit-content;
+	margin: 0;
+}
+
+#boardlist {
+	line-height:1.1;
+	text-align:center;
+}
+
+#boardInfo{
+	padding:0;
+	vertical-align: text-bottom;
+	padding-top
+}
+
+.custom-select{
+	width: 130px;
+	text-align: right;
+}
+
+#pageSelectCol{
+	padding:0;
+}
+
+#boardPageInfo{
+	margin-top:0;
+}
+
+hr{
+	margin-bottom:0px;
+}

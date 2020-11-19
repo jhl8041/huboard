@@ -196,14 +196,14 @@ public class MemberController {
 		return "member/memberLogin";
 	}
 	
-	//로그인 페이지 이동
-	@GetMapping("/goLogin")
+	//로그인 페이지
+	@GetMapping("/login")
 	public String goLogin() {
 		return "member/memberLogin";
 	}
 	
 	//로그인 진행
-	@GetMapping("/doLogin")
+	@PostMapping("/login")
 	public String doLogin() {
 		return "redirect:/";
 	}

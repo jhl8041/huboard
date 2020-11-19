@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div class="d-flex justify-content-center">
-		<form action="/doLogin" method=post name=form id=form>
+		<form action="/login" method=post name=form id=form>
 			<div class="form-group">
 				<label>아이디</label>
 				<input type=text class="form-control" style="width:300px" placeholder="아이디를 입력하세요" name=userId>

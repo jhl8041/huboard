@@ -36,7 +36,6 @@ public class CommentVo {
 	private Long parentCommentId;
 	private Long groupId;
 	private Long orderNo;
-	//@ColumnDefault("0")
 	private Long depth;
 	
 	private String userId;

@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+body {
+	background-color: #f3f2f2;
+}
+
+.container{
+	max-width: 900px;
+	margin-top:50px;
+	padding:0;
+}
+
+div{
+	top:0;
+	left:0;
+}
+
+.row{
+	width:100%;
+	margin-left:0px;
+	margin-right:0px;
+}
+
+#postContent{
+	background-color: transparent;
+	min-height: 400px;
+}

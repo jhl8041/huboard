@@ -43,7 +43,6 @@ public class BoardService {
 	
 	public Page<BoardVo> findPostBySearch(String keyword, Pageable pageable, String search_type) {
 		Page<BoardVo> searchPage = boardRepo.findAll(pageable);
-		System.out.println(search_type);
 		if (search_type.equals("subject")) {
 			searchPage = boardRepo.findBySubjectContaining(keyword, pageable);
 		}
