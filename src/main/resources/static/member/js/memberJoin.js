@@ -2,14 +2,15 @@
  * 
  */
  
- //포커스 처리
-$(function(){
-	$("#id").blur(function(){$("#alertid").hide();});
+ jQuery(document).ready(function($) {
+ 	$("#nav-placeholder").load("http://localhost:8080/navbar");
+ 
+ 	$("#id").blur(function(){$("#alertid").hide();});
 	$("#pwd").blur(function(){$("#alertpwd").hide();});
 	$("#pwd2").blur(function(){$("#alertpwd2").hide();});
 	$("#nickname").blur(function(){$("#alertnickname").hide();});
 	$("#email").blur(function(){$("#alertemail").hide();});
-})
+ });
 
 //아이디 형식 맞는지 체크
 function idCheck(){
@@ -260,10 +261,16 @@ function emailCheck(){
         	}
         	else{
         		$("#alertemail").show();
-            	if(data == "unique"){
+            	if (data == "wrongChar"){
+        			$("#emailcheck").text("이메일 형식을 확인해주세요");
+                    bad();
+        		}
+        		
+            	else if(data == "unique"){
                     $("#emailcheck").text("사용가능한 이메일입니다");
                     good();             
                 }
+                
                 else if(data == "notunique"){
                     $("#emailcheck").text("이미 등록된 이메일입니다");
                     bad();

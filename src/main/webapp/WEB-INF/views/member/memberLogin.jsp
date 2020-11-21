@@ -8,32 +8,48 @@
 	
 	<!-- AJAX -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
 	<!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/member/css/memberLogin.css">
+	
+	<!-- Script -->
 	<script type="text/javascript" src="/resources/member/js/memberJoin.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/resources/member/js/memberLogin.js" charset="utf-8"></script>
 	
 </head>
 <body>
-	<div class="d-flex justify-content-center">
-		<form action="/login" method=post name=form id=form>
-			<div class="form-group">
-				<label>아이디</label>
-				<input type=text class="form-control" style="width:300px" placeholder="아이디를 입력하세요" name=userId>
-		  	</div>
-		  	<div class="form-group">
-				<label>비밀번호</label>
-				<input type=password class="form-control" placeholder="비밀번호를 입력하세요" maxlength=20 name=password>
-				<div class="alert alert-danger collapse" role="alert" style="width:300px" id=alertpwd>
-					<span id="pwdcheck"></span>
+	<!-- 네비게이션 바 -->
+	<div id="nav-placeholder"></div>
+	
+	<div class="container">
+		<div class="row justify-content-center">
+			<div id="loginTitle">
+				<h3>로그인</h3>
+				<hr>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<form action="/login" method=post name=form id=form>
+				<div class="form-group">
+					<label>아이디</label>
+					<input type=text class="form-control" style="width:300px" placeholder="아이디를 입력하세요" name=userId>
+			  	</div>
+			  	<div class="form-group">
+					<label>비밀번호</label>
+					<input type=password class="form-control" placeholder="비밀번호를 입력하세요" maxlength=20 name=password>
+					<div class="alert alert-danger collapse" role="alert" style="width:300px" id=alertpwd>
+						<span id="pwdcheck"></span>
+					</div>
+			  	</div>
+			  	<div class="form-group">	
+					<input class="btn btn-primary" id="loginButton" type=submit value=로그인>
 				</div>
-		  	</div>
-		  	<div class="form-group">	
-				<input class="btn btn-primary" type=submit value=로그인>
-			</div>
-			<div class="form-group">	
-				<input class="btn btn-primary" style="margin-top:10px" type=button value=회원가입 onclick="location.href='/goJoin'">
-			</div>
-		</form>
+				<div class="form-group">	
+					<input class="btn btn-primary" id="joinButton" type=button value=회원가입 onclick="location.href='/goJoin'">
+				</div>	
+			</form>
+		</div>
 	</div>
 	
 	<!-- 스트립트 -->

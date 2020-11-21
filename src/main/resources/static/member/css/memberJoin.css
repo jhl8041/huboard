@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+body {
+	background-color: #f3f2f2;
+}
+
+.container{
+	max-width: 900px;
+	margin-top:50px;
+	padding:0;
+}
+
+div{
+	top:0;
+	left:0;
+}
+
+.row{
+	width:100%;
+	margin-left:0px;
+	margin-right:0px;
+}
+
+.form-group input{
+	width:300px;
+}
+
+#joinTitle{
+	text-align: center;
+	margin-right: 100px;
+}
+
+#email{
+	width: 300px;
+}
+
+#roadAddrPart1{
+	width:300px;
+}

@@ -14,8 +14,7 @@ var checkUnload = true;
 jQuery(document).ready(function($) {
 	$(window).on("beforeunload", function(){
 	 	if(checkUnload){
-	 		deletePost();
-			return "dsfsdf";
+			return deletePost();
 	 	}	
 	});
 	
@@ -33,7 +32,6 @@ function deletePost(){
         url : "/board/"+boardIdStr,
         type : "delete",
         success : function(data){
-  			window.location.href = "http://localhost:8080/"
         },
 		error:function(xhr,status,error){
 			console.log('error:'+status);

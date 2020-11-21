@@ -42,8 +42,10 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
 	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 	
-
-
+	//Tensorflow
+	//compile group: 'org.tensorflow', name: 'tensorflow', version: '1.14.0'
+	//compile group: 'org.tensorflow', name: 'tensorflow-core-api', version: '0.2.0'
+	compile group: 'org.tensorflow', name: 'tensorflow-core-platform', version: '0.2.0'
 }
 
 test {

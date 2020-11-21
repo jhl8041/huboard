@@ -10,8 +10,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
 	<% 
-		//request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
-		request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
+		request.setCharacterEncoding("UTF-8"); 
 		String inputYn = request.getParameter("inputYn"); 
 		String roadFullAddr = request.getParameter("roadFullAddr"); 
 		String roadAddrPart1 = request.getParameter("roadAddrPart1"); 
@@ -61,12 +60,6 @@ function init(){
 		window.close();
 	}
 	
-	//spring security bypass
-	//var token = $("meta[name='_csrf']").attr("content");
-	//var header = $("meta[name='_csrf_header']").attr("content");
-	//$(document).ajaxSend(function(e, xhr, options) {
-	//    xhr.setRequestHeader(header, token);
-	//});
 }
 </script>
 <body onload="init();">
@@ -74,7 +67,7 @@ function init(){
 		<input type="hidden" id="confmKey" name="confmKey" value=""/>
 		<input type="hidden" id="returnUrl" name="returnUrl" value=""/>
 		<input type="hidden" id="resultType" name="resultType" value=""/>
-		<input type="hidden" id="encodingType" name="encodingType" value="EUC-KR"/>
+		<input type="hidden" id="encodingType" name="encodingType" value="UTF-8"/>
 	</form>
 </body>
 </html>

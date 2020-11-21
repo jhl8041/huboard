@@ -69,7 +69,8 @@ public class BoardController {
 	
 	@GetMapping("/navbar")
 	public String navBar(Model model, @AuthenticationPrincipal User user) {
-		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
+		if (user != null)
+			model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "share/navBar";
 	}
 	

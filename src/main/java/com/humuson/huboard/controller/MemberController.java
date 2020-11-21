@@ -160,12 +160,19 @@ public class MemberController {
 	@ResponseBody
 	public String emailCheck(@RequestBody MemberVo membervo) {
 		String email = membervo.getEmail();
-      
+		
+		String emailPattern = "^(?=.*[a-z])(?=.*[@])((?=.*[.]+[c]+[o]+[m])|(?=.*[.]+[n]+[e]+[t])"
+				+ "|(?=.*[.]+[c]+[o]+[.]+[k]+[r])|(?=.*[.]+[g]+[o]+[v])).{1,}$";
+	    Matcher emailMatcher = Pattern.compile(emailPattern).matcher(email);
+		
         String emailcheck=null;
         if (email.equals(""))
         	emailcheck = "empty";
         else {
-        	if (memberService.findSameEmail(email))
+        	if (!emailMatcher.matches())
+        		emailcheck = "wrongChar";
+        	
+        	else if (memberService.findSameEmail(email))
         		emailcheck = "notunique";
     	
             else 
