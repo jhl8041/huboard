@@ -16,12 +16,7 @@ public class FileService {
 	@Autowired
 	private FileRepository fileRepo;
 	
-	@Autowired
-	private BoardRepository boardRepo;
-	
 	public void addFileToDB(FileVo filevo) {
-		Long nextBoardId = boardRepo.findTopByOrderByBoardIdDesc().get().getBoardId()+1;
-		filevo.setBoardId(nextBoardId);
 		filevo.setRegDate(Timestamp.valueOf(LocalDateTime.now()));
 		fileRepo.save(filevo);
 	}

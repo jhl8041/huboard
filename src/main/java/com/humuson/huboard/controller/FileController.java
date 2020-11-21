@@ -19,9 +19,9 @@ public class FileController {
 	private FileService fileService;
 	
 	//파일 서버에 업로드
-	@PostMapping("/doUpload")
+	@PostMapping("/file-server")
 	@ResponseBody
-	public String doUpload(@RequestBody MultipartFile file) throws Exception {
+	public String fileToServer(@RequestBody MultipartFile file) throws Exception {
 		String basePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\uploads";		
 		UUID uuid = UUID.randomUUID();
 		String storedName = uuid.toString()+"_"+file.getOriginalFilename();
@@ -31,10 +31,11 @@ public class FileController {
 		return '"'+ storedName +'"';
 	}
 	//파일 DB에 등록
-	@PostMapping("/doFileToDB")
+	@PostMapping("/file-db")
 	@ResponseBody
-	public String doFileToDB(@RequestBody FileVo filevo) throws Exception {
+	public String fileToDB(@RequestBody FileVo filevo) throws Exception {
 		fileService.addFileToDB(filevo);
 		return "success";
 	}
+	
 }

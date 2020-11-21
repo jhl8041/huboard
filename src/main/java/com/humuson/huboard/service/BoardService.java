@@ -26,12 +26,8 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepo;
 	
-	public List<BoardVo> getAllPost(){
-		return boardRepo.findAll();
-	}
-	
-	public Page<BoardVo> getPagingPost(Pageable pageable){
-		Page<BoardVo> pager = boardRepo.findAll(pageable);
+	public Page<BoardVo> getPagingPost(String visible, Pageable pageable){
+		Page<BoardVo> pager = boardRepo.findByVisible(visible, pageable);
 //		List<BoardVo> paged_list = pager.getContent();
 //		System.out.println("총 페이지 수: " + pager.getTotalPages());
 //		System.out.println("총 게시글 수: " + pager.getTotalElements());
@@ -63,8 +59,8 @@ public class BoardService {
 		boardRepo.deleteById(id);
 	}
 	
-	public void addPost(BoardVo boardVo){
-		boardRepo.save(boardVo);
+	public BoardVo addPost(BoardVo boardVo){
+		return boardRepo.save(boardVo);
 	}
 	
 	

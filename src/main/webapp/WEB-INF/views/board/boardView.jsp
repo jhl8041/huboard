@@ -15,7 +15,6 @@
 	
 	<!-- Script -->
 	<script type="text/javascript" src="/resources/board/js/boardView.js" charset="utf-8"></script>
-		
 </head>
 <body>
 	<!-- 네비게이션 바 -->
@@ -36,7 +35,7 @@
 				<label style="margin-left:10px;">${post.view}</label> 
 				
 				<label style="margin-left:20px;"><b>작성일</b></label>
-				<label style="margin-left:10px;">${post.date}</label>
+				<label style="margin-left:10px;">${post.createDate}</label>
 			</div>
 		</div>
 		<hr>

@@ -2,6 +2,8 @@ package com.humuson.huboard.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +61,7 @@ public class BoardController {
 	public String boardHome(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
 			@AuthenticationPrincipal User user) {
 	    
-		Page<BoardVo> pager = boardService.getPagingPost(pageable);
+		Page<BoardVo> pager = boardService.getPagingPost("Y",pageable);
 		model.addAttribute("list",pager);
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardList";
@@ -73,20 +75,24 @@ public class BoardController {
 	
 	//게시글 에디터 - R
 	@GetMapping("/editor/{boardId}")
-	public String goCreate(Model model, @AuthenticationPrincipal User user, @PathVariable Long boardId) {
+	public String boardEditor(Model model, @AuthenticationPrincipal User user, @PathVariable Long boardId) {
 		boolean data = (boardId!=0)?true:false;
 		if(boardId!=0) model.addAttribute("post", boardService.getPost(boardId).get());
 		model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
-		model.addAttribute("data",data);	
+		model.addAttribute("data",data);
+		model.addAttribute("post",boardService.addPost(new BoardVo(user.getUsername(), "N")));
 		return "board/boardEditor";
 	}
-	
+		
 	//게시글 등록 - C
 	@PostMapping("/board")
 	@ResponseBody
-	public ResponseEntity<BoardVo> boardEditor(@RequestBody BoardVo boardVo) {
+	public ResponseEntity<BoardVo> boardCreate(@RequestBody BoardVo boardVo) {
 		ResponseEntity<BoardVo> status;
 		try {
+			boardVo.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+			boardVo.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
+			boardVo.setVisible("Y");
 			boardService.addPost(boardVo);
 			status = new ResponseEntity<>(boardVo, HttpStatus.OK);
 		}catch (Exception e){
@@ -97,7 +103,7 @@ public class BoardController {
 	
 	//게시글 보기 - R
 	@GetMapping("/board/{boardId}")
-	public String goView(Model model, @PathVariable Long boardId, @AuthenticationPrincipal User user) {
+	public String boardView(Model model, @PathVariable Long boardId, @AuthenticationPrincipal User user) {
 		BoardVo post = boardService.getPost(boardId).get();
 		post.setView(post.getView()+1); 
 		boardService.addPost(post); //조회수 증가
@@ -114,6 +120,7 @@ public class BoardController {
 	public ResponseEntity<BoardVo> boardEdit(Model model, @PathVariable Long boardId, @RequestBody BoardVo boardVo) {
 		ResponseEntity<BoardVo> status;
 		try {
+			boardVo.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 			boardService.addPost(boardVo);
 			status = new ResponseEntity<>(boardVo, HttpStatus.OK);
 		}catch (Exception e){

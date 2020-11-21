@@ -2,20 +2,46 @@
  * 
  */
  
- var fileIndex=0;
- var totalFileSize=0;
- var fileList=new Array();
- var fileSizeList = new Array();
- var uploadSize=500;
- var maxUploadSize=500;
- 
- $(function(){
- 	fileDropDown();
- });
- 
- $("#nav-placeholder").load("http://localhost:8080/navbar");
- 
- function fileDropDown(){
+var fileIndex=0;
+var totalFileSize=0;
+var fileList=new Array();
+var fileSizeList = new Array();
+var uploadSize=500;
+var maxUploadSize=500;
+
+var checkUnload = true;
+
+jQuery(document).ready(function($) {
+	$(window).on("beforeunload", function(){
+	 	if(checkUnload){
+	 		deletePost();
+			return "dsfsdf";
+	 	}	
+	});
+	
+	$("#nav-placeholder").load("http://localhost:8080/navbar");
+	fileDropDown();
+});
+
+function upload(){
+	$("#fileinput").click();
+}
+
+function deletePost(){
+	var boardIdStr = document.getElementById("boardId").value;
+    $.ajax({
+        url : "/board/"+boardIdStr,
+        type : "delete",
+        success : function(data){
+  			window.location.href = "http://localhost:8080/"
+        },
+		error:function(xhr,status,error){
+			console.log('error:'+status);
+		}
+    });
+}
+
+function fileDropDown(){
  	var dropZone = $("#dropZone");
  	
  	dropZone.on('dragenter',function(e){
@@ -54,6 +80,10 @@
  	});
 }
 
+function handleFile(files){
+	selectFile(files);
+}
+
 function selectFile(files){
     // 다중파일 등록
     if(files != null){
@@ -84,10 +114,19 @@ function selectFile(files){
  
 // 업로드 파일 목록 생성
 function addFileList(fIndex, fileName, fileSize){
+	var fileSizeStr;
+	
+	if (fileSize>1){
+		fileSizeStr = fileSize.toPrecision(4) + "MB";
+	}
+	else {
+		fileSizeStr = Math.floor(fileSize*1024) + "KB"
+	}
+
     var html = "";
     html += "<tr id='fileTr_" + fIndex + "'>";
-    html += "    <td class='left' >";
-    html +=         fileName + " / " + fileSize + "MB "  ;
+    html += "    <td id='uploaded' class='left' >";
+    html +=         fileName + " / " + fileSizeStr ;
     html +=         "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>";
     html += 		"<div id='progress' class='progress_"+fIndex+"'>";
 	html +=			"	<div id='bar' class='bar_"+fIndex+"'></div>";
@@ -113,15 +152,17 @@ function uuidv4() {
 
 //업로드 파일 DB에 등록
 function addFileToDB(fileName, fileSize,storedName){
+	var boardIdStr = document.getElementById("boardId").value;
 	var userIdStr = document.getElementById("userId").value;
 	var fileNameStr = fileName;
 	var fileSizeStr = fileSize;
 	var storedFileNameStr = storedName;
 	
 	$.ajax({
-        url : "/doFileToDB",
+        url : "/file-db",
         type : "POST",
         data : JSON.stringify({
+        	boardId: boardIdStr,
         	userId:userIdStr,
         	originFileName: fileNameStr,
         	fileSize: fileSizeStr,
@@ -138,7 +179,7 @@ function addFileToDB(fileName, fileSize,storedName){
 
 }
  
-// 업로드 파일 삭제
+//업로드 파일 삭제
 function deleteFile(fIndex){
     totalFileSize -= fileSizeList[fIndex]; // 전체 파일 사이즈 수정
     delete fileList[fIndex]; // 파일 배열에서 삭제
@@ -147,7 +188,7 @@ function deleteFile(fIndex){
     $("#fileTr_" + fIndex).remove(); // 업로드 파일 테이블 목록에서 삭제
 }
  
-// 파일 등록
+//파일 등록
 function uploadFile(fileName, fileSize, fIndex){
     var uploadFileList = Object.keys(fileList); // 등록할 파일 리스트
  
@@ -184,7 +225,7 @@ function uploadFile(fileName, fileSize, fIndex){
     		}, false);
     		return xhr;
     	},
-        url:"/doUpload",
+        url:"/file-server",
         data:formData,
         type:'POST',
         enctype:'multipart/form-data',
@@ -210,7 +251,8 @@ function uploadFile(fileName, fileSize, fIndex){
 
 
 function submitPost(){
-	var boardIdStr;
+	checkUnload = false;
+	var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;
     var subjectStr = document.getElementById("subject").value;
     var contentStr = theEditor.getData();
@@ -218,31 +260,25 @@ function submitPost(){
  	
 	var urlStr,
 		typeStr,
-		dataStr,
 		successUrlStr;
+	
+	var dataStr={
+			boardId: boardIdStr,
+			userId: userIdStr, 
+    		subject: subjectStr, 
+    		content: contentStr
+	};
 	
 	//글쓰기
 	if (!(data)){
 		urlStr="/board";
 		typeStr="post";
-		dataStr={
-			userId:userIdStr, 
-    		subject: subjectStr, 
-    		content: contentStr
-		};
 		successUrlStr = "http://localhost:8080/";
 	}
 	//수정하기
 	else {
-		boardIdStr = document.getElementById("boardId").value;
 		urlStr="/board/"+boardIdStr;
 		typeStr="patch";
-		dataStr={
-			boardId: boardIdStr,
-			userId:userIdStr, 
-    		subject: subjectStr, 
-    		content: contentStr
-		};
 		successUrlStr = "http://localhost:8080/board/"+boardIdStr;
 	}
 	

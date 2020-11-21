@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -26,6 +27,7 @@ import lombok.ToString;
 @Table(name="board")
 @Getter @Setter
 @ToString
+@NoArgsConstructor
 public class BoardVo implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -34,29 +36,38 @@ public class BoardVo implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long boardId;
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.REMOVE, orphanRemoval=true)
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	@JoinColumn(name="boardId")
 	private List<CommentVo> comment = new ArrayList<>();
 	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
+	@JoinColumn(name="boardId")
+	private List<FileVo> file = new ArrayList<>();
+	
 	private String userId;
-	private String userName;
 	private String subject;
 	
 	@Column(length = 10000)
 	private String content;
 	private int view;
-	private Timestamp date = Timestamp.valueOf(LocalDateTime.now());
+	private Timestamp createDate;
+	private Timestamp updateDate;
+	private String visible;
 	
-	public BoardVo() {}
-	
-	public BoardVo(Long boardId, String userId, String userName, String subject, String content,Timestamp date) {
-		super();
+	public BoardVo(String userId, String visible) {
 		this.userId = userId;
-		this.userName = userName;
-		this.subject = subject;
-		this.content = content;
-		this.date = date;
+		this.visible = visible;
 	}
 	
+	public BoardVo(Long boardId, String userId, String subject, String content,Timestamp createDate,
+			Timestamp updateDate, String visible) {
+		super();
+		this.userId = userId;
+		this.subject = subject;
+		this.content = content;
+		this.createDate = createDate;
+		this.updateDate = updateDate;
+		this.visible = visible;
+	}
 }
 

@@ -27,8 +27,8 @@
 			<h3>
 				커뮤니티<br>
 				<small class="text-muted">자유롭게 글을 쓰는 게시판입니다</small>
-				<hr>
 			</h3>
+			<hr>
 		</div>
 		<div id="boardPageInfo" class="row justify-content-left">
 			<div class="col" id="boardInfo">
@@ -66,7 +66,7 @@
 								<tr class='clickable-row' id='boardlist' data-href='http://localhost:8080/board/${list.boardId}'>
 									<td>${list.boardId}</td>
 									<td style="text-align:left">${list.subject}</td>
-									<td>${list.date}</td>
+									<td>${list.updateDate}</td>
 									<td>${list.userId}</td>
 									<td>${list.view}</td>
 								</tr>

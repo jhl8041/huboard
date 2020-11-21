@@ -1,25 +1,83 @@
 @charset "utf-8";
 
+body {
+	background-color: #f3f2f2;
+}
+
+.container{
+	max-width: 900px;
+	margin-top:50px;
+	padding:0;
+}
+
+div{
+	top:0;
+	left:0;
+}
+
+.row{
+	width:100%;
+	margin-left:0px;
+	margin-right:0px;
+}
+
+#postContent{
+	margin-top: 20px;
+	width: 100%;
+}
+
 .ck-editor__editable{
-			min-height: 500px;
-		}
-		#progress{
-			position:relative;
-			width: 100%; 
-			border: 1px solid #ddd; 
-			padding: 1px;
-			border-radius: 3px;
-		}
-		#bar{
-			background-color: #337ab7;
-			width:0%;
-			height:20px;
-			border-radius: 3px;
-		}
-		#percent{
-			position:absolute;
-			display:inline-block;
-			top:1px;
-			left:48%;
-		}
+	min-height: 400px;
+	width: 900px;
+}
+
+#postUpload{
+	margin-top: 20px;
+	width: 900px;	
+}
+
+#dropZone{
+	width:900px;
+	height:100px;
+	background-color: #e6e6e6;
+}
+
+#dropZone div {
+	text-align: center;
+	margin-bottom: 0px;
+	height:90px;
+	border: 4px dashed #808080;
+}
+
+#dropZone div p{
+	vertical-align: middle;
+}
+
+#progress{
+	position:relative;
+	width: 100%; 
+	border: 1px solid #ddd; 
+	padding: 1px;
+	border-radius: 3px;
+}
+#bar{
+	background-color: #337ab7;
+	width:0%;
+	height:20px;
+	border-radius: 3px;
+}
+#percent{
+	position:absolute;
+	display:inline-block;
+	top:1px;
+	left:48%;
+}
+#uploaded{
+	background-color: #e6e6e6;
+}
+
+
+#fileinput{
+	display:none;
+}
 		
