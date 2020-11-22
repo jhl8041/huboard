@@ -24,28 +24,12 @@ import org.tensorflow.types.TInt32;
 @Controller
 public class LabController {
 	//게시글 목록 조회 - R
-	@GetMapping("/lab")
+	@GetMapping("/labtt")
 	public String goLab() { 
 		return "lab/lab";
 	}
 	
-	private static Signature dbl(Ops tf) {
-	    Placeholder<TInt32> x = tf.placeholder(TInt32.DTYPE);
-	    Add<TInt32> dblX = tf.math.add(x, x);
-	    return Signature.builder().input("x", x).output("dbl", dblX).build();
-	 }
-	
-	@GetMapping("/labtest")
-	public String testLab() throws Exception{
-		System.out.println("Hello TensorFlow " + TensorFlow.version());
 
-	    try (ConcreteFunction dbl = ConcreteFunction.create(LabController::dbl);
-	        Tensor<TInt32> x = TInt32.scalarOf(10);
-	        Tensor<TInt32> dblX = dbl.call(x).expect(TInt32.DTYPE)) {
-	    	System.out.println(x.data().getInt() + " doubled is " + dblX.data().getInt());
-	    }
-	    return "lab/lab";
-	}
 }
 	  
 	  
