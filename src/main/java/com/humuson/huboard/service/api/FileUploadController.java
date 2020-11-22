@@ -49,12 +49,18 @@ public class FileUploadController {
 
     @PostMapping("/lab")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
-        String originalImagePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\uploads\\" + storageService.store(file);
-        originalImagePath = "C:\\Users\\humuson\\Desktop\\objtest\\dog.jpg";
+        //String originalImagePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\uploads\\" + storageService.store(file);
+        String fileName = "dog.jpg";
+    	
+    	String originalImagePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\input\\"+fileName;
+        String originalImageWebPath = "http://localhost:8080/resources/input/" +fileName;
+        
+        String processedImage = "http://localhost:8080/resources/predicted/" +fileName;
         Map<String, Object> result = objectDetector.detect(originalImagePath);
         model.addAttribute("originalName", file.getOriginalFilename());
-        model.addAttribute("originalImage", originalImagePath);
-        model.addAttribute("predictedImage", result.get("labeledFilePath"));
+        model.addAttribute("originalImage", originalImageWebPath);
+        //model.addAttribute("predictedImage", result.get("labeledFilePath"));
+        model.addAttribute("predictedImage",processedImage);
         model.addAttribute("recognitions", result.get("recognitions"));
         return "lab/display-result";
     }

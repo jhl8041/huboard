@@ -13,44 +13,44 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </head>
-    <body>
-        <div class="navbar navbar-fixed-top navbar-inverse bg-inverse">
-            <a href="/" title="TensorFlow Java API with YOLO" class="navbar-brand">TensorFlow Java API with YOLO</a>
+<body>
+    <div class="navbar navbar-fixed-top navbar-inverse bg-inverse">
+        <a href="/" title="TensorFlow Java API with YOLO" class="navbar-brand">TensorFlow Java API with YOLO</a>
+    </div>
+    <div class="container">
+    	<c:if test="${originalName}">
+         <div class="row mt-4">
+             <p>
+                 <span>Image: </span><span>${originalName}</span><span> has been successfully uploaded!</span>
+             </p>
+         </div>
+        </c:if>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Input image</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="${originalImage}" title="${originalImage}" alt="${originalImage}" width="416" /></td>
+                        <td><img src="${predictedImage}" title="${predictedImage}" alt="${predictedImage}" width="416" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <ul>
+                                <c:forEach var="recognition" items="${recognitions}">
+                                    <li><span>${recognition.title}</span><span> - </span><span>${recognition.confidence}</span></li>
+                                </c:forEach>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="container">
-        	<c:if test="${originalName}">
-	            <div class="row mt-4">
-	                <p>
-	                    <span>Image: </span><span>${originalName}</span><span> has been successfully uploaded!</span>
-	                </p>
-	            </div>
-            </c:if>
-            <div class="row">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Input image</th>
-                            <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="${originalImage}" title="${originalImage}" alt="${originalImage}" width="416" /></td>
-                            <td><img src="${predictedImage}" title="${predictedImage}" alt="${predictedImage}" width="416" /></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <ul>
-                                    <c:forEach var="recognition" items="${recognitions}">
-                                        <li><span>${recognition.title}</span><span> - </span><span>${recognition.confidence}</span></li>
-                                    </c:forEach>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </body>
+    </div>
+</body>
 </html>

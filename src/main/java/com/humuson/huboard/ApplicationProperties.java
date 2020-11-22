@@ -10,10 +10,8 @@ public class ApplicationProperties {
     private String graph;
 	@Value("${application.label}")
     private String label;
-	@Value("${application.outputDir}")
-    private String outputDir;
-	@Value("${application.uploadDir}")
-    private String uploadDir;
+    private String outputDir = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\predicted";
+    private String uploadDir = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\input";
 	@Value("${application.imageSize}")
     private Integer imageSize;
 	@Value("${application.imageMean}")
