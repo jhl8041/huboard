@@ -138,7 +138,6 @@ function addFileList(fIndex, fileName, fileSize){
     $('#fileTableTbody').append(html);
     
     uploadFile(fileName, fileSize, fIndex);
-    //addFileToDB(fileName, fileSize, storedName);
 }
 
 function uuidv4() {
@@ -152,6 +151,7 @@ function uuidv4() {
 function addFileToDB(fileName, fileSize,storedName){
 	var boardIdStr = document.getElementById("boardId").value;
 	var userIdStr = document.getElementById("userId").value;
+	var userNumStr = document.getElementById("userNum").value;
 	var fileNameStr = fileName;
 	var fileSizeStr = fileSize;
 	var storedFileNameStr = storedName;
@@ -162,6 +162,7 @@ function addFileToDB(fileName, fileSize,storedName){
         data : JSON.stringify({
         	boardId: boardIdStr,
         	userId:userIdStr,
+        	userNum:userNumStr,
         	originFileName: fileNameStr,
         	fileSize: fileSizeStr,
         	storedFileName: storedFileNameStr
@@ -252,6 +253,7 @@ function submitPost(){
 	checkUnload = false;
 	var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;
+    var userNumStr = document.getElementById("userNum").value;
     var subjectStr = document.getElementById("subject").value;
     var contentStr = theEditor.getData();
     var data = (document.getElementById("data").value == 'true');
@@ -261,6 +263,7 @@ function submitPost(){
 		successUrlStr;
 	
 	var dataStr={
+			userNum: userNumStr,
 			boardId: boardIdStr,
 			userId: userIdStr, 
     		subject: subjectStr, 
@@ -269,12 +272,14 @@ function submitPost(){
 	
 	//글쓰기
 	if (!(data)){
+		console.log("글쓰기중!");
 		urlStr="/board";
 		typeStr="post";
 		successUrlStr = "http://localhost:8080/";
 	}
 	//수정하기
 	else {
+		console.log("수정중!");
 		urlStr="/board/"+boardIdStr;
 		typeStr="patch";
 		successUrlStr = "http://localhost:8080/board/"+boardIdStr;

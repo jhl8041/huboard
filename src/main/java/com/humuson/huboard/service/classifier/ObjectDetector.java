@@ -50,13 +50,12 @@ public class ObjectDetector {
      * @param imageLocation the location of the image
      * @return a map with location of the labeled image and recognitions
      */
-    public Map<String, Object> detect(final String imageLocation) {
+    public Map<String, Object> detect(final String imageLocation, String storedName) {
         byte[] image = IOUtil.readAllBytesOrExit(imageLocation);
         try (Tensor<Float> normalizedImage = normalizeImage(image)) {
             List<Recognition> recognitions = YOLOClassifier.getInstance().classifyImage(executeYOLOGraph(normalizedImage), LABELS);
             printToConsole(recognitions);
-            String labeledFilePath = ImageUtil.getInstance(applicationProperties).labelImage(image, recognitions, IOUtil.getFileName("dog.jpg"));
-
+            String labeledFilePath = ImageUtil.getInstance(applicationProperties).labelImage(image, recognitions, IOUtil.getFileName(storedName));
             Map<String, Object> result = new HashMap();
             result.put("labeledFilePath", labeledFilePath);
             result.put("recognitions", recognitions);

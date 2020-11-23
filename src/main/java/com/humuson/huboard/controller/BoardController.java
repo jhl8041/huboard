@@ -77,11 +77,21 @@ public class BoardController {
 	//게시글 에디터 - R
 	@GetMapping("/editor/{boardId}")
 	public String boardEditor(Model model, @AuthenticationPrincipal User user, @PathVariable Long boardId) {
-		boolean data = (boardId!=0)?true:false;
-		if(boardId!=0) model.addAttribute("post", boardService.getPost(boardId).get());
+		boolean data;
+		if (boardId!=0) {
+			System.out.println(boardService.getPost(boardId).get());
+			System.out.println(boardService.getPost(boardId).get().getVisible());
+			
+			data = true;
+			model.addAttribute("post", boardService.getPost(boardId).get());
+		}
+		else {
+			data = false;
+			model.addAttribute("post",boardService.addPost(new BoardVo(user.getUsername(), "N")));
+		}
+		
 		model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
 		model.addAttribute("data",data);
-		model.addAttribute("post",boardService.addPost(new BoardVo(user.getUsername(), "N")));
 		return "board/boardEditor";
 	}
 		
@@ -95,6 +105,7 @@ public class BoardController {
 			boardVo.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 			boardVo.setVisible("Y");
 			boardService.addPost(boardVo);
+			System.out.println("add post end");
 			status = new ResponseEntity<>(boardVo, HttpStatus.OK);
 		}catch (Exception e){
 			status = new ResponseEntity<>(boardVo, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -121,7 +132,10 @@ public class BoardController {
 	public ResponseEntity<BoardVo> boardEdit(Model model, @PathVariable Long boardId, @RequestBody BoardVo boardVo) {
 		ResponseEntity<BoardVo> status;
 		try {
+			BoardVo boardPrev = boardService.getPost(boardId).get();
 			boardVo.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
+			boardVo.setCreateDate(boardPrev.getCreateDate());
+			boardVo.setVisible(boardPrev.getVisible());
 			boardService.addPost(boardVo);
 			status = new ResponseEntity<>(boardVo, HttpStatus.OK);
 		}catch (Exception e){

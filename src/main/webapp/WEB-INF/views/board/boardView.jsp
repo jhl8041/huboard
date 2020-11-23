@@ -10,8 +10,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	
 	<!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/board/css/boardView.css" charset="utf-8"></link>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/board/css/boardView.css"></link>
 	
 	<!-- Script -->
 	<script type="text/javascript" src="/resources/board/js/boardView.js" charset="utf-8"></script>
@@ -50,13 +50,14 @@
 			</c:forEach>
 		</div>
 		<hr>
+		
 		<!-- 버튼 기능 -->
 		<div id="mainButtonRow" class="row justify-content-left">
-			<input type="button" value="목록" onclick="location.href='http://localhost:8080/'"/>
+			<input type="button" class="btn btn-secondary" value="목록" onclick="location.href='http://localhost:8080/'"/>
 			<!-- 작성자 본인만 사용하는 기능 -->
 			<c:if test="${member.userId eq post.userId}">
-				<input type="button" value="수정" onclick="location.href='/editor/${post.boardId}'"/>
-				<input type="button" value="삭제" onclick="deletePost()"/>
+				<input type="button" class="btn btn-secondary" style="margin-left:5px" value="수정" onclick="location.href='/editor/${post.boardId}'"/>
+				<input type="button" class="btn btn-secondary" style="margin-left:5px" value="삭제" onclick="deletePost()"/>
 			</c:if>
 		</div>
 		<hr>
@@ -68,6 +69,7 @@
 					<textarea class="form-control" name="commentContent" id="commentContent" rows="2"></textarea>
 					<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
 					<input type="hidden" name="userId" id="userId" value="${member.userId}"/>
+					<input type="hidden" name="userNum" id="userNum" value="${member.userNum}"/>
 					<input class="btn btn-primary" style="margin-top:10px" type=button value=댓글작성 onClick="addComment()">
 				</div>
 			</div>

@@ -3,7 +3,6 @@
  */
  
 $(function(){
-	
 	var boardIdStr = document.getElementById("boardId").value;
 	showAllComment(boardIdStr);
 });
@@ -32,12 +31,14 @@ function deletePost(){
 function addComment(){
     var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;
+    var userNumStr = document.getElementById("userNum").value;
     var commentContentStr = document.getElementById("commentContent").value;
     
     $.ajax({
         url : "/comment",
         type : "POST",
         data : JSON.stringify({
+        			userNum: userNumStr,
 	        		userId:userIdStr, 
 	        		commentContent: commentContentStr, 
 	        		boardId:boardIdStr

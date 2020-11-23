@@ -30,6 +30,7 @@ public class FileController {
 		System.out.println(storedName);
 		return '"'+ storedName +'"';
 	}
+	
 	//파일 DB에 등록
 	@PostMapping("/file-db")
 	@ResponseBody

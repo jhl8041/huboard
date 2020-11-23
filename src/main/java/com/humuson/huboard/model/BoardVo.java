@@ -36,15 +36,14 @@ public class BoardVo implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long boardId;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
-	@JoinColumn(name="boardId")
+	@OneToMany(mappedBy="boardId", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	private List<CommentVo> comment = new ArrayList<>();
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
-	@JoinColumn(name="boardId")
+	@OneToMany(mappedBy="boardId", fetch=FetchType.LAZY, orphanRemoval=true)
 	private List<FileVo> file = new ArrayList<>();
 	
 	private String userId;
+	private Long userNum;
 	private String subject;
 	
 	@Column(length = 10000)

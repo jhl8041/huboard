@@ -39,6 +39,7 @@ public class CommentVo {
 	private Long depth;
 	
 	private String userId;
+	private Long userNum;
 	private String commentContent;
 	
 }
