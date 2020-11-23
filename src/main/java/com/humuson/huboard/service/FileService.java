@@ -25,4 +25,12 @@ public class FileService {
 		return fileRepo.findByBoardId(boardId);
 	}
 	
+	public void deleteFiles(Long fileId) {
+		fileRepo.deleteById(fileId);
+	}
+	
+	public Long getFileId(String fileName) {
+		return fileRepo.findTopByOriginFileNameOrderByRegDateDesc(fileName).get().getFileId();
+	}
+	
 }

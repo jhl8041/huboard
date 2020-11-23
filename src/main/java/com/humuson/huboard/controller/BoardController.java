@@ -89,7 +89,7 @@ public class BoardController {
 			data = false;
 			model.addAttribute("post",boardService.addPost(new BoardVo(user.getUsername(), "N")));
 		}
-		
+		model.addAttribute("files", fileService.getFiles(boardId));
 		model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
 		model.addAttribute("data",data);
 		return "board/boardEditor";
@@ -164,6 +164,13 @@ public class BoardController {
 			@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
 		model.addAttribute("list",boardService.findPostBySearch(keyword, pageable, searchType));
 		return "board/boardList";
+	}
+	
+	//파일아이디 가져오기
+	@PostMapping("/filename/{fileName}")
+	@ResponseBody
+	public Long getFileId(@PathVariable String fileName) {
+		return fileService.getFileId(fileName);
 	}
 	
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,10 +43,25 @@
 		<div id="postContent" class="row justify-content-left">
 			${post.content}
 		</div>
-	
+		
+		<hr>
+		<label>첨부파일</label>
 		<div>
 			<c:forEach var="files" items="${files}" >
-				<a href="/resources/uploads/${files.storedFileName}" download="${files.originFileName}">${files.originFileName}</a>
+				<a href="/resources/uploads/${files.storedFileName}" download="${files.originFileName}">
+				${files.originFileName} / 
+				<c:choose>
+					<c:when test="${files.fileSize*1024 < 1}">
+						<fmt:formatNumber value="${files.fileSize*1024*1024}" pattern=".00"/>Byte
+					</c:when>
+					<c:when test="${files.fileSize < 1}">
+						<fmt:formatNumber value="${files.fileSize*1024}" pattern=".00"/>KB
+					</c:when>
+					<c:otherwise>
+						<fmt:formatNumber value="${files.fileSize}" pattern=".00"/>
+					</c:otherwise>
+				</c:choose>
+				</a>
 				<br>
 			</c:forEach>
 		</div>

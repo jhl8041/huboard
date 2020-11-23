@@ -28,7 +28,7 @@ public class FileVo {
 	private Long userNum;
 	private String originFileName;
 	private String storedFileName;
-	private Long fileSize;
+	private double fileSize;
 	private Timestamp regDate;
 	
 }

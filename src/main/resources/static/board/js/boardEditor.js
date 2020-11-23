@@ -110,6 +110,26 @@ function selectFile(files){
     }
 }
  
+function getFileId(fileName, fIndex){
+	totalFileSize -= fileSizeList[fIndex]; // 전체 파일 사이즈 수정
+    delete fileList[fIndex]; // 파일 배열에서 삭제
+    delete fileSizeList[fIndex]; // 파일 사이즈 배열 삭제
+    
+    $("#fileTr_" + fIndex).remove(); // 업로드 파일 테이블 목록에서 삭제
+
+	$.ajax({
+        url : "/filename/"+fileName,
+        type : "POST",
+        success : function(data){
+        	console.log(data);
+       		deleteFile(data);
+        },
+		error:function(xhr,status,error){
+			console.log('error:'+error);
+		}
+    });
+} 
+ 
 // 업로드 파일 목록 생성
 function addFileList(fIndex, fileName, fileSize){
 	var fileSizeStr;
@@ -125,7 +145,7 @@ function addFileList(fIndex, fileName, fileSize){
     html += "<tr id='fileTr_" + fIndex + "'>";
     html += "    <td id='uploaded' class='left' >";
     html +=         fileName + " / " + fileSizeStr ;
-    html +=         "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'>삭제</a>";
+    html +=         "<a href='javascript:void(0)' onclick='getFileId(`" + fileName + "`, `" + fIndex + "`)' class='btn small bg_02'>삭제</a>";
     html += 		"<div id='progress' class='progress_"+fIndex+"'>";
 	html +=			"	<div id='bar' class='bar_"+fIndex+"'></div>";
 	html +=			"	<div id='percent' class='percent_"+fIndex+"'>0%</div>";
@@ -148,7 +168,7 @@ function uuidv4() {
 }
 
 //업로드 파일 DB에 등록
-function addFileToDB(fileName, fileSize,storedName){
+function addFileToDB(fileName, fileSize, storedName){
 	var boardIdStr = document.getElementById("boardId").value;
 	var userIdStr = document.getElementById("userId").value;
 	var userNumStr = document.getElementById("userNum").value;
@@ -175,16 +195,11 @@ function addFileToDB(fileName, fileSize,storedName){
 			console.log('error:'+error);
 		}
     });
-
 }
  
 //업로드 파일 삭제
-function deleteFile(fIndex){
-    totalFileSize -= fileSizeList[fIndex]; // 전체 파일 사이즈 수정
-    delete fileList[fIndex]; // 파일 배열에서 삭제
-    delete fileSizeList[fIndex]; // 파일 사이즈 배열 삭제
+function deleteFile2(fIndex){
     
-    $("#fileTr_" + fIndex).remove(); // 업로드 파일 테이블 목록에서 삭제
 }
  
 //파일 등록
@@ -296,6 +311,21 @@ function submitPost(){
 		error:function(xhr){
 			console.log(xhr.status);
 			console.log(xhr.responseText);
+		}
+    });
+}
+
+//업로드 파일 DB에서 삭제
+function deleteFile(fileId){
+
+	$.ajax({
+        url : "/file-db/"+fileId,
+        type : "DELETE",
+        success:function(xhr){
+        	$("#row"+fileId).remove();
+        },
+		error:function(xhr,status,error){
+			console.log('error:'+error);
 		}
     });
 }

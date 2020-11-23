@@ -54,7 +54,18 @@
 		</div>
 		
 		<div id="postUpload" class="row justify-content-left">
-			<label for="fileTable">첨부파일</label>
+			<label for="uploadedTable">첨부파일</label>
+			<table class="table" id="uploadedTable">
+				<c:forEach var="files" items="${files}" >
+				<tr id="row${files.fileId}">
+					<td>
+						<a href="/resources/uploads/${files.storedFileName}" download="${files.originFileName}">${files.originFileName}</a>
+						<a href="javascript:void(0)" onclick="deleteFile(${files.fileId})">x</a>
+						<br>
+					</td>
+				</tr>
+				</c:forEach>
+			</table>
 			<table class="table" id="fileTable" style="width: 100%;border:1px">
 				<tbody id="fileTableTbody">
 					<tr>
