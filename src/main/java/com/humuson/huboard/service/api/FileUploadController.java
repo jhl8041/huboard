@@ -39,7 +39,7 @@ public class FileUploadController {
 
     @GetMapping("/lab")
     public String listUploadedFiles(Model model) throws IOException {
-        return "lab/upload-image";
+        return "lab/labUpload";
     }
 
     @GetMapping("/lab/files/{filename:.+}")
@@ -74,7 +74,7 @@ public class FileUploadController {
         //model.addAttribute("predictedImage", result.get("labeledFilePath"));
         model.addAttribute("predictedImage",processedImage);
         model.addAttribute("recognitions", result.get("recognitions"));
-        return "lab/display-result";
+        return "lab/labResult";
     }
 
     @ExceptionHandler(ServiceException.class)

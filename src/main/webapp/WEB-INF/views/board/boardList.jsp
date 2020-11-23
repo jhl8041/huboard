@@ -11,7 +11,7 @@
 	
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/board/css/boardList.css" charset="utf-8"></link>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/board/css/boardList.css"></link>
 	
 	<!-- Script -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/board/js/boardList.js" charset="utf-8"></script>
@@ -21,7 +21,7 @@
 <body>
 	<!-- 네비게이션 바 -->
 	<div id="nav-placeholder"></div>
-	
+
 	<div class="container">
 		<div id="boardTitle" class="row justify-content-left">
 			<h3>

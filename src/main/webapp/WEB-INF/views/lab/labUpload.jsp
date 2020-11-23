@@ -3,20 +3,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TensorFlow Java API with YOLO</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-              integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-                integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
-                integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
-                integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <title>휴보드 랩</title>
+        
+        <!-- JQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		
+		<!-- CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lab/css/labUpload.css"></link>
+		
+		<!-- Script -->
+		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/lab/js/labUpload.js" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     </head>
     <body>
-        <div class="navbar navbar-fixed-top navbar-inverse bg-inverse">
-            <a href="/" title="TensorFlow Java API with YOLO" class="navbar-brand">TensorFlow Java API with YOLO</a>
-        </div>
+        <!-- 네비게이션 바 -->
+		<div id="nav-placeholder"></div>
+		
         <div class="container">
             <div class="row mt-4">
                 <h2>Upload and detect objects on your image</h2>
@@ -83,5 +86,9 @@
                 </table>
             </div>
         </div>
+        
+        <!-- 스트립트 -->
+   		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
     </body>
 </html>
