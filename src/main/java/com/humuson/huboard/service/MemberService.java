@@ -1,9 +1,13 @@
 package com.humuson.huboard.service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -51,21 +55,54 @@ public class MemberService implements UserDetailsService {
         mailSender.send(message);
     }
 	
-	public void addMember(MemberVo membervo) {
+	public void addMember(MemberVo membervo) throws Exception {
 		
 		String encryptPw = BCrypt.hashpw(membervo.getPassword(), BCrypt.gensalt());
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date birthDateStr = sdf.parse(membervo.getBirthDateStr());
+		java.sql.Date birthDate = new java.sql.Date(birthDateStr.getTime());
+		
 		memberRepo.save(new MemberVo(
+				null,
 				membervo.getUserId(),
 				encryptPw,
 				membervo.getUserName(),
 				membervo.getNickname(),
 				membervo.getPhone(),
-				membervo.makeDate(membervo.getBirthyear(), membervo.getBirthmonth(), membervo.getBirthday()),
+				birthDate,
 				membervo.getEmail(),
 				membervo.getGender(),
-				membervo.makeAddress(membervo.getRoadAddrPart1(), membervo.getAddrDetail())
+				membervo.getRoadAddr(), 
+				membervo.getDetailAddr(),
+				Timestamp.valueOf(LocalDateTime.now())
 				));
+	}
+	
+	public void editMember(MemberVo membervo) throws Exception {
+		MemberVo newMember = memberRepo.findByUserId(membervo.getUserId()).get();
+		
+		if (!membervo.getPassword().isEmpty()) {
+			newMember.setPassword(BCrypt.hashpw(membervo.getPassword(), BCrypt.gensalt()));
+		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date birthDateStr = sdf.parse(membervo.getBirthDateStr());
+		java.sql.Date birthDate = new java.sql.Date(birthDateStr.getTime());
+		
+		newMember.setBirthDate(birthDate);
+		
+		newMember.setUserName(membervo.getUserName());
+		newMember.setGender(membervo.getGender());
+		newMember.setRoadAddr(membervo.getRoadAddr());
+		newMember.setDetailAddr(membervo.getDetailAddr());
+		newMember.setPhone(membervo.getPhone());
+		
+		memberRepo.save(newMember);
+	}
+	
+	public void deleteMember(String userId) {
+		memberRepo.deleteByUserId(userId);
 	}
 	
 	public MemberVo getMemberByUserId(String userId) {
@@ -82,4 +119,5 @@ public class MemberService implements UserDetailsService {
 
 		return new User(member.getUserId(), member.getPassword(), auth);
 	}
+	
 }

@@ -63,7 +63,8 @@ public class BoardController {
 	    
 		Page<BoardVo> pager = boardService.getPagingPost("Y",pageable);
 		model.addAttribute("list",pager);
-		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
+		if (user != null)
+			model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
 		return "board/boardList";
 	}
 	

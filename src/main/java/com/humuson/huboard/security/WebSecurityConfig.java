@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.extern.java.Log;
 
@@ -31,8 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				
 		http.csrf().disable().authorizeRequests()
 			.antMatchers("/resources/**").permitAll()
-			.antMatchers("/goView").hasRole("MEMBER")
-			.antMatchers("/").hasRole("MEMBER")
+			.antMatchers("/editor/**").hasRole("MEMBER")
+			.antMatchers("/board/**").hasRole("MEMBER")
 			.anyRequest().permitAll()
 			.and()
 		.formLogin()
@@ -44,8 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 			.logout()
-			.logoutUrl("/doLogout")
-			.logoutSuccessUrl("/goLogin")
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutSuccessUrl("/")
 			.invalidateHttpSession(true)
 			.deleteCookies("JSESSIONID");
 		

@@ -40,7 +40,7 @@ public class MemberVo {
 	@OneToMany(mappedBy="userNum", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	private List<CommentVo> comment = new ArrayList<>();
 	
-	@OneToMany(mappedBy="userNum", fetch=FetchType.LAZY, orphanRemoval=true)
+	@OneToMany(mappedBy="userNum", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	private List<BoardVo> board = new ArrayList<>();
 	
 	private String userId;
@@ -52,25 +52,19 @@ public class MemberVo {
 	private String email;
 	private String gender;
 	private Timestamp joinDate;
-	private String address;
+	private String roadAddr;
+	private String detailAddr;
 	private String auth = "ROLE_MEMBER";
 	
 	@Transient
-	private String birthyear;
-	@Transient
-	private String birthmonth;
-	@Transient
-	private String birthday;
-	@Transient
-	private String roadAddrPart1;
-	@Transient
-	private String addrDetail;
+	private String birthDateStr;
 	
 	public MemberVo() {}
 
-	public MemberVo(String userId, String password, String userName, String nickname, String phone,
-			Date birthDate, String email, String gender, String address) {
+	public MemberVo(Long userNum, String userId, String password, String userName, String nickname, String phone,
+			Date birthDate, String email, String gender, String roadAddr, String detailAddr, Timestamp joinDate) {
 		super();
+		this.userNum=userNum;
 		this.userId = userId;
 		this.password = password;
 		this.userName = userName;
@@ -79,17 +73,9 @@ public class MemberVo {
 		this.birthDate = birthDate;
 		this.email = email;
 		this.gender = gender;
-		this.address = address;
-	}
-	
-	public Date makeDate(String birthyear, String birthmonth, String birthday) {
-		if (Integer.parseInt(birthmonth)<10) birthmonth = "0" + birthmonth;
-		if (Integer.parseInt(birthday)<10) birthday = "0" + birthday;
-		return Date.valueOf(birthyear+"-"+birthmonth+"-"+birthday);
-	}
-	
-	public String makeAddress(String roadAddrPart1, String addrDetail) {
-		return roadAddrPart1+addrDetail;
+		this.roadAddr = roadAddr;
+		this.detailAddr = detailAddr;
+		this.joinDate = joinDate;
 	}
 	
 }

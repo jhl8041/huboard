@@ -38,6 +38,7 @@ function addComment(){
         url : "/comment",
         type : "POST",
         data : JSON.stringify({
+        			visible: "Y",
         			userNum: userNumStr,
 	        		userId:userIdStr, 
 	        		commentContent: commentContentStr, 
@@ -80,13 +81,11 @@ function addCoComment(cocoid){
 	var depthStr = document.getElementById("depthOf"+cocoid).value;
 	var orderNoStr = document.getElementById("orderNoOf"+cocoid).value;
 	
-	console.log("commentId: " + commentIdStr + " ,groupId: " + groupIdStr + " ,depthId: " + depthStr + " ,orderNo: " + orderNoStr
-					+ " ,commentContent: " + commentContentStr);
-	
 	$.ajax({
         url : "/cocomment",
         type : "POST",
         data : JSON.stringify({
+        						visible: "Y",
         						boardId: boardIdStr,
         						userId: userIdStr,
         						commentContent: commentContentStr,
@@ -119,9 +118,10 @@ function editComment(){
 	var boardIdStr = document.getElementById("boardId").value;
 	
 	$.ajax({
-        url : "/editComment",
-        type : "POST",
+        url : "/comment",
+        type : "PATCH",
         data : JSON.stringify({
+        						visible: "Y",
         						commentId: commentIdStr,
         						commentContent: commentContentStr,
         						boardId: boardIdStr
@@ -137,6 +137,32 @@ function editComment(){
     });
 }
 
+function deleteComment(commentId){
+	var commentIdStr = commentId;
+	var commentContentStr = "삭제된 댓글입니다.";
+	var boardIdStr = document.getElementById("boardId").value;
+	var visibleStr = "N";
+	
+	$.ajax({
+        url : "/comment",
+        type : "PATCH",
+        data : JSON.stringify({
+        						visible: visibleStr,
+        						commentId: commentIdStr,
+        						commentContent: commentContentStr,
+        						boardId: boardIdStr
+        						}),
+        contentType: 'application/json',
+        success : function(data){
+        	showHtml(data);
+        },
+		error:function(xhr,status,error){
+			console.log('error:'+error);
+		}
+    });
+}
+
+
 function showHtml(data) {
         var html = "<table class='table table-hover table-fixed'><tbody style='text-align:left'>";
         var userIdStr = document.getElementById("userId").value;
@@ -146,11 +172,14 @@ function showHtml(data) {
             html += 	"<td style='width:900px;padding-left:" + data[i].depth*2 + "em'>";
             html += 		data[i].userId + '<br>';
             html +=			data[i].commentContent + '<br>';
-            html +=			"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a>";  
             
-	        if (userIdStr == data[i].userId){
+            if (data[i].depth <3 && data[i].visible == "Y"){
+            	html +=		"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a>";  
+            }
+            
+	        if (userIdStr == data[i].userId && data[i].visible == 'Y'){
 	        	html +=		"<a href='javascript:void(0);' onclick='editCommentShow("+ data[i].commentId + ", `"+ data[i].commentContent +"`)'>수정</a>";
-	       		html +=		"<a href='javascript:void(0);' onclick='deleteCoComment()'>삭제</a>";
+	       		html +=		"<a href='javascript:void(0);' onclick='deleteComment("+data[i].commentId+")'>삭제</a>";
 	        }
         
             html +=			"<div style='display:none' id='cocobox"+ data[i].commentId +"'>";

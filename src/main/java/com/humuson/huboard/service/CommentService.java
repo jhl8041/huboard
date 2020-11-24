@@ -39,6 +39,7 @@ public class CommentService {
 		}
 		return recurr(cocoTemp);
 	}
+	
 	//대댓글 추가
 	public void addCoComment(CommentVo comment) {
 		//부모댓글 정보 가져오기
@@ -87,6 +88,7 @@ public class CommentService {
 	public void editComment(CommentVo commentvo) {
 		CommentVo newComment = commentRepo.findById(commentvo.getCommentId()).get();
 		newComment.setCommentContent(commentvo.getCommentContent());
+		newComment.setVisible(commentvo.getVisible());
 		commentRepo.save(newComment);
 	}
 }

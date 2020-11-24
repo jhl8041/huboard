@@ -41,5 +41,6 @@ public class CommentVo {
 	private String userId;
 	private Long userNum;
 	private String commentContent;
+	private String visible;
 	
 }

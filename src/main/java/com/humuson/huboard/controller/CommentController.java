@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,13 +42,13 @@ public class CommentController {
 		return commentService.getComment(boardId);
 	}
 	
-	//댓글 수정
-	@PostMapping("/editComment")
+	//댓글 수정 및 삭제처리
+	@PatchMapping("/comment")
 	@ResponseBody
 	public List<CommentVo> editComment(@RequestBody CommentVo commentvo) {
+		System.out.println(commentvo.getVisible());
 		commentService.editComment(commentvo);
 		return commentService.getComment(commentvo.getBoardId());
 	}
 
-	//댓글 삭제
 }

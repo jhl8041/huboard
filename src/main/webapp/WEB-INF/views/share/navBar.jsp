@@ -5,6 +5,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	
 </head>
 <body>
 	<!-- 네비게이션 바 -->
@@ -19,21 +20,60 @@
 	    
 	    <!-- 메뉴 리스트 -->
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-			    <a class="nav-link active" href="#">쇼핑몰</a>
-			    <a class="nav-link" href="#">커뮤니티</a>
-			    <a class="nav-link" href="/lab">실험실</a>
+			<div class="navbar-nav col">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			      <li class="nav-item active">
+			        <a class="nav-link active" href="#">쇼핑몰</a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="/">커뮤니티</a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="/lab">실험실</a>
+			      </li>
+			    </ul>
 		    </div>
-		    <c:if test="${empty member.getUserName()}">
-		    	<input type="button" value="로그인"/>
-		    </c:if>
-		    <c:if test="${not empty member.getUserName()}">
-		    	<span class="navbar-text">
-		    		${member.getUserName()}님 환영합니다!
-		    	</span>
-		    </c:if>
-		    
+		    <div class="navbar-nav col justify-content-end" style="padding-right:50px">
+		    	<ul class="navbar-nav ml-0 mr-0 mt-2 mt-lg-0">
+		    		<li class="nav-item dropdown">
+				        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				          마이메뉴
+				        </a>
+				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				          	<c:if test="${empty member.getNickname()}">
+				          		<a class="dropdown-item" href="/login">로그인</a>
+				          		<a class="dropdown-item" href="/join">회원가입</a>
+				          	</c:if>
+				          	<c:if test="${not empty member.getNickname()}">
+				          		<a class="dropdown-item" href="/mypage">내정보수정</a>
+					          	<a class="dropdown-item" href="javascript:void(0)" onclick="quitMember(${member.getUserId()})">회원탈퇴</a>
+					          	<div class="dropdown-divider"></div>
+				          		<a class="dropdown-item" href="javascript:void(0)" onclick="logout()">로그아웃</a>
+				          	</c:if>
+				    	</div>
+					</li>
+		    	</ul>
+		    </div>
 		</div>
+		<script>
+		function quitMember(userId){
+			if (confirm("정말 탈퇴하시겠습니까?")){
+				var form = document.createElement("form");
+			    form.setAttribute("charset", "UTF-8");
+			    form.setAttribute("method", "Post");  //Post 방식
+			    form.setAttribute("action", "/quit"); //요청 보낼 주소
+			        
+			    var hiddenField = document.createElement("input");
+			    hiddenField.setAttribute("type", "hidden");
+			    hiddenField.setAttribute("name", "userId");
+			    hiddenField.setAttribute("value", userId);
+			    form.appendChild(hiddenField);
+			    
+			    document.body.appendChild(form);
+			    form.submit();
+			}
+		}
+		</script>
 	</nav>
 </body>
 </html>

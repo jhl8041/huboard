@@ -58,7 +58,7 @@
 						<fmt:formatNumber value="${files.fileSize*1024}" pattern=".00"/>KB
 					</c:when>
 					<c:otherwise>
-						<fmt:formatNumber value="${files.fileSize}" pattern=".00"/>
+						<fmt:formatNumber value="${files.fileSize}" pattern=".00"/>MB
 					</c:otherwise>
 				</c:choose>
 				</a>

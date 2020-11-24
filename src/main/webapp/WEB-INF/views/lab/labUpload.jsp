@@ -22,10 +22,10 @@
 		
         <div class="container">
             <div class="row mt-4">
-                <h2>Upload and detect objects on your image</h2>
+                <h2>인공지능 사물인식</h2>
                 <p>
-                    It supports only images with .jpg extension. The uploaded file cannot be larger than 300KB. The optimal resolution
-                    is 416x416, because the neural network resize the image in the pre-processing phase.
+                    아래 명시된 20가지의 물체를 한 사진에서 파악할 수 있습니다.
+                    이미지는 .jpg 형식이어야합니다.
                 </p>
             </div>
             <div class="row">
@@ -33,52 +33,47 @@
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
-                                <td>File to upload:</td>
+                                <td>사진 업로드:</td>
                                 <td><input type="file" name="file"/></td>
-                                <td><input type="submit" value="Upload and recognize"/></td>
+                                <td><input type="submit" value="분석하기"/></td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
             </div>
             <div class="row">
-                <div class="alert alert-info" role="alert">
-                    <strong>Important!</strong> The upload directory is cleaned up in each hour.
-                </div>
-            </div>
-            <div class="row">
                 <p>
-                    This program recognizes the following objects:
+                    인식가능한 물체
                 </p>
                 <table class="table table-bordered">
                     <tbody>
                      <tr>
                          <td>
                              <ul>
-                                 <li>aeroplane</li>
-                                 <li>bicycle</li>
-                                 <li>bird</li>
-                                 <li>boat</li>
-                                 <li>bottle</li>
-                                 <li>bus</li>
-                                 <li>car</li>
-                                 <li>cat</li>
-                                 <li>chair</li>
-                                 <li>cow</li>
+                                 <li>비행기</li>
+                                 <li>자전거</li>
+                                 <li>새</li>
+                                 <li>보트</li>
+                                 <li>물병</li>
+                                 <li>버스</li>
+                                 <li>차</li>
+                                 <li>고양이</li>
+                                 <li>의자</li>
+                                 <li>소</li>
                              </ul>
                          </td>
                          <td>
                              <ul>
-                                 <li>diningtable</li>
-                                 <li>dog</li>
-                                 <li>horse</li>
-                                 <li>motorbike</li>
-                                 <li>person</li>
-                                 <li>pottedplant</li>
-                                 <li>sheep</li>
-                                 <li>sofa</li>
-                                 <li>train</li>
-                                 <li>tvmonitor</li>
+                                 <li>식탁</li>
+                                 <li>개</li>
+                                 <li>말</li>
+                                 <li>오토바이</li>
+                                 <li>사람</li>
+                                 <li>화분</li>
+                                 <li>양</li>
+                                 <li>소파</li>
+                                 <li>기차</li>
+                                 <li>모니터</li>
                              </ul>
                          </td>
                      </tr>
