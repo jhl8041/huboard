@@ -1,0 +1,34 @@
+대댓글
+https://ande226.tistory.com/95
+https://loveiskey.tistory.com/105
+
+프로그래스바
+https://deonggi.tistory.com/57
+
+드래그 앤 드롭
+https://cofs.tistory.com/364
+
+대용량 AJAX업로드
+https://netframework.tistory.com/entry/Spring-MVC%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-Ajax-File-upload
+
+RestAPI
+https://bcho.tistory.com/953
+https://kbs4674.tistory.com/118 좋음
+
+HTTP상태 코드
+https://spoqa.github.io/2013/06/11/more-restful-interface.html
+
+전송 메소드 & 멱등성
+https://feel5ny.github.io/2019/08/16/HTTP_003_02/
+
+리소스 업데이트 자동으로 안되는 경우
+https://stackoverflow.com/questions/1212633/can-eclipse-refresh-resources-automatically
+
+자바에서 Tensorflow with Python on Java
+https://joytk.tistory.com/3
+
+스프링 tensorflow java API
+https://sites.google.com/view/tensorflow-example-java-api/tensorflow-java-api-with-spring-framework
+https://github.com/szaza/tensorflow-java-examples-spring
+https://www.tensorflow.org/install/lang_java?hl=ko
+

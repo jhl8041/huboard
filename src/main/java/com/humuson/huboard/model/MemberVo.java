@@ -36,10 +36,6 @@ public class MemberVo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userNum;
 	
-	
-	@OneToMany(mappedBy="userNum", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
-	private List<CommentVo> comment = new ArrayList<>();
-	
 	@OneToMany(mappedBy="userNum", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	private List<BoardVo> board = new ArrayList<>();
 	

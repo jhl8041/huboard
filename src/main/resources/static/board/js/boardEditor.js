@@ -273,6 +273,15 @@ function submitPost(){
     var contentStr = theEditor.getData();
     var data = (document.getElementById("data").value == 'true');
  	
+ 	if (subjectStr == ""){
+ 		$("#subject").focus();
+ 		return alert("제목을 입력해주세요");
+ 	}
+ 	else if (contentStr == ""){
+ 		$("#content").focus();
+ 		return alert("내용을 입력해주세요");
+ 	}
+ 	
 	var urlStr,
 		typeStr,
 		successUrlStr;

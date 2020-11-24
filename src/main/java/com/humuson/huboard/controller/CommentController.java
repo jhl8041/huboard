@@ -46,7 +46,6 @@ public class CommentController {
 	@PatchMapping("/comment")
 	@ResponseBody
 	public List<CommentVo> editComment(@RequestBody CommentVo commentvo) {
-		System.out.println(commentvo.getVisible());
 		commentService.editComment(commentvo);
 		return commentService.getComment(commentvo.getBoardId());
 	}

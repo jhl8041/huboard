@@ -21,6 +21,12 @@ jQuery(document).ready(function($) {
 function boardSearch(){
 	var keywordStr = document.getElementById("keyword").value;
 	var searchTypeStr = document.getElementById("searchType").value;
+	
+	if (keywordStr == ""){
+    	$("#keyword").focus();
+ 		return alert("검색어를 입력해주세요");
+ 	}
+	
 	window.location.href = "http://localhost:8080/search/"+keywordStr+"/"+searchTypeStr;
 }
 

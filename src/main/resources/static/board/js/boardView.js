@@ -34,6 +34,11 @@ function addComment(){
     var userNumStr = document.getElementById("userNum").value;
     var commentContentStr = document.getElementById("commentContent").value;
     
+    if (commentContentStr == ""){
+    	$("#commentContent").focus();
+ 		return alert("댓글을 입력해주세요");
+ 	}
+    
     $.ajax({
         url : "/comment",
         type : "POST",
@@ -80,12 +85,19 @@ function addCoComment(cocoid){
 	var groupIdStr = document.getElementById("groupIdOf"+cocoid).value;
 	var depthStr = document.getElementById("depthOf"+cocoid).value;
 	var orderNoStr = document.getElementById("orderNoOf"+cocoid).value;
+	var userNumStr = document.getElementById("userNum").value;
+	
+	if (commentContentStr == ""){
+		$("#commentContentOf"+cocoid).focus();
+ 		return alert("댓글을 입력해주세요");
+ 	}
 	
 	$.ajax({
         url : "/cocomment",
         type : "POST",
         data : JSON.stringify({
         						visible: "Y",
+        						userNum: userNumStr,
         						boardId: boardIdStr,
         						userId: userIdStr,
         						commentContent: commentContentStr,
@@ -117,6 +129,11 @@ function editComment(){
 	var commentContentStr = document.getElementById("editedContent").value;
 	var boardIdStr = document.getElementById("boardId").value;
 	
+	if (commentContentStr == ""){
+		$("#editedContent").focus();
+ 		return alert("댓글을 입력해주세요");
+ 	}
+	
 	$.ajax({
         url : "/comment",
         type : "PATCH",
@@ -139,7 +156,6 @@ function editComment(){
 
 function deleteComment(commentId){
 	var commentIdStr = commentId;
-	var commentContentStr = "삭제된 댓글입니다.";
 	var boardIdStr = document.getElementById("boardId").value;
 	var visibleStr = "N";
 	
@@ -149,7 +165,6 @@ function deleteComment(commentId){
         data : JSON.stringify({
         						visible: visibleStr,
         						commentId: commentIdStr,
-        						commentContent: commentContentStr,
         						boardId: boardIdStr
         						}),
         contentType: 'application/json',
@@ -171,7 +186,14 @@ function showHtml(data) {
             html += "<tr>";
             html += 	"<td style='width:900px;padding-left:" + data[i].depth*2 + "em'>";
             html += 		data[i].userId + '<br>';
-            html +=			data[i].commentContent + '<br>';
+            
+            if (data[i].visible == "N"){
+            	html +=			'삭제된 댓글입니다'+ '<br>';
+            }
+            else{
+            	html +=			data[i].commentContent + '<br>';
+            }
+            
             
             if (data[i].depth <3 && data[i].visible == "Y"){
             	html +=		"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a>";  

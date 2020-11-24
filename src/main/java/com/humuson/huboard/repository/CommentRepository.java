@@ -13,6 +13,7 @@ import com.humuson.huboard.model.CommentVo;
 public interface CommentRepository extends JpaRepository<CommentVo, Long> {
 	public List<CommentVo> findByBoardId(Long boardId);
 	public List<CommentVo> findByBoardIdOrderByGroupIdAscOrderNoAsc(Long boardId);
+	public List<CommentVo> findByUserId(String userId);
 	
 	//댓글,대댓글용
 	public Optional<CommentVo> findTopByOrderByGroupIdDesc();

@@ -21,14 +21,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.model.EmailDto;
 import com.humuson.huboard.model.MemberVo;
+import com.humuson.huboard.repository.CommentRepository;
 import com.humuson.huboard.repository.MemberRepository;
 
 @Service
 public class MemberService implements UserDetailsService {
 	@Autowired
 	private MemberRepository memberRepo;
+	
+	@Autowired
+	private CommentRepository commentRepo;
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -102,6 +107,14 @@ public class MemberService implements UserDetailsService {
 	}
 	
 	public void deleteMember(String userId) {
+		List<CommentVo> commentList = commentRepo.findByUserId(userId);
+		
+		for (CommentVo c:commentList) {
+			c.setVisible("N");
+			c.setUserId(userId + "(탈퇴한 회원)");
+			commentRepo.save(c);
+		}
+		
 		memberRepo.deleteByUserId(userId);
 	}
 	

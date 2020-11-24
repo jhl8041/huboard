@@ -48,7 +48,7 @@ import com.humuson.huboard.service.MemberService;
 @Controller
 public class BoardController {
 	@Autowired
-	private BoardService boardService;
+	private BoardService boardService; 
 	
 	@Autowired
 	private MemberService memberService;

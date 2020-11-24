@@ -132,14 +132,12 @@ function phoneCheck(){
 // 회원가입 유효검사
 var pwdgood = false;
 var pwd2good = false;
-var nicknamegood = false;
-var emailCheckVal = false;
 function formCheck(){
 	var idStr = $("#id").val();
 	var pwdStr = $("#pwd").val();
 	var pwd2Str = $("#pwd2").val();
 	var nameStr = $("#name").val();
-	var nicknameStr = $("#nickname").val();
+	var birthDateStr = $("#cal").val();
 	var roadAddrPart1 = $("#roadAddrPart1").val();
 	var addrDetail = $("#addrDetail").val();	
 	
@@ -156,6 +154,11 @@ function formCheck(){
 	else if (nameStr==""){
 		alert("이름을 확인해주세요");
 		$("#name").focus();
+		return false;
+	}
+	else if (birthDateStr==""){
+		alert("생년월일을 확인해주세요");
+		$("#cal").focus();
 		return false;
 	}
 	else if (roadAddrPart1=="" || addrDetail==""){

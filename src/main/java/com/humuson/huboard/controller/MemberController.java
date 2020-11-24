@@ -66,14 +66,10 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	
-	
-	
-	
 	//로그아웃
 	@GetMapping("/logout")
 	public String doLogout() {
-		return "redirect:/";
+		return "redirect:/login";
 	}
 	
 	
