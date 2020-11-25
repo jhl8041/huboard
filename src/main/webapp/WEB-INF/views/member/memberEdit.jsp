@@ -57,7 +57,7 @@
 				</div>
 				<div class="form-group">
 					<label>이름</label>
-					<input type=text class="form-control" value="${member.userName}" name=userName id=name>
+					<input type=text class="form-control" value="${member.userFullName}" name=userFullName id=name>
 				</div>
 				<div class="form-group">
 					<label>닉네임</label>

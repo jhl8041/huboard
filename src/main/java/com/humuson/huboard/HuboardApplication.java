@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import com.humuson.huboard.service.storage.StorageProperties;
-import com.humuson.huboard.service.storage.StorageService;
+import com.humuson.huboard.tensorflow.service.storage.StorageProperties;
+import com.humuson.huboard.tensorflow.service.storage.StorageService;
 
 @SpringBootApplication
 @EnableConfigurationProperties({StorageProperties.class, ApplicationProperties.class})

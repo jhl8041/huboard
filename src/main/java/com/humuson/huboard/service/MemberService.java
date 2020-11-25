@@ -72,7 +72,7 @@ public class MemberService implements UserDetailsService {
 				null,
 				membervo.getUserId(),
 				encryptPw,
-				membervo.getUserName(),
+				membervo.getUserFullName(),
 				membervo.getNickname(),
 				membervo.getPhone(),
 				birthDate,
@@ -80,7 +80,9 @@ public class MemberService implements UserDetailsService {
 				membervo.getGender(),
 				membervo.getRoadAddr(), 
 				membervo.getDetailAddr(),
-				Timestamp.valueOf(LocalDateTime.now())
+				Timestamp.valueOf(LocalDateTime.now()),
+				0,
+				"N"
 				));
 	}
 	
@@ -91,13 +93,19 @@ public class MemberService implements UserDetailsService {
 			newMember.setPassword(BCrypt.hashpw(membervo.getPassword(), BCrypt.gensalt()));
 		}
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date birthDateStr = sdf.parse(membervo.getBirthDateStr());
-		java.sql.Date birthDate = new java.sql.Date(birthDateStr.getTime());
-		
-		newMember.setBirthDate(birthDate);
-		
-		newMember.setUserName(membervo.getUserName());
+		if(membervo.getBirthDateStr() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date birthDateStr = sdf.parse(membervo.getBirthDateStr());
+			java.sql.Date birthDate = new java.sql.Date(birthDateStr.getTime());
+			newMember.setBirthDate(birthDate);
+		}
+		if (membervo.getFailCnt()<5) {
+			newMember.setFailCnt(membervo.getFailCnt());
+		}
+		else {
+			newMember.setIsLocked("Y");
+		}
+		newMember.setUserFullName(membervo.getUserFullName());
 		newMember.setGender(membervo.getGender());
 		newMember.setRoadAddr(membervo.getRoadAddr());
 		newMember.setDetailAddr(membervo.getDetailAddr());
@@ -130,7 +138,9 @@ public class MemberService implements UserDetailsService {
 		List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
 		auth.add(new SimpleGrantedAuthority(role));
 
-		return new User(member.getUserId(), member.getPassword(), auth);
+		return new User(member.getUserId(), member.getPassword(),member.isEnabled(),
+				member.isAccountNonExpired(), member.isCredentialsNonExpired(),
+				member.isAccountNonLocked(), auth);
 	}
 	
 }

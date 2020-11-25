@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.extern.java.Log;
@@ -24,7 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/resources/**").permitAll()
 			.antMatchers("/editor/**").hasRole("MEMBER")
 			.antMatchers("/board/**").hasRole("MEMBER")
+			.antMatchers("/lab/**").hasRole("MEMBER")
 			.anyRequest().permitAll()
 			.and()
 		.formLogin()
@@ -41,8 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginProcessingUrl("/login")
 			.usernameParameter("userId")
 			.passwordParameter("password")
+			.failureHandler(failureHandler)
+			.successHandler(successHandler)
 			.permitAll();
-		
 		http
 			.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -52,19 +54,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 	}
 	
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication()
-//		.withUser("king").password(passwordEncoder().encode("king")).roles("ADMIN");
-//		
-//		auth.inMemoryAuthentication()
-//		.withUser("person").password(passwordEncoder().encode("person")).roles("USER");
-	}
-	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
+	@Autowired
+	private LoginFailureHandler failureHandler;
+	
+	@Autowired
+	private LoginSuccessHandler successHandler; 
 	
 }

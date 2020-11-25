@@ -60,7 +60,7 @@
 				</div>
 				<div class="form-group">
 					<label>이름</label>
-					<input type=text class="form-control" placeholder="이름을 입력하세요" name=userName id=name>
+					<input type=text class="form-control" placeholder="이름을 입력하세요" name=userFullName id=name>
 				</div>
 				<div class="form-group">
 					<label>닉네임</label>

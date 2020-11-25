@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,20 +34,27 @@
 			<form action="/login" method=post name=form id=form>
 				<div class="form-group">
 					<label>아이디</label>
-					<input type=text class="form-control" style="width:300px" placeholder="아이디를 입력하세요" name=userId>
+					<input type=text class="form-control" style="width:330px" placeholder="아이디를 입력하세요" name=userId required>
 			  	</div>
 			  	<div class="form-group">
 					<label>비밀번호</label>
-					<input type=password class="form-control" placeholder="비밀번호를 입력하세요" maxlength=20 name=password>
+					<input type=password class="form-control" style="width:330px" placeholder="비밀번호를 입력하세요" maxlength=20 name=password required>
 					<div class="alert alert-danger collapse" role="alert" style="width:300px" id=alertpwd>
 						<span id="pwdcheck"></span>
 					</div>
 			  	</div>
+			  	<div>
+			  		<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+	                    <font color="red">
+	                    	<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+	                    </font>
+                  	</c:if>
+			  	</div>
 			  	<div class="form-group">	
-					<input class="btn btn-primary" id="loginButton" type=submit value=로그인>
+					<input class="btn btn-primary" style="width:330px" id="loginButton" type=submit value=로그인>
 				</div>
 				<div class="form-group">	
-					<input class="btn btn-primary" id="joinButton" type=button value=회원가입 onclick="location.href='/join'">
+					<input class="btn btn-primary" style="width:330px" id="joinButton" type=button value=회원가입 onclick="location.href='/join'">
 				</div>	
 			</form>
 		</div>

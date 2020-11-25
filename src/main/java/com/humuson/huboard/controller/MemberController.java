@@ -63,7 +63,7 @@ public class MemberController {
 	//로그인 진행
 	@PostMapping("/login")
 	public String doLogin() {
-		return "redirect:/";
+		return "redirect:/loginer";
 	}
 	
 	//로그아웃
