@@ -9,6 +9,8 @@ var fileSizeList = new Array();
 var uploadSize=500;
 var maxUploadSize=500;
 
+var isUploading = false;
+
 var checkUnload = true;
 
 jQuery(document).ready(function($) {
@@ -225,7 +227,9 @@ function uploadFile(fileName, fileSize, fIndex){
     var bar = $('.bar_'+fIndex);
     var percent = $('.percent_'+fIndex);
     var status = $('status_'+fIndex);
-        
+    
+    isUploading = true;
+    
     $.ajax({
     	xhr: function(){
     		var xhr = new window.XMLHttpRequest();
@@ -255,6 +259,7 @@ function uploadFile(fileName, fileSize, fIndex){
         },
         success:function(result){
             addFileToDB(fileName, fileSize, result);
+            isUploading = false;
         },
         error:function(request,status,error){
         	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -272,6 +277,11 @@ function submitPost(){
     var subjectStr = document.getElementById("subject").value;
     var contentStr = theEditor.getData();
     var data = (document.getElementById("data").value == 'true');
+ 	
+ 	if (isUploading){
+ 		return alert("파일이 전부 업로드 될때까지 기다려주세요 :)");
+ 	}
+ 	
  	
  	if (subjectStr == ""){
  		$("#subject").focus();
