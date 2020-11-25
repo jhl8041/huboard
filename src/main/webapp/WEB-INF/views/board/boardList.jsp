@@ -47,6 +47,9 @@
 			</div>
 			<input type="hidden" id="pageSize" value="${param.size}"/>
 		</div>
+		<jsp:useBean id="now" class="java.util.Date" />
+		<fmt:parseNumber value="${now.time}" integerOnly="true" var="currentDate"></fmt:parseNumber>
+		
 		<div id="boardRest" class="row justify-content-center">
 			<div id="tableArea" class="row justify-content-center">
 				<!-- 게시글 리스트 -->
@@ -65,8 +68,18 @@
 							<c:forEach var="list" items="${list.getContent()}" >
 								<tr class='clickable-row' id='boardlist' data-href='http://localhost:8080/board/${list.boardId}'>
 									<td>${list.boardId}</td>
-									<td style="text-align:left">${list.subject}</td>
-									<td>${list.updateDate}</td>
+									<td style="text-align:left">
+										<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
+										&nbsp;
+										${list.subject}
+										&nbsp; 
+										[ ${list.commentCnt} ]
+										&nbsp; 
+										<c:if test="${currentDate/1000 - postDate/1000 lt 30}">
+											<img alt="not found" src="/resources/images/new.png" style="width:15px; height:15px">
+										</c:if>
+									</td>
+									<td><fmt:formatDate value="${list.updateDate}" pattern="yyyy-MM-dd"/></td>
 									<td>${list.userId}</td>
 									<td>${list.view}</td>
 								</tr>

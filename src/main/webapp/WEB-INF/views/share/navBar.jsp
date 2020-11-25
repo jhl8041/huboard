@@ -22,9 +22,6 @@
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav col">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-			      <li class="nav-item active">
-			        <a class="nav-link active" href="#">쇼핑몰</a>
-			      </li>
 			      <li class="nav-item">
 			        <a class="nav-link" href="/">커뮤니티</a>
 			      </li>

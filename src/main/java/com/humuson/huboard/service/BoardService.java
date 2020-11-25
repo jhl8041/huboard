@@ -62,6 +62,13 @@ public class BoardService {
 	public BoardVo addPost(BoardVo boardVo){
 		return boardRepo.save(boardVo);
 	}
-	
+
+	public void putCommentCnt() {
+		List<BoardVo> allBoard = boardRepo.findAll();
+		for (BoardVo b: allBoard) {
+			b.setCommentCnt(b.getComment().size());
+			boardRepo.save(b);
+		}
+	}
 	
 }

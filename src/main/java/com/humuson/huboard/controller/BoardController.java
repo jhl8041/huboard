@@ -60,11 +60,12 @@ public class BoardController {
 	@GetMapping("/")
 	public String boardHome(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
 			@AuthenticationPrincipal User user) {
-	    
+		boardService.putCommentCnt();
 		Page<BoardVo> pager = boardService.getPagingPost("Y",pageable);
 		model.addAttribute("list",pager);
-		if (user != null)
+		if (user != null) {
 			model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
+		}
 		return "board/boardList";
 	}
 	
