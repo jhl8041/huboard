@@ -3,9 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- Spring Security에서 ajax 통신을 위한 meta tag -->
-	<%-- <meta name="_csrf" content="${_csrf.token}">
-	<meta name="_csrf_header" content="${_csrf.headerName}"> --%>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>

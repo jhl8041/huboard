@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lab/css/labUpload.css"></link>
 	
 	<!-- Script -->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/lab/js/labUpload.js" charset="utf-8"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/lab/js/labResult.js" charset="utf-8"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 </head>
 <body>
@@ -29,6 +29,7 @@
          </div>
         </c:if>
         <div class="row">
+        	<input type="hidden" id="predictedSrc" value="${predictedImage}"/>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -38,8 +39,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><img src="${originalImage}" title="${originalImage}" alt="${originalImage}" width="416" /></td>
-                        <td><img src="${predictedImage}" title="${predictedImage}" alt="${predictedImage}" width="416" /></td>
+                        <td width="416"><img src="${originalImage}" title="${originalImage}" alt="${originalImage}" width="416" /></td>
+                        <td width="416" style="text-align: center; vertical-align: middle;"><img id="predictedImg" src="" onerror="this.src='/resources/images/loading.gif'" width="200"/></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -53,6 +54,9 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="form-group">	
+				<input class="btn btn-primary" style="width:330px; margin-top:100px" type=button value=다시하기 onclick="location.href='/lab'">
+			</div>
         </div>
     </div>
     

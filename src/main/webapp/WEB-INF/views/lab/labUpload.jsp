@@ -34,7 +34,7 @@
                         <tbody>
                             <tr>
                                 <td>사진 업로드:</td>
-                                <td><input type="file" name="file"/></td>
+                                <td><input type="file" name="file" required/></td>
                                 <td><input type="submit" value="분석하기"/></td>
                             </tr>
                         </tbody>
@@ -65,7 +65,7 @@
                          <td>
                              <ul>
                                  <li>식탁</li>
-                                 <li>개</li>
+                                 <li>강아지</li>
                                  <li>말</li>
                                  <li>오토바이</li>
                                  <li>사람</li>

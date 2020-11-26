@@ -15,7 +15,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/member/css/memberLogin.css">
 	
 	<!-- Script -->
-	<script type="text/javascript" src="/resources/member/js/memberJoin.js" charset="utf-8"></script>
 	<script type="text/javascript" src="/resources/member/js/memberLogin.js" charset="utf-8"></script>
 </head>
 <body>
@@ -26,7 +25,7 @@
 		<c:if test="${code eq 404}">
 			<c:set var="errorTitle" value="잘못된 페이지 접근입니다" />
 		</c:if>
-		<c:if test="${code eq 500}">
+		<c:if test="${code ge 500}">
 			<c:set var="errorTitle" value="내부서버 에러입니다" />
 		</c:if>
 		

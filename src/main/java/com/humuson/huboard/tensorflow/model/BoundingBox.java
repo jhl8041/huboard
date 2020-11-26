@@ -3,10 +3,8 @@ package com.humuson.huboard.tensorflow.model;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Model to store the data of a bounding box
- */
 
+//감지한 물체를 감싸주는 박스
 @Getter @Setter
 public class BoundingBox {
     private double x;

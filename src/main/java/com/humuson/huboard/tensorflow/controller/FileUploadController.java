@@ -27,17 +27,12 @@ import java.util.UUID;
 @Controller
 public class FileUploadController {
 	@Autowired
-    private final StorageService storageService;
+    private StorageService storageService;
 	
 	@Autowired
-    private final ObjectDetector objectDetector;
+    private ObjectDetector objectDetector;
 
-    @Autowired
-    public FileUploadController(final StorageService storageService, final ObjectDetector objectDetector) {
-        this.storageService = storageService;
-        this.objectDetector = objectDetector;
-    }
-
+	
     @GetMapping("/lab")
     public String listUploadedFiles(Model model) throws IOException {
         return "lab/labUpload";
@@ -57,7 +52,6 @@ public class FileUploadController {
 		String storedName = uuid.toString()+"_"+file.getOriginalFilename();
 		String filePath = basePath + "/" + storedName;
 		file.transferTo(new File(filePath));	
-		System.out.println(storedName);
 		return storedName;
 	}
     
@@ -67,12 +61,10 @@ public class FileUploadController {
     	
     	String originalImagePath = "C:\\Users\\humuson\\Desktop\\humusOn Workspace\\huboard\\src\\main\\resources\\static\\input\\"+storedName;
         String originalImageWebPath = "http://localhost:8080/resources/input/"+storedName;
-        
         String processedImage = "http://localhost:8080/resources/predicted/"+storedName;
         Map<String, Object> result = objectDetector.detect(originalImagePath, storedName);
         model.addAttribute("originalName", file.getOriginalFilename());
         model.addAttribute("originalImage", originalImageWebPath);
-        //model.addAttribute("predictedImage", result.get("labeledFilePath"));
         model.addAttribute("predictedImage",processedImage);
         model.addAttribute("recognitions", result.get("recognitions"));
         return "lab/labResult";

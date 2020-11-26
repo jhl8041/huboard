@@ -1,25 +1,11 @@
 package com.humuson.huboard.tensorflow.model;
 
-/**
- * Size class to store information about the object size.
- */
+import lombok.Getter;
+import lombok.Setter;
+
+//사진 크기 저장
+@Getter @Setter
 public class Size {
     private int width;
     private int height;
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
 }

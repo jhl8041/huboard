@@ -1,8 +1,14 @@
 package com.humuson.huboard.tensorflow.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * Model to store the position of the bounding boxes
  */
+@ToString
+@Getter
 public class BoxPosition {
     private float left;
     private float top;
@@ -50,61 +56,29 @@ public class BoxPosition {
         this.bottom = Math.max(tmpTop, tmpBottom);
     }
 
-    public float getLeft() {
-        return left;
-    }
 
     public int getLeftInt() {
         return (int) left;
-    }
-
-    public float getTop() {
-        return top;
     }
 
     public int getTopInt() {
         return (int) top;
     }
 
-    public float getWidth() {
-        return width;
-    }
-
     public int getWidthInt() {
         return (int) width;
-    }
-
-    public float getHeight() {
-        return height;
     }
 
     public int getHeightInt() {
         return (int) height;
     }
 
-    public float getRight() {
-        return right;
-    }
-
     public int getRightInt() {
         return (int) right;
-    }
-
-    public float getBottom() {
-        return bottom;
     }
 
     public int getBottomInt() {
         return (int) bottom;
     }
 
-    @Override
-    public String toString() {
-        return "BoxPosition{" +
-                "left=" + left +
-                ", top=" + top +
-                ", width=" + width +
-                ", height=" + height +
-                '}';
-    }
 }

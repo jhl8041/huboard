@@ -31,8 +31,7 @@ public class FileController {
 		UUID uuid = UUID.randomUUID();
 		String storedName = uuid.toString()+"_"+file.getOriginalFilename();
 		String filePath = basePath + "/" + storedName;
-		file.transferTo(new File(filePath));	
-		System.out.println(storedName);
+		file.transferTo(new File(filePath));
 		return '"'+ storedName +'"';
 	}
 	

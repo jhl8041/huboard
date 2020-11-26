@@ -27,14 +27,7 @@ public class BoardService {
 	private BoardRepository boardRepo;
 	
 	public Page<BoardVo> getPagingPost(String visible, Pageable pageable){
-		Page<BoardVo> pager = boardRepo.findByVisible(visible, pageable);
-//		List<BoardVo> paged_list = pager.getContent();
-//		System.out.println("총 페이지 수: " + pager.getTotalPages());
-//		System.out.println("총 게시글 수: " + pager.getTotalElements());
-//		System.out.println("페이지당 게시글 수: " + pager.getNumberOfElements());
-//		System.out.println("현재페이지: " + pager.getNumber());
-//		System.out.println("사이즈: " + pager.getSize());
-		return pager;
+		return boardRepo.findByVisible(visible, pageable);
 	}
 	
 	public Page<BoardVo> findPostBySearch(String keyword, Pageable pageable, String search_type) {
