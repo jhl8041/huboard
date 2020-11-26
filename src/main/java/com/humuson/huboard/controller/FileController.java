@@ -35,6 +35,11 @@ public class FileController {
 		return '"'+ storedName +'"';
 	}
 	
+	//파일 서버에 업로드
+	@PostMapping("/file-server-ck")
+	public void fileToServerCk() throws Exception {
+	}
+	
 	//파일 DB에 등록
 	@PostMapping("/file-db")
 	@ResponseBody

@@ -1,5 +1,8 @@
 package com.humuson.huboard.tensorflow.util.math;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * ArgMax function to select the higher value and its index from the array.
  *
@@ -24,22 +27,10 @@ public class ArgMax {
 
         return new Result(maxIndex, params[maxIndex]);
     }
-
+    
+    @Getter @AllArgsConstructor
     public class Result {
         private int index;
         private double maxValue;
-
-        public Result(int index, double maxValue) {
-            this.index = index;
-            this.maxValue = maxValue;
-        }
-
-        public int getIndex() {
-            return index;
-        }
-
-        public double getMaxValue() {
-            return maxValue;
-        }
     }
 }

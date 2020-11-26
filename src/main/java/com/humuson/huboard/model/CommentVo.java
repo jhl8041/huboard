@@ -37,10 +37,12 @@ public class CommentVo {
 	private Long groupId;
 	private Long orderNo;
 	private Long depth;
-	
+	private String nickname;
 	private String userId;
 	private Long userNum;
 	private String commentContent;
 	private String visible;
+	private Timestamp createDate;
+	private Timestamp updateDate;
 	
 }

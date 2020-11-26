@@ -1,5 +1,9 @@
 package com.humuson.huboard.service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +22,9 @@ public class CommentService {
 	public void addComment(CommentVo commentvo) {
 		commentvo.setParentCommentId(0L); //부모 아이디 초기화
 		commentvo.setDepth(0L); //깊이 초기화
-		commentvo.setOrderNo(1L); //순서 초기화
+		commentvo.setOrderNo(1L); //순서 초기화	
+		commentvo.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+		commentvo.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 		
 		//그룹아이디 부여
 		if (commentRepo.findAll().isEmpty()) {
@@ -68,6 +74,8 @@ public class CommentService {
 		comment.setDepth(parentDepth+1);
 		comment.setGroupId(parentGroupId);
 		comment.setOrderNo(currentOrderNo);
+		comment.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+		comment.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 		
 		//현재 대댓글 이후에 올 댓글들 순서 1씩 추가
 		List<CommentVo> pushList = commentRepo.findByGroupIdAndOrderNoGreaterThanEqual(parentGroupId, currentOrderNo);
@@ -89,6 +97,7 @@ public class CommentService {
 		CommentVo newComment = commentRepo.findById(commentvo.getCommentId()).get();
 		newComment.setCommentContent(commentvo.getCommentContent());
 		newComment.setVisible(commentvo.getVisible());
+		newComment.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 		commentRepo.save(newComment);
 	}
 }

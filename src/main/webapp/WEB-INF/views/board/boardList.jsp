@@ -47,6 +47,7 @@
 			</div>
 			<input type="hidden" id="pageSize" value="${param.size}"/>
 		</div>
+		
 		<jsp:useBean id="now" class="java.util.Date" />
 		<fmt:parseNumber value="${now.time}" integerOnly="true" var="currentDate"></fmt:parseNumber>
 		
@@ -80,7 +81,7 @@
 										</c:if>
 									</td>
 									<td><fmt:formatDate value="${list.updateDate}" pattern="yyyy-MM-dd"/></td>
-									<td>${list.userId}</td>
+									<td>${list.nickname}</td>
 									<td>${list.view}</td>
 								</tr>
 							</c:forEach>

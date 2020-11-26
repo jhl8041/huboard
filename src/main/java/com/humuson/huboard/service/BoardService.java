@@ -26,6 +26,9 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepo;
 	
+	@Autowired
+	private CommentRepository commentRepo;
+	
 	public Page<BoardVo> getPagingPost(String visible, Pageable pageable){
 		return boardRepo.findByVisible(visible, pageable);
 	}
@@ -56,12 +59,11 @@ public class BoardService {
 		return boardRepo.save(boardVo);
 	}
 
-	public void putCommentCnt() {
-		List<BoardVo> allBoard = boardRepo.findAll();
-		for (BoardVo b: allBoard) {
-			b.setCommentCnt(b.getComment().size());
-			boardRepo.save(b);
-		}
+	public void updateCommentCnt(Long boardId) {
+		BoardVo board = boardRepo.findById(boardId).get();
+		List<CommentVo> comments = commentRepo.findByBoardId(boardId);
+		board.setCommentCnt(comments.size());
+		boardRepo.save(board);
 	}
 	
 }

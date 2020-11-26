@@ -22,9 +22,6 @@ import lombok.extern.java.Log;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 				
@@ -33,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/editor/**").hasRole("MEMBER")
 			.antMatchers("/board/**").hasRole("MEMBER")
 			.antMatchers("/lab/**").hasRole("MEMBER")
+			.antMatchers("/ckfinder/**").hasRole("MEMBER")
 			.anyRequest().permitAll()
 			.and()
 		.formLogin()

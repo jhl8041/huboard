@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
 <head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
 	<title>게시글 작성</title>
 
 	<!-- JQuery -->
@@ -17,6 +17,7 @@
 	<!-- Script -->
 	<script type="text/javascript" src="/resources/board/js/boardEditor.js" charset="utf-8"></script>
 	<script src="https://cdn.ckeditor.com/ckeditor5/23.1.0/classic/ckeditor.js"></script>
+	<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 </head>
 <body>
 	<!-- 네비게이션 바 -->
@@ -50,6 +51,7 @@
 			<input type="hidden" name="userId" id="userId" value="${member.getUserId()}"/>
 			<input type="hidden" name="userNum" id="userNum" value="${member.getUserNum()}"/>
 			<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
+			<input type="hidden" name="nickname" id="nickname" value="${member.getNickname()}"/>
 			<input type="hidden" id="data" value="${data}"/>
 		</div>
 		

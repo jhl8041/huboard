@@ -276,6 +276,7 @@ function submitPost(){
     var userNumStr = document.getElementById("userNum").value;
     var subjectStr = document.getElementById("subject").value;
     var contentStr = theEditor.getData();
+    var nicknameStr = document.getElementById("nickname").value;
     var data = (document.getElementById("data").value == 'true');
  	
  	if (isUploading){
@@ -301,7 +302,8 @@ function submitPost(){
 			boardId: boardIdStr,
 			userId: userIdStr, 
     		subject: subjectStr, 
-    		content: contentStr
+    		content: contentStr,
+    		nickname: nicknameStr,
 	};
 	
 	//글쓰기

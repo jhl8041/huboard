@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
 
 function deletePost(){
 	var boardIdStr = document.getElementById("boardId").value;
-	if (confirm('정말 삭제하시겠습니까?')){
+	if (confirm('해당 게시글을 삭제하시겠습니까?')){
 	    $.ajax({
 	        url : "/board/"+boardIdStr,
 	        type : "delete",
@@ -32,6 +32,7 @@ function addComment(){
     var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;
     var userNumStr = document.getElementById("userNum").value;
+    var nicknameStr = document.getElementById("nickname").value;
     var commentContentStr = document.getElementById("commentContent").value;
     
     if (commentContentStr == ""){
@@ -47,7 +48,8 @@ function addComment(){
         			userNum: userNumStr,
 	        		userId:userIdStr, 
 	        		commentContent: commentContentStr, 
-	        		boardId:boardIdStr
+	        		boardId:boardIdStr,
+	        		nickname:nicknameStr
 				}),
         contentType: 'application/json',
         success : function(data){
@@ -86,6 +88,7 @@ function addCoComment(cocoid){
 	var depthStr = document.getElementById("depthOf"+cocoid).value;
 	var orderNoStr = document.getElementById("orderNoOf"+cocoid).value;
 	var userNumStr = document.getElementById("userNum").value;
+	var nicknameStr = document.getElementById("nickname").value;
 	
 	if (commentContentStr == ""){
 		$("#commentContentOf"+cocoid).focus();
@@ -104,7 +107,8 @@ function addCoComment(cocoid){
         						parentCommentId: commentIdStr,
         						groupId: groupIdStr,
         						depth: depthStr,
-        						orderNo: orderNoStr
+        						orderNo: orderNoStr,
+        						nickname:nicknameStr
         						}),
         contentType: 'application/json',
         success : function(data){
@@ -158,23 +162,24 @@ function deleteComment(commentId){
 	var commentIdStr = commentId;
 	var boardIdStr = document.getElementById("boardId").value;
 	var visibleStr = "N";
-	
-	$.ajax({
-        url : "/comment",
-        type : "PATCH",
-        data : JSON.stringify({
-        						visible: visibleStr,
-        						commentId: commentIdStr,
-        						boardId: boardIdStr
-        						}),
-        contentType: 'application/json',
-        success : function(data){
-        	showHtml(data);
-        },
-		error:function(xhr,status,error){
-			console.log('error:'+error);
-		}
-    });
+	if (confirm('댓글을 삭제하시겠습니까?')){
+		$.ajax({
+	        url : "/comment",
+	        type : "PATCH",
+	        data : JSON.stringify({
+	        						visible: visibleStr,
+	        						commentId: commentIdStr,
+	        						boardId: boardIdStr
+	        						}),
+	        contentType: 'application/json',
+	        success : function(data){
+	        	showHtml(data);
+	        },
+			error:function(xhr,status,error){
+				console.log('error:'+error);
+			}
+	    });
+	}
 }
 
 
@@ -185,7 +190,22 @@ function showHtml(data) {
         $.each(data, function(i) {
             html += "<tr>";
             html += 	"<td style='width:900px;padding-left:" + data[i].depth*2 + "em'>";
-            html += 		data[i].userId + '<br>';
+            
+            var sec = parseInt((new Date(Date.now() - new Date(Date.parse(data[i].updateDate)))).getTime()/(1000));
+            var min = parseInt(sec/60);
+            var hour = parseInt(min/60);
+            var day = parseInt(hour/24);
+            var month = parseInt(day/30);
+            var year = parseInt(month/12);
+            
+            var beforeTime = year + "년전";
+            if (min == 0) beforeTime = sec + "초전";
+            else if (hour == 0) beforeTime = min +"분전";
+            else if (day == 0) beforeTime = hour +"시간전";
+            else if (month == 0) beforeTime = day +"일전";
+            else if (year == 0) beforeTime = month +"개월전";
+                   
+            html += 		"<b>" + data[i].nickname + "</b> &nbsp;&nbsp; <small>"+ beforeTime +"</small><br>";
             
             if (data[i].visible == "N"){
             	html +=			'삭제된 댓글입니다'+ '<br>';
@@ -196,14 +216,14 @@ function showHtml(data) {
             
             
             if (data[i].depth <3 && data[i].visible == "Y"){
-            	html +=		"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a>";  
+            	html +=		"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a> &nbsp;";  
             }
             
 	        if (userIdStr == data[i].userId && data[i].visible == 'Y'){
-	        	html +=		"<a href='javascript:void(0);' onclick='editCommentShow("+ data[i].commentId + ", `"+ data[i].commentContent +"`)'>수정</a>";
+	        	html +=		"<a href='javascript:void(0);' onclick='editCommentShow("+ data[i].commentId + ", `"+ data[i].commentContent +"`)'>수정</a> &nbsp;";
 	       		html +=		"<a href='javascript:void(0);' onclick='deleteComment("+data[i].commentId+")'>삭제</a>";
 	        }
-        
+       
             html +=			"<div style='display:none' id='cocobox"+ data[i].commentId +"'>";
             html += 			"<input type='text' class='form-control' id='commentContentOf" + data[i].commentId + "'/>";
             html +=				"<input type='button' value='답글작성' onclick='addCoComment(" + data[i].commentId + ")'/>"

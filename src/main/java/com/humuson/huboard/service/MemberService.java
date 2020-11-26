@@ -106,6 +106,7 @@ public class MemberService implements UserDetailsService {
 			newMember.setIsLocked("Y");
 		}
 		newMember.setUserFullName(membervo.getUserFullName());
+		newMember.setFailCnt(membervo.getFailCnt());
 		newMember.setGender(membervo.getGender());
 		newMember.setRoadAddr(membervo.getRoadAddr());
 		newMember.setDetailAddr(membervo.getDetailAddr());

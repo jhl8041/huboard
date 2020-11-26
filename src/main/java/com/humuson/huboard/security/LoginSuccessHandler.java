@@ -10,25 +10,32 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.humuson.huboard.model.MemberVo;
 import com.humuson.huboard.service.MemberService;
 
 @Component
-public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
+public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 	
 	@Autowired
 	private MemberService memberService;
 	
-	
+	private RequestCache requestCache = new HttpSessionRequestCache();
+    private RedirectStrategy redirectStratgy = new DefaultRedirectStrategy();
 	
 	
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		System.out.println("login Success!");
 		String userId = request.getParameter("userId");
 		MemberVo membervo = memberService.getMemberByUserId(userId);
 		membervo.setFailCnt(0);
@@ -38,9 +45,23 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		super.setDefaultTargetUrl("/");
-		super.onAuthenticationSuccess(request, response, chain, authentication);
-	}
+			
+		resultRedirectStrategy(request, response, authentication);
 
+	}
 	
+	protected void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) throws IOException, ServletException {
+        
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+        
+        if(savedRequest!=null) {
+            String targetUrl = savedRequest.getRedirectUrl();
+            redirectStratgy.sendRedirect(request, response, targetUrl);
+        } else {
+            redirectStratgy.sendRedirect(request, response, "/");
+        }
+        
+    }
+
 }

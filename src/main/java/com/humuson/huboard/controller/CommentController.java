@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.humuson.huboard.model.CommentVo;
+import com.humuson.huboard.service.BoardService;
 import com.humuson.huboard.service.CommentService;
 
 @Controller
@@ -19,11 +20,15 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 	
+	@Autowired
+	private BoardService boardService;
+	
 	//댓글 등록
 	@PostMapping("/comment")
 	@ResponseBody
 	public List<CommentVo> doComment(@RequestBody CommentVo commentvo) {
 		commentService.addComment(commentvo);
+		boardService.updateCommentCnt(commentvo.getBoardId());
 		return commentService.getComment(commentvo.getBoardId());
 	}
 	
@@ -32,6 +37,7 @@ public class CommentController {
 	@ResponseBody
 	public List<CommentVo> doCoComment(@RequestBody CommentVo commentvo) {
 		commentService.addCoComment(commentvo);
+		boardService.updateCommentCnt(commentvo.getBoardId());
 		return commentService.getComment(commentvo.getBoardId());
 	}
 	
@@ -39,7 +45,9 @@ public class CommentController {
 	@GetMapping("/comment/{boardId}")
 	@ResponseBody
 	public List<CommentVo> getComment(@PathVariable("boardId") Long boardId) {
-		return commentService.getComment(boardId);
+		List<CommentVo> comments = commentService.getComment(boardId);
+		boardService.updateCommentCnt(boardId);
+		return comments;
 	}
 	
 	//댓글 수정 및 삭제처리
@@ -47,6 +55,7 @@ public class CommentController {
 	@ResponseBody
 	public List<CommentVo> editComment(@RequestBody CommentVo commentvo) {
 		commentService.editComment(commentvo);
+		boardService.updateCommentCnt(commentvo.getBoardId());
 		return commentService.getComment(commentvo.getBoardId());
 	}
 

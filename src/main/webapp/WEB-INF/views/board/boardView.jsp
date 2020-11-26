@@ -30,7 +30,7 @@
 		<div class="row justify-content-left">
 			<div class="form-inline">
 				<label><b>작성자</b></label>
-				<label style="margin-left:10px;">${post.userId}</label>
+				<label style="margin-left:10px;">${post.nickname}</label>
 				
 				<label style="margin-left:20px;"><b>조회수</b></label>
 				<label style="margin-left:10px;">${post.view}</label> 
@@ -86,6 +86,7 @@
 					<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
 					<input type="hidden" name="userId" id="userId" value="${member.userId}"/>
 					<input type="hidden" name="userNum" id="userNum" value="${member.userNum}"/>
+					<input type="hidden" name="nickname" id="nickname" value="${member.nickname}"/>
 					<input class="btn btn-primary" style="margin-top:10px" type=button value=댓글작성 onClick="addComment()">
 				</div>
 			</div>

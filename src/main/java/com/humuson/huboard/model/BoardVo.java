@@ -44,6 +44,7 @@ public class BoardVo implements Serializable{
 	private List<FileVo> file = new ArrayList<>();
 	
 	private String userId;
+	private String nickname;
 	private Long userNum;
 	private String subject;
 	
