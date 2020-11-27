@@ -47,12 +47,12 @@ public class CommentService {
 	}
 	
 	//대댓글 추가
-	public void addCoComment(CommentVo comment) {
+	public void addCoComment(CommentVo commentvo) {
 		//부모댓글 정보 가져오기
-		Long parentGroupId = comment.getGroupId();
-		Long parentOrderNo = comment.getOrderNo();
-		Long parentDepth = comment.getDepth();
-		Long parentCommentId = comment.getParentCommentId();
+		Long parentGroupId = commentvo.getGroupId();
+		Long parentOrderNo = commentvo.getOrderNo();
+		Long parentDepth = commentvo.getDepth();
+		Long parentCommentId = commentvo.getParentCommentId();
 		
 		Long currentOrderNo = 0L;
 		
@@ -70,12 +70,12 @@ public class CommentService {
 		}
 		
 		//현재 대댓글에 정보 부여
-		comment.setParentCommentId(parentCommentId);
-		comment.setDepth(parentDepth+1);
-		comment.setGroupId(parentGroupId);
-		comment.setOrderNo(currentOrderNo);
-		comment.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
-		comment.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
+		commentvo.setParentCommentId(parentCommentId);
+		commentvo.setDepth(parentDepth+1);
+		commentvo.setGroupId(parentGroupId);
+		commentvo.setOrderNo(currentOrderNo);
+		commentvo.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+		commentvo.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 		
 		//현재 대댓글 이후에 올 댓글들 순서 1씩 추가
 		List<CommentVo> pushList = commentRepo.findByGroupIdAndOrderNoGreaterThanEqual(parentGroupId, currentOrderNo);
@@ -85,7 +85,7 @@ public class CommentService {
 		}
 		
 		//대댓글 저장
-		commentRepo.save(comment);
+		commentRepo.save(commentvo);
 
 	}	
 	//순서에 맞게 모든 댓글 조회

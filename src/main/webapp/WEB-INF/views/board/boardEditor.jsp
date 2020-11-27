@@ -37,7 +37,12 @@
 			<textarea class="form-control" id="content" name="content">${post.content}</textarea>
 			<script>
 				ClassicEditor
-				    .create(document.querySelector('#content'))
+				    .create(document.querySelector('#content'),{
+				    	cloudServices: {
+				            tokenUrl: 'https://76561.cke-cs.com/token/dev/d87b1789dcf65923425990543ab3c625c853f097ea91c06f37eefe796a4f',
+				            uploadUrl: 'https://76561.cke-cs.com/easyimage/upload/'
+				        }	    	
+				    })
 				    .then(editor => {
 				    	theEditor = editor;
 				    })
@@ -94,6 +99,9 @@
 			</c:choose>
 		</div>
 	</div>
+	
+	<!-- Footer -->
+	<div id="footer-placeholder"></div>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

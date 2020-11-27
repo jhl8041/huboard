@@ -26,9 +26,6 @@ jar {
 
 repositories {
 	mavenCentral()
-	maven {
-        url = 'https://maven.cksource.com/'
-    }
 }
 
 dependencies {
@@ -73,8 +70,6 @@ dependencies {
 	compile group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.3'
 	compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.2.1.RELEASE'
 	
-	//ckfinder
-	compile 'com.cksource:ckfinder3:3.5.1'
 }
 
 test {

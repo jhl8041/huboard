@@ -22,34 +22,38 @@
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav col">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-			      <li class="nav-item">
-			        <a class="nav-link" href="/">커뮤니티</a>
-			      </li>
-			      <li class="nav-item">
-			        <a class="nav-link" href="/lab">실험실</a>
-			      </li>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="/">커뮤니티</a>
+			      	</li>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="/lab">실험실</a>
+					</li>
+		          	<c:if test="${not empty member.getNickname()}">
+			          	<li class="nav-item" style="margin-left:20px">
+			          		<a class="nav-link disabled text-light"><b>${member.getNickname()}</b>&nbsp;님 환영합니다!</a>
+			          	</li>
+		          	</c:if>   
 			    </ul>
 		    </div>
 		    <div class="navbar-nav col justify-content-end" style="padding-right:50px">
+		    	<c:if test="${empty member.getNickname()}">
+		        	<input class="btn btn-primary" type=button value=로그인 onclick="location.href='/login'">
+		        </c:if>
+		        <c:if test="${not empty member.getNickname()}">
 		    	<ul class="navbar-nav ml-0 mr-0 mt-2 mt-lg-0">
 		    		<li class="nav-item dropdown">
 				        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				          마이메뉴
 				        </a>
-				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-				          	<c:if test="${empty member.getNickname()}">
-				          		<a class="dropdown-item" href="/login">로그인</a>
-				          		<a class="dropdown-item" href="/join">회원가입</a>
-				          	</c:if>
-				          	<c:if test="${not empty member.getNickname()}">
-				          		<a class="dropdown-item" href="/mypage">내정보수정</a>
-					          	<a class="dropdown-item" href="javascript:void(0)" onclick="quitMember(${member.getUserId()})">회원탈퇴</a>
-					          	<div class="dropdown-divider"></div>
-				          		<a class="dropdown-item" href="/logout" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a>
-				          	</c:if>
-				    	</div>
+			          	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				          	<a class="dropdown-item" href="/mypage">내정보수정</a>
+					          <a class="dropdown-item" href="javascript:void(0)" onclick="quitMember(${member.getUserId()})">회원탈퇴</a>
+					          <div class="dropdown-divider"></div>
+				          	<a class="dropdown-item" href="/logout" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a>
+			          	</div>
 					</li>
 		    	</ul>
+		    	</c:if>
 		    </div>
 		</div>
 		<script>

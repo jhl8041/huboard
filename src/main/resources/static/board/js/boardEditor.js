@@ -6,8 +6,8 @@ var fileIndex=0;
 var totalFileSize=0;
 var fileList=new Array();
 var fileSizeList = new Array();
-var uploadSize=500;
-var maxUploadSize=500;
+var uploadSize=1000;
+var maxUploadSize=2000;
 
 var isUploading = false;
 
@@ -21,6 +21,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	$("#nav-placeholder").load("http://localhost:8080/navbar");
+	$("#footer-placeholder").load("http://localhost:8080/footer");
 	fileDropDown();
 });
 
@@ -53,7 +54,7 @@ function fileDropDown(){
  	dropZone.on('dragleave',function(e){
  		e.stopPropagation();
  		e.preventDefault();
- 		dropZone.css('background-color','#FFFFFF');
+ 		dropZone.css('background-color','#e6e6e6');
  	});
  	
  	dropZone.on('dragover',function(e){
@@ -64,7 +65,7 @@ function fileDropDown(){
  	
  	dropZone.on('drop',function(e){
  		e.preventDefault();
- 		dropZone.css('background-color','#FFFFFF');
+ 		dropZone.css('background-color','#e6e6e6');
  		
  		var files = e.originalEvent.dataTransfer.files;
  		if(files != null){
@@ -134,6 +135,8 @@ function getFileId(fileName, fIndex){
  
 // 업로드 파일 목록 생성
 function addFileList(fIndex, fileName, fileSize){
+	var bottom = document.body.scrollHeight;
+	window.scrollTo({top:bottom, behavior:'smooth'});
 	var fileSizeStr;
 	
 	if (fileSize>1){
@@ -148,9 +151,9 @@ function addFileList(fIndex, fileName, fileSize){
     html += "    <td id='uploaded' class='left' >";
     html +=         fileName + " / " + fileSizeStr ;
     html +=         "<a href='javascript:void(0)' onclick='getFileId(`" + fileName + "`, `" + fIndex + "`)' class='btn small bg_02'>삭제</a>";
-    html += 		"<div id='progress' class='progress_"+fIndex+"'>";
-	html +=			"	<div id='bar' class='bar_"+fIndex+"'></div>";
-	html +=			"	<div id='percent' class='percent_"+fIndex+"'>0%</div>";
+    html += 		"<div id='progress' style='min-height:25px' class='progress_"+fIndex+" progress'>";
+	html +=			"	<div id='bar' role='progressbar' style='height:100%' aria-valuemin='0' aria-valuemax='100' class='bar_" + fIndex + " progress-bar progress-bar-striped progress-bar-animated'>";
+	html +=			"	<div id='percent' style='position:inherit' class='percent_"+fIndex+"'>0%</div></div>";
 	html += 		"</div>";
 	html += 		"<div id='status"+fIndex+"'></div>";
     html += "    </td>";
@@ -199,10 +202,6 @@ function addFileToDB(fileName, fileSize, storedName){
     });
 }
  
-//업로드 파일 삭제
-function deleteFile2(fIndex){
-    
-}
  
 //파일 등록
 function uploadFile(fileName, fileSize, fIndex){
@@ -238,7 +237,7 @@ function uploadFile(fileName, fileSize, fIndex){
     				var percentComplete = Math.floor((evt.loaded/evt.total)*100);
     				var percentVal = percentComplete + '%';
     				bar.width(percentVal);
-    				percent.html(percentVal);
+    				percent.html(percentVal);	
     			}
     		}, false);
     		return xhr;
@@ -254,6 +253,8 @@ function uploadFile(fileName, fileSize, fIndex){
         beforeSend:function(){
         	status.empty();
         	var percentVal = '0%';
+        	//bar.attr("aria-valuenow",percentVal);
+        	//bar.html(percentVal);
         	bar.width(percentVal);
         	percent.html(percentVal);
         },

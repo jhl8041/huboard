@@ -29,7 +29,7 @@
 			<c:set var="errorTitle" value="내부서버 에러입니다" />
 		</c:if>
 		
-		<div class="container">
+		<div class="container" style="min-height:500px">
 			<div class="row justify-content-center">
 				<div id="loginTitle">
 					<h3> ${errorTitle} </h3>
@@ -43,6 +43,9 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Footer -->
+	<div id="footer-placeholder"></div>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

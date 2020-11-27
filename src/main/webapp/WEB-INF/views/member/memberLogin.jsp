@@ -23,7 +23,7 @@
 	<!-- 네비게이션 바 -->
 	<div id="nav-placeholder"></div>
 	
-	<div class="container">
+	<div class="container" style="min-height:560px">
 		<div class="row justify-content-center">
 			<div id="loginTitle">
 				<h3>로그인</h3>
@@ -59,6 +59,9 @@
 			</form>
 		</div>
 	</div>
+	
+	<!-- Footer -->
+	<div id="footer-placeholder"></div>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

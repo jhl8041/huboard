@@ -1,10 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 		
 	<!-- JQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -14,7 +16,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/board/css/boardList.css"></link>
 	
 	<!-- Script -->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/board/js/boardList.js" charset="utf-8"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/board/js/boardList.js" charset="UTF-8"></script>
 	
 	<title>휴머스보드 홈</title>
 </head>
@@ -22,7 +24,7 @@
 	<!-- 네비게이션 바 -->
 	<div id="nav-placeholder"></div>
 
-	<div class="container">
+	<div class="container" style="min-height:560px">
 		<div id="boardTitle" class="row justify-content-left">
 			<h3>
 				커뮤니티<br>
@@ -45,7 +47,7 @@
 				  	<option value="50">50개씩 보기</option>
 				</select>
 			</div>
-			<input type="hidden" id="pageSize" value="${param.size}"/>
+			<input type="hidden" id="pageSize" value="${list.getSize()}"/>
 		</div>
 		
 		<jsp:useBean id="now" class="java.util.Date" />
@@ -72,7 +74,7 @@
 									<td style="text-align:left">
 										<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
 										&nbsp;
-										${list.subject}
+										${fn:substring(list.subject,0,18)}..
 										&nbsp; 
 										[ ${list.commentCnt} ]
 										&nbsp; 
@@ -137,19 +139,37 @@
 				   	<fmt:parseNumber var="previous" value="${start_page - 1}" integerOnly="true"/>
 				   	<fmt:parseNumber var="next" value="${end_page + 1}" integerOnly="true"/>
 				   	
+				   	<c:set var="currSize" value="10"/> 
+				   	<c:if test="${empty param.size}">
+				   		<c:set var="currSize" value="10"/> 
+				   	</c:if>
+				   	<c:if test="${not empty param.size}">
+				   		<c:set var="currSize" value="${param.size}"/> 
+				   	</c:if>
+				   	<input type="hidden" id="currPage" value="${list.getNumber()}">
+				   	<input type="hidden" id="currSize" value="${currSize}">
+				   	
+				   	
 				   	<!-- 페이징 구현 -->
 					<nav aria-label="Page navigation example">
 						<ul class="pagination">
-					    	<li class="page-item ${disable_trig_prev}">
-					      		<a class="page-link" href="?page=${previous}" tabindex="-1" aria-disabled="true">이전</a>
+							<li class="page-item">
+					      		<a class="page-link" href="?size=${currSize}&page=0" tabindex="-2" aria-disabled="true">처음으로</a>
 					    	</li>
-					    	
+					    	<li class="page-item ${disable_trig_prev}">
+					      		<a class="page-link" href="?size=${currSize}&page=${previous}" tabindex="-1" aria-disabled="true">이전</a>
+					    	</li>
 					    	<c:forEach var="page" begin="${start_page}" end="${end_page}">
-							    <li class="page-item"><a class="page-link" href="?page=${page}">${page+1}</a></li>
+							    <li class="page-item" id="page${page}"><a class="page-link" href="?size=${list.getSize()}&page=${page}">${page+1}</a></li>
 							</c:forEach>
-					    
+							<li>
+								&nbsp;&nbsp; . &nbsp; . &nbsp; . &nbsp;&nbsp;
+							</li>
+							<li class="page-item">
+					      		<a class="page-link" href="?size=${currSize}&page=${list.getTotalPages()-1}">${list.getTotalPages()}</a>
+					    	</li>
 					    	<li class="page-item ${disable_trig_next}">
-					      		<a class="page-link" href="?page=${next}">다음</a>
+					      		<a class="page-link" href="?size=${currSize}&page=${next}">다음</a>
 					    	</li>
 					  	</ul>
 					</nav>
@@ -171,6 +191,9 @@
 			
 		</div>	
 	</div> <!-- End container -->
+	
+	<!-- Footer -->
+	<div id="footer-placeholder"></div>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

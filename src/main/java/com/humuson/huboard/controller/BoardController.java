@@ -75,6 +75,11 @@ public class BoardController {
 		return "share/navBar";
 	}
 	
+	@GetMapping("/footer")
+	public String footer() {
+		return "share/footer";
+	}
+	
 	//게시글 에디터 - R
 	@GetMapping("/editor/{boardId}")
 	public String boardEditor(Model model, @AuthenticationPrincipal User user, @PathVariable Long boardId) {

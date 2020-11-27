@@ -30,6 +30,8 @@ public class BoardService {
 	private CommentRepository commentRepo;
 	
 	public Page<BoardVo> getPagingPost(String visible, Pageable pageable){
+		Page<BoardVo> paging = boardRepo.findByVisible(visible, pageable);
+		
 		return boardRepo.findByVisible(visible, pageable);
 	}
 	

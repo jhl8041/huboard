@@ -62,6 +62,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
             redirectStratgy.sendRedirect(request, response, "/");
         }
         
+        
+        
     }
 
 }
