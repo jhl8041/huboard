@@ -29,22 +29,20 @@ public class BoardService {
 	@Autowired
 	private CommentRepository commentRepo;
 	
-	public Page<BoardVo> getPagingPost(String visible, Pageable pageable){
-		Page<BoardVo> paging = boardRepo.findByVisible(visible, pageable);
-		
-		return boardRepo.findByVisible(visible, pageable);
+	public Page<BoardVo> getPagingPost(Pageable pageable){	
+		return boardRepo.findByVisible("Y", pageable);
 	}
 	
 	public Page<BoardVo> findPostBySearch(String keyword, Pageable pageable, String search_type) {
-		Page<BoardVo> searchPage = boardRepo.findAll(pageable);
+		Page<BoardVo> searchPage = boardRepo.findByVisible("Y", pageable);
 		if (search_type.equals("subject")) {
-			searchPage = boardRepo.findBySubjectContaining(keyword, pageable);
+			searchPage = boardRepo.findBySubjectContainingAndVisible(keyword, "Y", pageable);
 		}
 		else if (search_type.equals("userId")) {
-			searchPage = boardRepo.findByUserIdContaining(keyword, pageable);
+			searchPage = boardRepo.findByUserIdContainingAndVisible(keyword, "Y", pageable);
 		}
 		else if (search_type.equals("content")) {
-			searchPage = boardRepo.findByContentContaining(keyword, pageable);
+			searchPage = boardRepo.findByContentContainingAndVisible(keyword, "Y", pageable);
 		}
 		return searchPage;
 	}

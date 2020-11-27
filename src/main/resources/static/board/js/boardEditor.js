@@ -272,6 +272,7 @@ function uploadFile(fileName, fileSize, fIndex){
 
 function submitPost(){
 	checkUnload = false;
+	//var categoryStr = document.getElementById("category").value;
 	var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;
     var userNumStr = document.getElementById("userNum").value;
@@ -300,6 +301,7 @@ function submitPost(){
 	
 	var dataStr={
 			userNum: userNumStr,
+			//category: categoryStr,
 			boardId: boardIdStr,
 			userId: userIdStr, 
     		subject: subjectStr, 

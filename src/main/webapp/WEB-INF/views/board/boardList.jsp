@@ -27,7 +27,7 @@
 	<div class="container" style="min-height:560px">
 		<div id="boardTitle" class="row justify-content-left">
 			<h3>
-				커뮤니티<br>
+				게시판<br>
 				<small class="text-muted">자유롭게 글을 쓰는 게시판입니다</small>
 			</h3>
 			<hr>

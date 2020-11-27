@@ -48,6 +48,8 @@ public class BoardVo implements Serializable{
 	private Long userNum;
 	private String subject;
 	
+	private Long categoryId;
+	
 	@Column(length = 10000)
 	private String content;
 	private int view;

@@ -56,14 +56,20 @@ public class BoardController {
 	@Autowired
 	private FileService fileService;
 	
+	
+	@GetMapping("/")
+	public String boardHome() {
+		return "board/home";
+	}
+	
 	//게시글 목록 조회 - R
 	@GetMapping("/")
-	public String boardHome(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
+	public String boardCategory(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
 			@AuthenticationPrincipal User user) {
-		Page<BoardVo> pager = boardService.getPagingPost("Y",pageable);
+		Page<BoardVo> pager = boardService.getPagingPost(category, pageable);
 		model.addAttribute("list",pager);
 		if (user != null) {
-			model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
+			model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
 		}
 		return "board/boardList";
 	}
@@ -165,10 +171,10 @@ public class BoardController {
 	}
 	
 	//게시글 검색 - R
-	@GetMapping("/search/{keyword}/{searchType}")
-	public String doSearch(Model model, @PathVariable String keyword, @PathVariable String searchType,
-			@PageableDefault(size=5, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
-		model.addAttribute("list",boardService.findPostBySearch(keyword, pageable, searchType));
+	@GetMapping("/search/{category}/{keyword}/{searchType}")
+	public String doSearch(Model model, @PathVariable String category, @PathVariable String keyword, @PathVariable String searchType,
+			@PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
+		model.addAttribute("list",boardService.findPostBySearch(category, keyword, pageable, searchType));
 		return "board/boardList";
 	}
 	

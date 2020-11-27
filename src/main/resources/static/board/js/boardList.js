@@ -27,6 +27,7 @@ jQuery(document).ready(function($) {
 function boardSearch(){
 	var keywordStr = document.getElementById("keyword").value;
 	var searchTypeStr = document.getElementById("searchType").value;
+	var categoryStr = document.getElementById("category").value;
 	var currSize = document.getElementById("currSize").value;
 	
 	if (keywordStr == ""){
@@ -34,7 +35,7 @@ function boardSearch(){
  		return alert("검색어를 입력해주세요");
  	}
 	
-	window.location.href = "http://localhost:8080/search/"+keywordStr+"/"+searchTypeStr+"?size="+ currSize +"&page=0";
+	window.location.href = "http://localhost:8080/search/"+ categoryStr +"/"+keywordStr+"/"+searchTypeStr+"?size="+ currSize +"&page=0";
 }
 
 function changePagePer(){
