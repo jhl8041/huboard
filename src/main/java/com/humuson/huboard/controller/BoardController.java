@@ -37,11 +37,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.humuson.huboard.model.BoardVo;
+import com.humuson.huboard.model.CategoryVo;
 import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.model.FileVo;
 import com.humuson.huboard.model.MemberVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.service.BoardService;
+import com.humuson.huboard.service.CategoryService;
 import com.humuson.huboard.service.FileService;
 import com.humuson.huboard.service.MemberService;
 
@@ -56,21 +58,37 @@ public class BoardController {
 	@Autowired
 	private FileService fileService;
 	
+	@Autowired
+	private CategoryService categoryService;
 	
-	@GetMapping("/")
-	public String boardHome() {
-		return "board/home";
-	}
 	
 	//게시글 목록 조회 - R
-	@GetMapping("/")
-	public String boardCategory(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
+	@GetMapping("/home")
+	public String boardHome(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
 			@AuthenticationPrincipal User user) {
-		Page<BoardVo> pager = boardService.getPagingPost(category, pageable);
+		
+		List<BoardVo> cat1 = boardService.getTopTen(1L);
+		List<BoardVo> cat2 = boardService.getTopTen(2L);
+		List<BoardVo> cat3 = boardService.getTopTen(3L);
+		List<BoardVo> cat4 = boardService.getTopTen(4L);
+		
+		return "board/home";
+	}
+		
+	//게시글 목록 조회 - R
+	@GetMapping("/{categoryId}")
+	public String boardCategory(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
+			@AuthenticationPrincipal User user, @PathVariable Long categoryId) {
+		Page<BoardVo> pager = boardService.getPagingPost(categoryId, pageable);
+		CategoryVo category = categoryService.getCategory(categoryId);
+		
+		//게시물 목록 및 카테고리 전송
 		model.addAttribute("list",pager);
-		if (user != null) {
-			model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
-		}
+		model.addAttribute("category", category);
+		
+		//로그인했을때만 계정정보 전송
+		if (user != null) model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
+		
 		return "board/boardList";
 	}
 	
@@ -87,8 +105,9 @@ public class BoardController {
 	}
 	
 	//게시글 에디터 - R
-	@GetMapping("/editor/{boardId}")
-	public String boardEditor(Model model, @AuthenticationPrincipal User user, @PathVariable Long boardId) {
+	@GetMapping("/editor/{boardId}/{categoryId}")
+	public String boardEditor(Model model, @AuthenticationPrincipal User user, @PathVariable Long boardId,
+			@PathVariable Long categoryId) {
 		boolean data;
 		if (boardId!=0) {
 			System.out.println(boardService.getPost(boardId).get());
@@ -101,6 +120,10 @@ public class BoardController {
 			data = false;
 			model.addAttribute("post",boardService.addPost(new BoardVo(user.getUsername(), "N")));
 		}
+		
+		List<CategoryVo> allcategory = categoryService.getAllCategory();
+		
+		model.addAttribute("allcategory", allcategory);
 		model.addAttribute("files", fileService.getFiles(boardId));
 		model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
 		model.addAttribute("data",data);
@@ -171,10 +194,10 @@ public class BoardController {
 	}
 	
 	//게시글 검색 - R
-	@GetMapping("/search/{category}/{keyword}/{searchType}")
-	public String doSearch(Model model, @PathVariable String category, @PathVariable String keyword, @PathVariable String searchType,
+	@GetMapping("/search/{categoryId}/{keyword}/{searchType}")
+	public String doSearch(Model model, @PathVariable String keyword, @PathVariable String searchType, @PathVariable Long categoryId,
 			@PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
-		model.addAttribute("list",boardService.findPostBySearch(category, keyword, pageable, searchType));
+		model.addAttribute("list",boardService.findPostBySearch(keyword, categoryId, pageable, searchType));
 		return "board/boardList";
 	}
 	

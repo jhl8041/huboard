@@ -30,8 +30,8 @@ function upload(){
 }
 
 function deletePost(){
-	var boardIdStr = document.getElementById("boardId").value;
-    $.ajax({
+	var boardIdStr = $('#boardId').val();
+	$.ajax({
         url : "/board/"+boardIdStr,
         type : "delete",
         success : function(data){
@@ -253,8 +253,6 @@ function uploadFile(fileName, fileSize, fIndex){
         beforeSend:function(){
         	status.empty();
         	var percentVal = '0%';
-        	//bar.attr("aria-valuenow",percentVal);
-        	//bar.html(percentVal);
         	bar.width(percentVal);
         	percent.html(percentVal);
         },
@@ -272,7 +270,7 @@ function uploadFile(fileName, fileSize, fIndex){
 
 function submitPost(){
 	checkUnload = false;
-	//var categoryStr = document.getElementById("category").value;
+	var categoryIdStr = document.getElementById("categorySelect").value;
 	var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;
     var userNumStr = document.getElementById("userNum").value;
@@ -301,7 +299,7 @@ function submitPost(){
 	
 	var dataStr={
 			userNum: userNumStr,
-			//category: categoryStr,
+			categoryId: categoryIdStr,
 			boardId: boardIdStr,
 			userId: userIdStr, 
     		subject: subjectStr, 
@@ -314,7 +312,7 @@ function submitPost(){
 		console.log("글쓰기중!");
 		urlStr="/board";
 		typeStr="post";
-		successUrlStr = "http://localhost:8080/";
+		successUrlStr = "http://localhost:8080/"+categoryIdStr;
 	}
 	//수정하기
 	else {

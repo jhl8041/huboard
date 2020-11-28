@@ -24,6 +24,13 @@
 	<div id="nav-placeholder"></div>
 	
 	<div class="container">
+		<div id="boardCateogry" class="row justify-content-end">
+			<select class="custom-select" id="categorySelect" style="width:200px">
+				<c:forEach var="allcategory" items="${allcategory}">
+					<option value="${allcategory.categoryId}">${allcategory.categoryName}</option>
+				</c:forEach>
+			</select>
+		</div>
 		<div id="boardTitle" class="row justify-content-left">
 			<small class="text-muted">게시글 작성</small>
 			<hr>

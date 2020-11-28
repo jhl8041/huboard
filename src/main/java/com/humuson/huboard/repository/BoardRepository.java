@@ -10,12 +10,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.humuson.huboard.model.BoardVo;
 
 public interface BoardRepository extends JpaRepository<BoardVo, Long> {
-	public Page<BoardVo> findBySubjectContainingAndCategoryAndVisible(String subject, String category, String visible, Pageable pageable);
-	public Page<BoardVo> findByContentContainingAndCategoryAndVisible(String content, String category, String visible, Pageable pageable);
-	public Page<BoardVo> findByUserIdContainingAndCategoryAndVisible(String userId, String category, String visible, Pageable pageable);
+	public Page<BoardVo> findBySubjectContainingAndVisibleAndCategoryId(String subject, String visible, Long categoryId, Pageable pageable);
+	public Page<BoardVo> findByContentContainingAndVisibleAndCategoryId(String content, String visible, Long categoryId, Pageable pageable);
+	public Page<BoardVo> findByUserIdContainingAndVisibleAndCategoryId(String userId,  String visible, Long categoryId, Pageable pageable);
 	
-	public Page<BoardVo> findByCategoryAndVisible(String category, String visible, Pageable pageable);
+	public Page<BoardVo> findByVisibleAndCategoryId(String visible, Long categoryId, Pageable pageable);
+	
+	public List<BoardVo> findTop10ByCategoryId(Long categoryId);
 	
 	public Optional<BoardVo> findTopByOrderByBoardIdDesc();
-	//public Page<BoardVo> findByVisible(String visible, Pageable pageable);
 }

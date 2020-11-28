@@ -29,20 +29,25 @@ public class BoardService {
 	@Autowired
 	private CommentRepository commentRepo;
 	
-	public Page<BoardVo> getPagingPost(Pageable pageable){	
-		return boardRepo.findByVisible("Y", pageable);
+	public Page<BoardVo> getPagingPost(Long categoryId, Pageable pageable){	
+		return boardRepo.findByVisibleAndCategoryId("Y", categoryId,  pageable);
 	}
 	
-	public Page<BoardVo> findPostBySearch(String keyword, Pageable pageable, String search_type) {
-		Page<BoardVo> searchPage = boardRepo.findByVisible("Y", pageable);
+	public List<BoardVo> getTopTen(Long categoryId){
+		return boardRepo.findTop10ByCategoryId(categoryId);
+	}
+	
+	
+	public Page<BoardVo> findPostBySearch(String keyword, Long categoryId,Pageable pageable, String search_type) {
+		Page<BoardVo> searchPage = boardRepo.findByVisibleAndCategoryId("Y", categoryId, pageable);
 		if (search_type.equals("subject")) {
-			searchPage = boardRepo.findBySubjectContainingAndVisible(keyword, "Y", pageable);
+			searchPage = boardRepo.findBySubjectContainingAndVisibleAndCategoryId(keyword, "Y", categoryId, pageable);
 		}
 		else if (search_type.equals("userId")) {
-			searchPage = boardRepo.findByUserIdContainingAndVisible(keyword, "Y", pageable);
+			searchPage = boardRepo.findByUserIdContainingAndVisibleAndCategoryId(keyword, "Y", categoryId, pageable);
 		}
 		else if (search_type.equals("content")) {
-			searchPage = boardRepo.findByContentContainingAndVisible(keyword, "Y", pageable);
+			searchPage = boardRepo.findByContentContainingAndVisibleAndCategoryId(keyword, "Y", categoryId, pageable);
 		}
 		return searchPage;
 	}
