@@ -8,7 +8,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Insert title here</title>
+	<title>휴머스보드 홈</title>
 	
 	<!-- AJAX -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -26,6 +26,8 @@
 	<div id="nav-placeholder"></div>
 	
 	<c:set var="listCnt" value="0" scope="page"/>
+	<jsp:useBean id="now" class="java.util.Date" />
+	<fmt:parseNumber value="${now.time}" integerOnly="true" var="currentDate"></fmt:parseNumber>
 	
 	<div class="container" style="min-height:560px">
 		<c:forEach var="row" begin="1" end="${catRowCol.getRow()}">

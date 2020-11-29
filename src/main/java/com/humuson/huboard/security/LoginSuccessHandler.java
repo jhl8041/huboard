@@ -59,7 +59,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
             String targetUrl = savedRequest.getRedirectUrl();
             redirectStratgy.sendRedirect(request, response, targetUrl);
         } else {
-            redirectStratgy.sendRedirect(request, response, "/");
+            redirectStratgy.sendRedirect(request, response, "/home");
         }
         
         

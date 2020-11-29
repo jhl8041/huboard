@@ -62,8 +62,22 @@ public class BoardController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	//상단고정 메뉴바
+	@GetMapping("/navbar")
+	public String navBar(Model model, @AuthenticationPrincipal User user) {
+		if (user != null)
+			model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
+		return "share/navBar";
+	}
 	
-	//게시글 목록 조회 - R
+	//Footer
+	@GetMapping("/footer")
+	public String footer() {
+		return "share/footer";
+	}
+	
+	
+	//게시글 홈페이지 - R
 	@GetMapping("/home")
 	public String boardHome(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
 			@AuthenticationPrincipal User user) {
@@ -103,17 +117,6 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
-	@GetMapping("/navbar")
-	public String navBar(Model model, @AuthenticationPrincipal User user) {
-		if (user != null)
-			model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
-		return "share/navBar";
-	}
-	
-	@GetMapping("/footer")
-	public String footer() {
-		return "share/footer";
-	}
 	
 	//게시글 에디터 - R
 	@GetMapping("/editor/{boardId}/{categoryId}")
@@ -135,6 +138,7 @@ public class BoardController {
 		List<CategoryVo> allcategory = categoryService.getAllCategory();
 		
 		model.addAttribute("allcategory", allcategory);
+		model.addAttribute("currCategoryId", categoryId);
 		model.addAttribute("files", fileService.getFiles(boardId));
 		model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
 		model.addAttribute("data",data);
@@ -165,10 +169,12 @@ public class BoardController {
 		BoardVo post = boardService.getPost(boardId).get();
 		post.setView(post.getView()+1); 
 		boardService.addPost(post); //조회수 증가
+		CategoryVo category = categoryService.getCategory(post.getCategoryId());
 		
 		model.addAttribute("files", fileService.getFiles(boardId));
 		model.addAttribute("post", post);
 		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
+		model.addAttribute("category", category);
 		return "board/boardView";
 	}
 	
@@ -207,8 +213,19 @@ public class BoardController {
 	//게시글 검색 - R
 	@GetMapping("/search/{categoryId}/{keyword}/{searchType}")
 	public String doSearch(Model model, @PathVariable String keyword, @PathVariable String searchType, @PathVariable Long categoryId,
-			@PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable){
+			@PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user){
+		
+		CategoryVo category = categoryService.getCategory(categoryId);
+		
+		//게시물 목록 및 카테고리 전송
 		model.addAttribute("list",boardService.findPostBySearch(keyword, categoryId, pageable, searchType));
+		model.addAttribute("category", category);
+		model.addAttribute("keyword",keyword);
+		
+		//로그인했을때만 계정정보 전송
+		if (user != null) model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
+		
+		
 		return "board/boardList";
 	}
 	

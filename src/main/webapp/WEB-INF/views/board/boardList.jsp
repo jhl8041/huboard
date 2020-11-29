@@ -18,17 +18,19 @@
 	<!-- Script -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/board/js/boardList.js" charset="UTF-8"></script>
 	
-	<title>휴머스보드 홈</title>
+	<title>${category.categoryName}</title>
 </head>
 <body>
 	<!-- 네비게이션 바 -->
 	<div id="nav-placeholder"></div>
-
+	
+	<input type="hidden" id="categoryId" value="${category.categoryId}">
+	
 	<div class="container" style="min-height:560px">
 		<div id="boardTitle" class="row justify-content-left">
 			<h3>
 				${category.categoryName} <br>
-				<small class="text-muted">자유롭게 글을 쓰는 게시판입니다</small>
+				<small class="text-muted">${category.categoryName}에 대한 글을 쓰는 게시판입니다</small>
 			</h3>
 			<hr>
 		</div>
@@ -101,7 +103,7 @@
 			<div class="row text-right">
 				<div id="buttonArea" class="container">
 					<div class="text-right" style="width:100%">
-						<input type="button" class="btn btn-primary" onclick="location.href='/editor/0'" value="글쓰기"/>
+						<input type="button" class="btn btn-primary" onclick="location.href='/editor/0/${category.categoryId}'" value="글쓰기"/>
 					</div>
 				</div>
 			</div>
@@ -184,7 +186,7 @@
 						<option value="userId">작성자</option>
 						<option value="content">내용</option>
 					</select>
-			    	<input class="form-control mr-sm-2" name="keyword" id="keyword" type="search" placeholder="검색" aria-label="Search">
+			    	<input class="form-control mr-sm-2" name="keyword" id="keyword" type="search" value="${keyword}" placeholder="검색" aria-label="Search">
 			    	<button class="btn btn-outline-success my-2 my-sm-0" onclick="boardSearch()">검색</button>
 		    	</div>
 	    	</div>

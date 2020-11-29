@@ -25,9 +25,10 @@
 	
 	<div class="container">
 		<div id="boardCateogry" class="row justify-content-end">
+			<input type="hidden" id="currCategoryId" value="${currCategoryId}">
 			<select class="custom-select" id="categorySelect" style="width:200px">
 				<c:forEach var="allcategory" items="${allcategory}">
-					<option value="${allcategory.categoryId}">${allcategory.categoryName}</option>
+					<option id="categorySelect${allcategory.categoryId}" value="${allcategory.categoryId}">${allcategory.categoryName}</option>
 				</c:forEach>
 			</select>
 		</div>

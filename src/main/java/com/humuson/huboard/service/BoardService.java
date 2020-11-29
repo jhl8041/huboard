@@ -34,7 +34,7 @@ public class BoardService {
 	}
 	
 	public List<BoardVo> getTopTen(Long categoryId){
-		return boardRepo.findTop10ByCategoryId(categoryId);
+		return boardRepo.findTop10ByCategoryIdOrderByBoardIdDesc(categoryId);
 	}
 	
 	
