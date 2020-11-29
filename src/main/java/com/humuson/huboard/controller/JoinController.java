@@ -56,7 +56,10 @@ public class JoinController {
 		String id = membervo.getUserId();
 		String pwd = membervo.getPassword();
 		
-	    String pwPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{8,}$";
+	    String pwPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+]).{8,}$";
+	    
+	    
+
 	    Matcher matcher = Pattern.compile(pwPattern).matcher(pwd);
 	    
 	    pwPattern = "(.)\\1\\1\\1";
@@ -118,7 +121,7 @@ public class JoinController {
 	@ResponseBody
 	public String nicknameCheck(@RequestBody MemberVo membervo) {
 		String nickname = membervo.getNickname();
-      
+		
         String nicknamecheck=null;
         if (nickname.equals(""))
         	nicknamecheck = "empty";
@@ -129,7 +132,6 @@ public class JoinController {
             else 
             	nicknamecheck = "unique";
         }
-        
         return nicknamecheck;
 	}
 	

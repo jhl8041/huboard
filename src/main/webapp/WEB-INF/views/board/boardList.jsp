@@ -30,7 +30,7 @@
 		<div id="boardTitle" class="row justify-content-left">
 			<h3>
 				${category.categoryName} <br>
-				<small class="text-muted">${category.categoryName}에 대한 글을 쓰는 게시판입니다</small>
+				<small class="text-muted">${category.categoryName}에 맞는 글을 작성하세요</small>
 			</h3>
 			<hr>
 		</div>

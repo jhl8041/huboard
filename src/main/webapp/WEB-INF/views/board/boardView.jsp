@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	<title>${post.subject}</title>
 	
 	<!-- JQuery -->
@@ -16,6 +16,7 @@
 	
 	<!-- Script -->
 	<script type="text/javascript" src="/resources/board/js/boardView.js" charset="utf-8"></script>
+	<script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
 </head>
 <body>
 	<!-- 네비게이션 바 -->
@@ -50,7 +51,7 @@
 		</div>
 		<hr>
 		<div id="postContent" class="row justify-content-left">
-			${post.content}
+			<pre style="margin:0">${post.content}</pre>
 		</div>
 		
 		<hr>
@@ -134,6 +135,19 @@
 	
 	<!-- Footer -->
 	<div id="footer-placeholder"></div>
+	
+	<script>
+	    document.querySelectorAll( 'oembed[url]' ).forEach( element => {
+	        // Create the <a href="..." class="embedly-card"></a> element that Embedly uses
+	        // to discover the media.
+	        const anchor = document.createElement( 'a' );
+	
+	        anchor.setAttribute( 'href', element.getAttribute( 'url' ) );
+	        anchor.className = 'embedly-card';
+	
+	        element.appendChild( anchor );
+	    } );
+	</script>
 	
 	<!-- 스트립트 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

@@ -44,7 +44,7 @@ public class MemberService implements UserDetailsService {
 	}
 	
 	public boolean findSameNickname(String nickname) {
-		return memberRepo.findByUserId(nickname).isPresent();
+		return memberRepo.findByNickname(nickname).isPresent();
 	}
 	
 	public boolean findSameEmail(String email) {

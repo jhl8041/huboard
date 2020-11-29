@@ -212,7 +212,7 @@ function showHtml(data) {
             	html +=			'삭제된 댓글입니다'+ '<br>';
             }
             else{
-            	html +=			data[i].commentContent + '<br>';
+            	html +=			"<pre style='margin:0'>" + data[i].commentContent  + '</pre>';
             }
             
             

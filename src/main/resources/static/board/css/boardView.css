@@ -4,6 +4,10 @@ body {
 	background-color: #f3f2f2;
 }
 
+p{
+	margin-bottom:0px;
+}
+
 .container{
 	max-width: 900px;
 	min-height: 500px;

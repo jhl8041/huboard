@@ -18,6 +18,7 @@
 	<script type="text/javascript" src="/resources/board/js/boardEditor.js" charset="utf-8"></script>
 	<script src="https://cdn.ckeditor.com/ckeditor5/23.1.0/classic/ckeditor.js"></script>
 	<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+	
 </head>
 <body>
 	<!-- 네비게이션 바 -->
@@ -49,7 +50,7 @@
 				    	cloudServices: {
 				            tokenUrl: 'https://76561.cke-cs.com/token/dev/d87b1789dcf65923425990543ab3c625c853f097ea91c06f37eefe796a4f',
 				            uploadUrl: 'https://76561.cke-cs.com/easyimage/upload/'
-				        }	    	
+				        },
 				    })
 				    .then(editor => {
 				    	theEditor = editor;
@@ -105,6 +106,7 @@
 					<input class="btn btn-primary" type="button" value="글쓰기" onclick="submitPost()"/>
 				</c:otherwise>
 			</c:choose>
+			<input class="btn btn-primary" type="button" value="취소" onclick="history.back()"/>
 		</div>
 	</div>
 	

@@ -16,8 +16,12 @@ var checkUnload = true;
 jQuery(document).ready(function($) {
 	$(window).on("beforeunload", function(){
 	 	if(checkUnload){
-			return deletePost();
+			return "";
 	 	}	
+	});
+	
+	$(window).on("unload", function(){
+	 	deletePost();
 	});
 	
 	$("#nav-placeholder").load("http://localhost:8080/navbar");
@@ -274,6 +278,7 @@ function uploadFile(fileName, fileSize, fIndex){
 
 function submitPost(){
 	checkUnload = false;
+	
 	var categoryIdStr = document.getElementById("categorySelect").value;
 	var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;
@@ -286,7 +291,6 @@ function submitPost(){
  	if (isUploading){
  		return alert("파일이 전부 업로드 될때까지 기다려주세요 :)");
  	}
- 	
  	
  	if (subjectStr == ""){
  		$("#subject").focus();
