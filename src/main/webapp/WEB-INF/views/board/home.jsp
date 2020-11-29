@@ -15,7 +15,7 @@
 	
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/member/css/memberLogin.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/board/css/home.css">
 	
 	<!-- Script -->
 	<script type="text/javascript" src="/resources/board/js/home.js" charset="utf-8"></script>
@@ -50,10 +50,13 @@
 							<tbody>
 								<c:forEach var="list" items="${catRowCol.catList[listCnt]}" >
 									<tr class='clickable-row' id='boardlist' data-href='http://localhost:8080/board/${list.boardId}'>
-										<td style="text-align:left">
+										<td style="text-align:left; padding-top:8px; padding-bottom:8px">
 											<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
 											&nbsp;
-											${fn:substring(list.subject,0,18)}..
+											${fn:substring(list.subject,0,18)}
+											<c:if test="${fn:length(list.subject) gt 18}">
+											..
+											</c:if>
 											&nbsp; 
 											[ ${list.commentCnt} ]
 											&nbsp; 

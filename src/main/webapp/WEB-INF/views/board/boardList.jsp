@@ -76,7 +76,10 @@
 									<td style="text-align:left">
 										<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
 										&nbsp;
-										${fn:substring(list.subject,0,18)}..
+										${fn:substring(list.subject,0,18)}
+										<c:if test="${fn:length(list.subject) gt 18}">
+										..
+										</c:if>
 										&nbsp; 
 										[ ${list.commentCnt} ]
 										&nbsp; 

@@ -38,8 +38,14 @@
 				<label style="margin-left:20px;"><b>조회수</b></label>
 				<label style="margin-left:10px;">${post.view}</label> 
 				
-				<label style="margin-left:20px;"><b>작성일</b></label>
-				<label style="margin-left:10px;">${post.createDate}</label>
+				<fmt:formatDate var="createDate" pattern="yyyy-MM-dd HH:mm:ss" value="${post.createDate}"/>
+				<fmt:formatDate var="updateDate" pattern="yyyy-MM-dd HH:mm:ss" value="${post.updateDate}"/>
+				
+				<label style="margin-left:20px;"><b>작성</b></label>
+				<label style="margin-left:10px;">${createDate}</label>
+				
+				<label style="margin-left:20px;"><b>최종수정</b></label>
+				<label style="margin-left:10px;">${updateDate}</label>
 			</div>
 		</div>
 		<hr>
