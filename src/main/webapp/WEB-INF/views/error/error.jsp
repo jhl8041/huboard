@@ -28,6 +28,12 @@
 		<c:if test="${code ge 500}">
 			<c:set var="errorTitle" value="내부서버 에러입니다" />
 		</c:if>
+		<c:if test="${code eq 403}">
+			<c:set var="errorTitle" value="접근권한이 없습니다" />
+		</c:if>
+		<c:if test="${code eq 400}">
+			<c:set var="errorTitle" value="잘못된 페이지 접근입니다" />
+		</c:if>
 		
 		<div class="container" style="min-height:500px">
 			<div class="row justify-content-center">
@@ -38,7 +44,7 @@
 			</div>
 			<div class="row justify-content-center">
 				<div class="form-group">	
-					<input class="btn btn-primary" style="width:330px; margin-top:100px" type=button value=홈으로 onclick="location.href='/'">
+					<input class="btn btn-primary" style="width:330px; margin-top:100px" type=button value=홈으로 onclick="location.href='/home'">
 				</div>
 			</div>
 		</div>

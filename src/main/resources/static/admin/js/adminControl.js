@@ -24,7 +24,7 @@
 					}),
 	        contentType: 'application/json',
 	        success : function(data){
-	        	window.location = "http://localhost:8080/admincontrol"; 	
+	        	window.location = "http://localhost:8080/admin/admincontrol"; 	
 	        },
 			error:function(xhr,status,error){
 				console.log('error:'+error);
@@ -35,8 +35,12 @@
 
 function deleteCategory(categoryId){
 	if (confirm("정말 삭제하시겠습니까?")){
-		window.location = "http://localhost:8080/category/"+categoryId; 
+		window.location = "http://localhost:8080/admin/category/"+categoryId; 
 	}
 }
- 
- 
+
+function unlockMember(userNum){
+	if (confirm("잠금을 해제하시겠습니까?")){
+		window.location = "http://localhost:8080/admin/unlock/"+userNum; 
+	}
+}

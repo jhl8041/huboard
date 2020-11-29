@@ -14,12 +14,14 @@ jQuery(document).ready(function($) {
 
 function deletePost(){
 	var boardIdStr = document.getElementById("boardId").value;
+	var categoryIdStr = document.getElementById("categoryId").value;
+	
 	if (confirm('해당 게시글을 삭제하시겠습니까?')){
 	    $.ajax({
 	        url : "/board/"+boardIdStr,
 	        type : "delete",
 	        success : function(data){
-	  			window.location.href = "http://localhost:8080/"
+	  			window.location.href = "http://localhost:8080/"+categoryIdStr;
 	        },
 			error:function(xhr,status,error){
 				console.log('error:'+status);

@@ -131,6 +131,18 @@ public class MemberService implements UserDetailsService {
 		return memberRepo.findByUserId(userId).get();
 	}
 	
+	public MemberVo getMemberByUserNum(Long userNum) {
+		return memberRepo.findById(userNum).get();
+	}
+	
+	public List<MemberVo> getLockedMember(){
+		return memberRepo.findByIsLocked("Y");
+	}
+	
+	public void unlockMember(MemberVo membervo) {
+		memberRepo.save(membervo);
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
 		MemberVo member = memberRepo.findByUserId(username).get();

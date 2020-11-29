@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CatRowColDto;
 import com.humuson.huboard.model.CategoryVo;
+import com.humuson.huboard.model.MemberVo;
 import com.humuson.huboard.service.CategoryService;
 import com.humuson.huboard.service.MemberService;
 
@@ -43,9 +44,11 @@ public class AdminController {
 	@GetMapping("/admin/admincontrol")
 	public String adminControl(Model model, @AuthenticationPrincipal User user) {
 		List<CategoryVo> category = categoryService.getAllCategory();
+		List<MemberVo> member = memberService.getLockedMember();
 		
 		//카테고리 목록 전송
 		model.addAttribute("category", category);
+		model.addAttribute("lockedMember", member);
 		
 		//로그인했을때만 계정정보 전송
 		if (user != null) model.addAttribute("member", memberService.getMemberByUserId(user.getUsername()));
@@ -54,14 +57,14 @@ public class AdminController {
 	}
 	
 	//카테고리 추가 - C
-	@PostMapping("/category")
+	@PostMapping("admin/category")
 	public String addCategory(CategoryVo categoryvo) {
 		categoryService.addCategory(categoryvo);	
-		return "redirect:/admincontrol";
+		return "redirect:/admin/admincontrol";
 	}
 	
 	//카테고리 수정 - U
-	@PostMapping("/category/{categoryId}")
+	@PostMapping("admin/category/{categoryId}")
 	@ResponseBody
 	public String editCategory(@RequestBody CategoryVo categoryvo, @PathVariable Long categoryId) {
 		categoryvo.setCategoryId(categoryId);
@@ -70,10 +73,20 @@ public class AdminController {
 	}
 	
 	//카테고리 제거 - D
-	@GetMapping("/category/{categoryId}")
+	@GetMapping("admin/category/{categoryId}")
 	public String delCategory(@PathVariable Long categoryId) {
 		categoryService.deleteCategory(categoryId);	
-		return "redirect:/admincontrol";
+		return "redirect:/admin/admincontrol";
+	}
+	
+	//카테고리 수정 - U
+	@GetMapping("admin/unlock/{userNum}")
+	public String findLockedMember(MemberVo membervo, @PathVariable Long userNum) throws Exception {
+		MemberVo member = memberService.getMemberByUserNum(userNum);
+		member.setFailCnt(0);
+		member.setIsLocked("N");
+		memberService.unlockMember(member);	
+		return "redirect:/admin/admincontrol";
 	}
 	
 	

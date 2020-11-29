@@ -97,6 +97,7 @@
 					<input type="hidden" name="userId" id="userId" value="${member.userId}"/>
 					<input type="hidden" name="userNum" id="userNum" value="${member.userNum}"/>
 					<input type="hidden" name="nickname" id="nickname" value="${member.nickname}"/>
+					<input type="hidden" name="categoryId" id="categoryId" value="${post.categoryId}"/>
 					<input class="btn btn-primary" style="margin-top:10px" type=button value=댓글작성 onClick="addComment()">
 				</div>
 			</div>
