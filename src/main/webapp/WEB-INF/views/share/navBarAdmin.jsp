@@ -23,17 +23,11 @@
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav col">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-			      	<li class="nav-item dropdown">
-					    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">커뮤니티</a>
-					    <div class="dropdown-menu">
-					    	<c:forEach var="categoryList" items="${categoryList}">
-					    		<a class="dropdown-item" href="/${categoryList.getCategoryId()}">${categoryList.getCategoryName()}</a>
-					    	</c:forEach>
-					    	
-						</div>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="/admin/dashboard">대시보드</a>
 					</li>
-				      	<li class="nav-item">
-			        	<a class="nav-link" href="/lab">실험실</a>
+				    <li class="nav-item">
+			        	<a class="nav-link" href="/admin/admincontrol">관리</a>
 					</li>
 		          	<c:if test="${not empty member.getNickname()}">
 			          	<li class="nav-item" style="margin-left:20px">

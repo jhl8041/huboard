@@ -21,4 +21,12 @@ public class CategoryService {
 	public List<CategoryVo> getAllCategory(){
 		return categoryRepo.findAll();
 	}
+	
+	public void addCategory(CategoryVo categoryvo) {
+		categoryRepo.save(categoryvo);
+	}
+	
+	public void deleteCategory(Long categoryId) {
+		categoryRepo.deleteById(categoryId);
+	}
 }

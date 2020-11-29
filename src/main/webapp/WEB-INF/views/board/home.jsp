@@ -23,6 +23,7 @@
 </head>
 <body>
 	<!-- 네비게이션 바 -->
+	<c:set var="categoryList" value="${category}" scope="session" />
 	<div id="nav-placeholder"></div>
 	
 	<c:set var="listCnt" value="0" scope="page"/>

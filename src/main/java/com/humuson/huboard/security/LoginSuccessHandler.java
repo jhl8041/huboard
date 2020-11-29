@@ -45,7 +45,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
 		resultRedirectStrategy(request, response, authentication);
 
 	}
@@ -55,10 +54,18 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
         
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         
-        if(savedRequest!=null) {
+        String userId = request.getParameter("userId");
+        MemberVo membervo = memberService.getMemberByUserId(userId);
+        String role = membervo.getAuth();
+        
+        if(savedRequest!=null && role.equals("ROLE_MEMBER")) {
             String targetUrl = savedRequest.getRedirectUrl();
             redirectStratgy.sendRedirect(request, response, targetUrl);
-        } else {
+        } 
+        else if (role.equals("ROLE_ADMIN")) {
+            redirectStratgy.sendRedirect(request, response, "/admin/admincontrol");
+        }
+        else{
             redirectStratgy.sendRedirect(request, response, "/home");
         }
         
