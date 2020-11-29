@@ -18,28 +18,35 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/member/css/memberLogin.css">
 	
 	<!-- Script -->
-	<script type="text/javascript" src="/resources/member/js/memberJoin.js" charset="utf-8"></script>
-	<script type="text/javascript" src="/resources/member/js/memberLogin.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/resources/board/js/home.js" charset="utf-8"></script>
 	
 </head>
 <body>
 	<!-- 네비게이션 바 -->
 	<div id="nav-placeholder"></div>
 	
+	<c:set var="listCnt" value="0" scope="page"/>
+	
 	<div class="container" style="min-height:560px">
-		<div class="row justify-content-center">
-			<div class="col">
-				<div id="tableArea" class="row justify-content-center">
+		<c:forEach var="row" begin="1" end="${catRowCol.getRow()}">
+			<div class="row justify-content-center" style="min-height:300px">
+			
+			<c:forEach var="col" begin="1" end="${catRowCol.getCol()}" >
+				<div class="col">
+					<c:if test="${not empty category[listCnt]}">
+					<div>
+						<a href="/${category[listCnt].categoryId}">${category[listCnt].categoryName}</a>
+					</div>
 					<!-- 게시글 리스트 -->
 					<table class="table table-hover" style="table-layout: fixed">
 						<thead>
-							<tr style="text-align:center">
+							<tr style="text-align:left">
 								<th style="width: 50%" scope="col">제목</th>
 							</tr>
 						</thead>
-						<c:if test="${list.isEmpty() eq false}">
+						<c:if test="${not empty catRowCol.catList[listCnt]}">
 							<tbody>
-								<c:forEach var="list" items="${list.getContent()}" >
+								<c:forEach var="list" items="${catRowCol.catList[listCnt]}" >
 									<tr class='clickable-row' id='boardlist' data-href='http://localhost:8080/board/${list.boardId}'>
 										<td style="text-align:left">
 											<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
@@ -56,23 +63,22 @@
 								</c:forEach>
 							</tbody>
 						</c:if>
-						<c:if test="${list.isEmpty() eq true}">
+						<c:if test="${empty catRowCol.catList[listCnt]}">
 							<tbody>
 								<tr class="table-secondary" style="text-align:center">
-									<td colspan="6">게시글이 존재하지 않습니다</td>
+									<td>게시글이 존재하지 않습니다</td>
 								<tr>
 							</tbody>
 						</c:if>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="row justify-content-center">
-			<div class="col">
-				
-				
-			</div>
-		</div>
+					</table> <!-- End of Table  -->
+					
+					<c:set var="listCnt" value="${listCnt+1}"/>
+					</c:if>
+				</div> <!-- End of Col  -->
+			</c:forEach> <!-- End of Col loop  -->
+			
+			</div> <!-- End of Row  -->
+		</c:forEach> <!-- End of Row loop  -->
 	</div>
 	
 	<!-- Footer -->

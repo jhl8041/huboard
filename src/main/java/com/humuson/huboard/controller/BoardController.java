@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.humuson.huboard.model.BoardVo;
+import com.humuson.huboard.model.CatRowColDto;
 import com.humuson.huboard.model.CategoryVo;
 import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.model.FileVo;
@@ -67,11 +68,21 @@ public class BoardController {
 	public String boardHome(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
 			@AuthenticationPrincipal User user) {
 		
-		List<BoardVo> cat1 = boardService.getTopTen(1L);
-		List<BoardVo> cat2 = boardService.getTopTen(2L);
-		List<BoardVo> cat3 = boardService.getTopTen(3L);
-		List<BoardVo> cat4 = boardService.getTopTen(4L);
+		List<List<BoardVo>> catList = new ArrayList<>();
+		List<CategoryVo> category = categoryService.getAllCategory();
 		
+		int catSize = category.size();
+		int catCol = 2;
+		int catRow = (catSize/catCol) + 1;
+		
+		for (Long cat=1L; cat<= 3L ;cat+=1L) {
+			catList.add(boardService.getTopTen(cat));
+		}
+		
+		CatRowColDto catRowCol = new CatRowColDto(catList, catRow, catCol);
+		
+		model.addAttribute("category", category);
+		model.addAttribute("catRowCol",catRowCol);
 		return "board/home";
 	}
 		
