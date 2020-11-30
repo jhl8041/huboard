@@ -65,7 +65,7 @@
 					<small>새로운 카테고리 등록</small>
 				</div>
 				<div class="form-inline">
-					<form method="post" action="admin/category" onsubmit="return confirm('등록하시겠습니까?')">
+					<form method="post" action="/admin/category" onsubmit="return confirm('등록하시겠습니까?')">
 						<input class="form-control" type="text" name="categoryName" placeholder="등록할 카테고리명을 입력하세요" style="width:400px" required>
 						<input class="btn btn-primary" type="submit" value="등록">
 					</form>

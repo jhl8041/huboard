@@ -38,6 +38,7 @@ public class BoardVo implements Serializable{
 	
 	@OneToMany(mappedBy="boardId", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	private List<CommentVo> comment = new ArrayList<>();
+	
 	private int commentCnt;
 	
 	@OneToMany(mappedBy="boardId", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)

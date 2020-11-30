@@ -71,4 +71,14 @@ public class BoardService {
 		boardRepo.save(board);
 	}
 	
+	public int getViewCntByCategoryId(Long categoryId) {
+		int totalCnt = 0;
+		List<BoardVo> boards = boardRepo.findByVisibleAndCategoryId("Y", categoryId);
+		for (BoardVo b: boards) {
+			totalCnt += b.getView();
+		}
+		return totalCnt;
+	}
+	
+	
 }

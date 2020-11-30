@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Insert title here</title>
+	<title>관리자 대시보드</title>
 	
 	<!-- AJAX -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -15,8 +15,12 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/member/css/memberLogin.css">
 	
 	<!-- Script -->
-	<script type="text/javascript" src="/resources/member/js/memberJoin.js" charset="utf-8"></script>
-	<script type="text/javascript" src="/resources/member/js/memberLogin.js" charset="utf-8"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	
+	<script type="text/javascript" src="/resources/admin/js/adminDashboard.js" charset="utf-8"></script>
+	
+	
+	
 	
 </head>
 <body>
@@ -24,8 +28,28 @@
 	<div id="nav-placeholder"></div>
 	
 	<div class="container" style="min-height:560px">
-		
-		
+		<div id="boardTitle" class="row justify-content-left">
+			<h3>
+				통계 대시보드 <br>
+			</h3>
+			<hr>
+		</div>
+		<div class="row justify-content-center" style="min-height:300px; margin-top:30px;">
+			<div class="card" style="width:100%;">
+			  	<h5 class="card-header">회원수 현황</h5>
+			  	<div class="card-body">
+				    <canvas id="memberCntLineChart"></canvas>	
+			  	</div>
+			</div>
+		</div>
+		<div class="row justify-content-center" style="min-height:300px; margin-top:30px;">
+			<div class="card" style="width:100%;">
+			  	<h5 class="card-header">카테고리별 조회수 현황</h5>
+			  	<div class="card-body">
+				    <canvas id="viewBarChart"></canvas>	
+			  	</div>
+			</div>
+		</div>
 	</div>
 	
 	<!-- Footer -->

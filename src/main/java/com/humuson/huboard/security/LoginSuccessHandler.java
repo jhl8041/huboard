@@ -63,7 +63,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
             redirectStratgy.sendRedirect(request, response, targetUrl);
         } 
         else if (role.equals("ROLE_ADMIN")) {
-            redirectStratgy.sendRedirect(request, response, "/admin/admincontrol");
+            redirectStratgy.sendRedirect(request, response, "/admin/dashboard");
         }
         else{
             redirectStratgy.sendRedirect(request, response, "/home");

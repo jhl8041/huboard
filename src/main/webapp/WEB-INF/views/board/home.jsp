@@ -32,7 +32,7 @@
 	
 	<div class="container" style="min-height:560px">
 		<c:forEach var="row" begin="1" end="${catRowCol.getRow()}">
-			<div class="row justify-content-center" style="min-height:300px">
+			<div class="row justify-content-center" style="min-height:300px; margin-top:30px">
 			
 			<c:forEach var="col" begin="1" end="${catRowCol.getCol()}" >
 				<div class="col">

@@ -18,5 +18,7 @@ public interface BoardRepository extends JpaRepository<BoardVo, Long> {
 	
 	public List<BoardVo> findTop10ByCategoryIdOrderByBoardIdDesc(Long categoryId);
 	
+	public List<BoardVo> findByVisibleAndCategoryId(String visible, Long categoryId);
+	
 	public Optional<BoardVo> findTopByOrderByBoardIdDesc();
 }

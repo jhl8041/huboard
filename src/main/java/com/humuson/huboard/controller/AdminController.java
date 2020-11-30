@@ -1,6 +1,11 @@
 package com.humuson.huboard.controller;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CatRowColDto;
 import com.humuson.huboard.model.CategoryVo;
+import com.humuson.huboard.model.MemberLineDto;
 import com.humuson.huboard.model.MemberVo;
+import com.humuson.huboard.model.ViewBarDto;
+import com.humuson.huboard.service.BoardService;
 import com.humuson.huboard.service.CategoryService;
 import com.humuson.huboard.service.MemberService;
 
@@ -32,6 +40,9 @@ public class AdminController {
 	@Autowired
 	CategoryService categoryService;
 	
+	@Autowired
+	BoardService boardService;
+	
 	//상단고정 메뉴바
 	@GetMapping("/navbaradmin")
 	public String navBar(Model model, @AuthenticationPrincipal User user) {
@@ -40,7 +51,73 @@ public class AdminController {
 		return "share/navBarAdmin";
 	}
 	
-	//관리자 컨틀롤 - R
+	@GetMapping("/admin/dashboard")
+	public String adminDashboard(Model model) {
+		
+		
+		return "admin/adminDashboard";
+	}
+	
+	public static Date addMonth(Date date, int months) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, months);
+        return cal.getTime();
+    }
+	
+	//월별 회원가입수 라인 그래프
+	@PostMapping("/admin/memberline")
+	@ResponseBody
+	public List<MemberLineDto> adminMemberLine() throws ParseException {
+		List<MemberLineDto> memberLineDtoList = new ArrayList<>();
+		
+		System.out.println("testing");
+		
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM");
+
+		String startDateStr = formatDate.format(memberService.getFirstDate());
+		Date startDate = formatDate.parse(startDateStr);
+		
+		String endDateStr = formatDate.format(new Date());
+		Date endDate = formatDate.parse(endDateStr);
+				
+		Calendar start = Calendar.getInstance();
+		start.setTime(startDate);
+		
+		Calendar end = Calendar.getInstance();
+		end.setTime(endDate);
+		end.add(Calendar.MONTH,1);
+		
+		for (Date date = start.getTime(); start.before(end); start.add(Calendar.MONTH,1), date=start.getTime()) {	
+			Calendar dater = Calendar.getInstance();
+			dater.setTime(date);
+			dater.add(Calendar.MONTH,1);
+			
+			int memberCnt = memberService.getMemberCntBetween(dater.getTime());
+			memberLineDtoList.add(new MemberLineDto(formatDate.format(date), memberCnt));	
+		}
+				
+		return memberLineDtoList;
+	}
+		
+	
+	//카테고리별 조회수 바 그래프
+	@PostMapping("/admin/viewbar")
+	@ResponseBody
+	public List<ViewBarDto> adminViewBar() {
+		List<ViewBarDto> viewbardtolist = new ArrayList<>();
+		List<CategoryVo> category = categoryService.getAllCategory();
+		
+		for (CategoryVo c: category) {
+			String catName = c.getCategoryName();
+			int viewCnt = boardService.getViewCntByCategoryId(c.getCategoryId());
+			viewbardtolist.add(new ViewBarDto(catName, viewCnt));
+		}
+		
+		return viewbardtolist;
+	}
+	
+	//관리자 관리 페이지 - R
 	@GetMapping("/admin/admincontrol")
 	public String adminControl(Model model, @AuthenticationPrincipal User user) {
 		List<CategoryVo> category = categoryService.getAllCategory();
@@ -79,7 +156,7 @@ public class AdminController {
 		return "redirect:/admin/admincontrol";
 	}
 	
-	//카테고리 수정 - U
+	//잠긴 사용자 해제
 	@GetMapping("admin/unlock/{userNum}")
 	public String findLockedMember(MemberVo membervo, @PathVariable Long userNum) throws Exception {
 		MemberVo member = memberService.getMemberByUserNum(userNum);

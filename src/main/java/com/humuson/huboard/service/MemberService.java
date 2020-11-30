@@ -20,7 +20,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.model.EmailDto;
 import com.humuson.huboard.model.MemberVo;
@@ -51,6 +53,20 @@ public class MemberService implements UserDetailsService {
 		return memberRepo.findByEmail(email).isPresent();
 	}
 	
+	public int getMemberCntBetween(java.util.Date yearMonth) {
+		java.sql.Date startDate = new java.sql.Date(memberRepo.findTopByOrderByJoinDate().get().getJoinDate().getTime());
+		java.sql.Date endDate = new java.sql.Date(yearMonth.getTime());
+		List<MemberVo> members = memberRepo.findByJoinDateBetween(startDate, endDate);
+		int memberCnt = members.size();
+	
+		return memberCnt;
+	}
+	
+	public java.util.Date getFirstDate(){
+		return new java.util.Date(memberRepo.findTopByOrderByJoinDate().get().getJoinDate().getTime());
+	}
+	
+	//회원가입 인증이메일 보내기
 	public void mailSend(EmailDto mailDto){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mailDto.getEmail());
@@ -60,6 +76,7 @@ public class MemberService implements UserDetailsService {
         mailSender.send(message);
     }
 	
+	//회원정보 추가
 	public void addMember(MemberVo membervo) throws Exception {
 		
 		String encryptPw = BCrypt.hashpw(membervo.getPassword(), BCrypt.gensalt());
@@ -86,6 +103,7 @@ public class MemberService implements UserDetailsService {
 				));
 	}
 	
+	//회원정보 수정
 	public void editMember(MemberVo membervo) throws Exception {
 		MemberVo newMember = memberRepo.findByUserId(membervo.getUserId()).get();
 		
@@ -115,6 +133,7 @@ public class MemberService implements UserDetailsService {
 		memberRepo.save(newMember);
 	}
 	
+	//회원정보 삭제
 	public void deleteMember(String userId) {
 		List<CommentVo> commentList = commentRepo.findByUserId(userId);
 		

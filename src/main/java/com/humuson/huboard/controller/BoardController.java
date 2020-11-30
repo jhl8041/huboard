@@ -89,8 +89,8 @@ public class BoardController {
 		int catCol = 2;
 		int catRow = (catSize/catCol) + 1;
 		
-		for (Long cat=1L; cat<= 3L ;cat+=1L) {
-			catList.add(boardService.getTopTen(cat));
+		for (CategoryVo c:category) {
+			catList.add(boardService.getTopTen(c.getCategoryId()));
 		}
 		
 		CatRowColDto catRowCol = new CatRowColDto(catList, catRow, catCol);
