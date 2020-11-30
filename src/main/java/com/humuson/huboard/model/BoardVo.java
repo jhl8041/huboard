@@ -39,11 +39,13 @@ public class BoardVo implements Serializable{
 	@OneToMany(mappedBy="boardId", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	private List<CommentVo> comment = new ArrayList<>();
 	
-	private int commentCnt;
-	
 	@OneToMany(mappedBy="boardId", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	private List<FileVo> file = new ArrayList<>();
 	
+	@OneToMany(mappedBy="boardId", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
+	private List<LikeVo> likevo = new ArrayList<>();
+	
+	private int commentCnt;
 	private String userId;
 	private String nickname;
 	private Long userNum;

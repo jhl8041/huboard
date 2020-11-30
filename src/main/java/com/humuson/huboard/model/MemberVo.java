@@ -41,6 +41,9 @@ public class MemberVo implements UserDetails {
 	@OneToMany(mappedBy="userNum", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
 	private List<BoardVo> board = new ArrayList<>();
 	
+	@OneToMany(mappedBy="userNum", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
+	private List<LikeVo> likevo = new ArrayList<>();
+	
 	private String userId;
 	private String password;
 	private String userFullName;

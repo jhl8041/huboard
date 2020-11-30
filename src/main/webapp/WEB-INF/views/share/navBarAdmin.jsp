@@ -47,9 +47,6 @@
 				          마이메뉴
 				        </a>
 			          	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-				          	<a class="dropdown-item" href="/mypage">내정보수정</a>
-					          <a class="dropdown-item" href="javascript:void(0)" onclick="quitMember(${member.getUserId()})">회원탈퇴</a>
-					          <div class="dropdown-divider"></div>
 				          	<a class="dropdown-item" href="/logout" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a>
 			          	</div>
 					</li>
