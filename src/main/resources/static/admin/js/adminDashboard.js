@@ -61,8 +61,8 @@
 			datasets: [{ 
 				label: '조회수 통계', 
 				data: dataArr, 
-				backgroundColor: backgroundColorArr, 
-				borderColor: borderColorArr, 
+				backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+				borderColor: 'rgba(255, 99, 132, 1)', 
 				borderWidth: 1 
 			}] 
 		}, 

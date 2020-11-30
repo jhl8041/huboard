@@ -250,7 +250,11 @@ public class BoardController {
 	@ResponseBody
 	public int likePost(@RequestBody LikeVo likevo) {
 		boardService.addLike(likevo);
-		return boardService.getLikeCntByBoardId(likevo.getBoardId());
+		int likeCnt = boardService.getLikeCntByBoardId(likevo.getBoardId());
+		BoardVo board = boardService.getPost(likevo.getBoardId()).get();
+		board.setLikeCnt(likeCnt);
+		boardService.addPost(board);
+		return likeCnt;
 	}
 	
 	//좋아요 해제
@@ -259,7 +263,11 @@ public class BoardController {
 	@ResponseBody
 	public int unlikePost(@RequestBody LikeVo likevo) {
 		boardService.deleteLike(likevo.getBoardId(), likevo.getUserNum());
-		return boardService.getLikeCntByBoardId(likevo.getBoardId());
+		int likeCnt = boardService.getLikeCntByBoardId(likevo.getBoardId());
+		BoardVo board = boardService.getPost(likevo.getBoardId()).get();
+		board.setLikeCnt(likeCnt);
+		boardService.addPost(board);
+		return likeCnt;
 	}
 	
 }

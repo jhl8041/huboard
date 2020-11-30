@@ -42,11 +42,6 @@
 					</div>
 					<!-- 게시글 리스트 -->
 					<table class="table table-hover" style="table-layout: fixed">
-						<thead>
-							<tr style="text-align:left">
-								<th style="width: 50%" scope="col">제목</th>
-							</tr>
-						</thead>
 						<c:if test="${not empty catRowCol.catList[listCnt]}">
 							<tbody>
 								<c:forEach var="list" items="${catRowCol.catList[listCnt]}" >

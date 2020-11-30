@@ -17,10 +17,10 @@
     
     if (confirm(categoryNameEditStr+"로 수정하시겠습니까?")){
 		$.ajax({
-	        url : "/category/"+categoryId,
+	        url : "/admin/category/"+categoryId,
 	        type : "POST",
 	        data : JSON.stringify({
-	        			categoryName: categoryNameEditStr,
+	        			categoryName: categoryNameEditStr
 					}),
 	        contentType: 'application/json',
 	        success : function(data){

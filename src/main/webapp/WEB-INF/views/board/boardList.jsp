@@ -62,9 +62,10 @@
 					<thead>
 						<tr style="text-align:center">
 							<th style="width: 7%" scope="col">번호</th>
-							<th style="width: 50%" scope="col">제목</th>
-							<th style="width: 23%" scope="col">작성시간</th>
-							<th style="width: 10%" scope="col">작성자</th>
+							<th style="width: 40%" scope="col">제목</th>
+							<th style="width: 20%" scope="col">작성일</th>
+							<th style="width: 13%" scope="col">작성자</th>
+							<th style="width: 10%" scope="col">추천</th>
 							<th style="width: 10%" scope="col">조회수</th>
 						</tr>
 					</thead>
@@ -89,6 +90,7 @@
 									</td>
 									<td><fmt:formatDate value="${list.updateDate}" pattern="yyyy-MM-dd"/></td>
 									<td>${list.nickname}</td>
+									<td>${list.likeCnt}</td>
 									<td>${list.view}</td>
 								</tr>
 							</c:forEach>
