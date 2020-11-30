@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.swing.filechooser.FileSystemView;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,7 @@ import com.humuson.huboard.model.CatRowColDto;
 import com.humuson.huboard.model.CategoryVo;
 import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.model.FileVo;
+import com.humuson.huboard.model.LikeVo;
 import com.humuson.huboard.model.MemberVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.service.BoardService;
@@ -169,12 +171,19 @@ public class BoardController {
 		BoardVo post = boardService.getPost(boardId).get();
 		post.setView(post.getView()+1); 
 		boardService.addPost(post); //조회수 증가
-		CategoryVo category = categoryService.getCategory(post.getCategoryId());
 		
+		CategoryVo category = categoryService.getCategory(post.getCategoryId());
+		MemberVo member = memberService.getMemberByUserId(user.getUsername());
+		
+		boolean ifLike = boardService.getIfILike(boardId, member.getUserNum());
+		System.out.println(ifLike);
+		
+		model.addAttribute("ifLike", ifLike);
 		model.addAttribute("files", fileService.getFiles(boardId));
 		model.addAttribute("post", post);
-		model.addAttribute("member",memberService.getMemberByUserId(user.getUsername()));
+		model.addAttribute("member",member);
 		model.addAttribute("category", category);
+		model.addAttribute("likeCnt", boardService.getLikeCntByBoardId(boardId));
 		return "board/boardView";
 	}
 	
@@ -234,6 +243,23 @@ public class BoardController {
 	@ResponseBody
 	public Long getFileId(@PathVariable String fileName) {
 		return fileService.getFileId(fileName);
+	}
+	
+	//좋아요 활성화
+	@PostMapping("/likepost")
+	@ResponseBody
+	public int likePost(@RequestBody LikeVo likevo) {
+		boardService.addLike(likevo);
+		return boardService.getLikeCntByBoardId(likevo.getBoardId());
+	}
+	
+	//좋아요 해제
+	@Transactional
+	@PostMapping("/unlikepost")
+	@ResponseBody
+	public int unlikePost(@RequestBody LikeVo likevo) {
+		boardService.deleteLike(likevo.getBoardId(), likevo.getUserNum());
+		return boardService.getLikeCntByBoardId(likevo.getBoardId());
 	}
 	
 }

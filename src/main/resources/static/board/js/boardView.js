@@ -10,7 +10,21 @@ $(function(){
 jQuery(document).ready(function($) {
 	$("#nav-placeholder").load("http://localhost:8080/navbar");
 	$("#footer-placeholder").load("http://localhost:8080/footer");
+	
+	checkLikeButton();
+	
 });
+
+function checkLikeButton(){
+	var ifLikeStr = document.getElementById("ifLike").value;
+	console.log(ifLikeStr);
+	if (ifLikeStr == 'true'){
+		document.getElementById("likeImg").src = "/resources/images/heartFullRed.png"
+	}
+	else{
+		document.getElementById("likeImg").src = "/resources/images/heartsEmpty.png"
+	}
+}
 
 function deletePost(){
 	var boardIdStr = document.getElementById("boardId").value;
@@ -177,6 +191,52 @@ function deleteComment(commentId){
 	        contentType: 'application/json',
 	        success : function(data){
 	        	showHtml(data);
+	        },
+			error:function(xhr,status,error){
+				console.log('error:'+error);
+			}
+	    });
+	}
+}
+
+
+function likePost(){
+	var boardIdStr = document.getElementById("boardId").value;
+	var userNumStr = document.getElementById("userNum").value;
+	var ifLikeStr = document.getElementById("ifLike").value;
+	
+	if (ifLikeStr == 'true'){
+		$.ajax({
+	        url : "/unlikepost",
+	        type : "POST",
+	        data : JSON.stringify({
+	        						boardId: boardIdStr,
+	        						userNum: userNumStr,
+	        						}),
+	        contentType: 'application/json',
+	        success : function(data){
+	        	document.getElementById("ifLike").value = false;
+	        	document.getElementById("likeCnt").value = data;
+	        	checkLikeButton();
+	        },
+			error:function(xhr,status,error){
+				console.log('error:'+error);
+			}
+	    });
+	}
+	else{
+		$.ajax({
+	        url : "/likepost",
+	        type : "POST",
+	        data : JSON.stringify({
+	        						boardId: boardIdStr,
+	        						userNum: userNumStr,
+	        						}),
+	        contentType: 'application/json',
+	        success : function(data){
+	        	document.getElementById("ifLike").value = true;
+	        	document.getElementById("likeCnt").value = data;
+	        	checkLikeButton();
 	        },
 			error:function(xhr,status,error){
 				console.log('error:'+error);

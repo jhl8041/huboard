@@ -51,7 +51,7 @@ public class MemberController {
 	@PostMapping("/mypage")
 	public String doEditMember(MemberVo membervo) throws Exception {
 		memberService.editMember(membervo);
-		return "redirect:/";
+		return "redirect:/home";
 	}
 	
 	//로그인 페이지

@@ -110,7 +110,7 @@
 					<input class="btn btn-primary" style="margin-top:30px" type=submit value="회원정보수정">
 				</div>
 				<div class="form-group">	
-					<input class="btn btn-primary" style="margin-top:10px" type=button value=취소 onclick="location.href='/'">
+					<input class="btn btn-primary" style="margin-top:10px" type=button value=취소 onclick="location.href='/home'">
 				</div>
 			 </form>
 		</div>

@@ -39,6 +39,11 @@
 			          	<li class="nav-item" style="margin-left:20px">
 			          		<a class="nav-link disabled text-light"><b>${member.getNickname()}</b>&nbsp;님 환영합니다!</a>
 			          	</li>
+		          	</c:if>
+		          	<c:if test="${member.getUserId() eq 'admin'}">
+			          	<li class="nav-item" style="margin-left:20px">
+			          		<a class="nav-link" href="/admin/dashboard">관리자 페이지로</a>
+			          	</li>
 		          	</c:if>   
 			    </ul>
 		    </div>

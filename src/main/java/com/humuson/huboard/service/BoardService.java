@@ -17,9 +17,11 @@ import org.springframework.ui.Model;
 import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.model.FileVo;
+import com.humuson.huboard.model.LikeVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.repository.CommentRepository;
 import com.humuson.huboard.repository.FileRepository;
+import com.humuson.huboard.repository.LikeRepository;
 
 @Service
 public class BoardService {
@@ -28,6 +30,9 @@ public class BoardService {
 	
 	@Autowired
 	private CommentRepository commentRepo;
+	
+	@Autowired
+	private LikeRepository likeRepo;
 	
 	public Page<BoardVo> getPagingPost(Long categoryId, Pageable pageable){	
 		return boardRepo.findByVisibleAndCategoryId("Y", categoryId,  pageable);
@@ -80,5 +85,23 @@ public class BoardService {
 		return totalCnt;
 	}
 	
+	public boolean getIfILike(Long boardId, Long UserNum) {
+		if (likeRepo.findByBoardIdAndUserNum(boardId, UserNum).isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	public void addLike(LikeVo likevo) {
+		likeRepo.save(likevo);
+	}
+	
+	public void deleteLike(Long boardId, Long userNum) {
+		likeRepo.deleteByBoardIdAndUserNum(boardId, userNum);
+	}
+	
+	public int getLikeCntByBoardId(Long boardId) {
+		return likeRepo.findByBoardId(boardId).size();
+	}
 	
 }

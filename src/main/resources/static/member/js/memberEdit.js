@@ -166,4 +166,8 @@ function formCheck(){
 		alert("주소를 확인해주세요");
 		return false;
 	}
+	
+	if(!confirm("수정하시겠습니까?")){
+		return false;
+	}
 }

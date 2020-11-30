@@ -53,7 +53,16 @@
 		<div id="postContent" class="row justify-content-left">
 			<pre style="margin:0">${post.content}</pre>
 		</div>
-		
+		<div id="likeRow" class="row justify-content-center">
+			<input type="hidden" id="ifLike" value="${ifLike}">
+			<a href="javascript:void(0)" onclick="likePost()">
+				<img id="likeImg" src="" style="height: 60px;"/>
+			</a>
+			<br>
+		</div>
+		<div id="likeCntRow" class="row justify-content-center">
+			<input type="text" id="likeCnt" value="${likeCnt}" style="background-color:rgba(0,0,0,0);border:none;text-align:center">
+		</div>
 		<hr>
 		<label>첨부파일</label>
 		<div>
@@ -76,7 +85,6 @@
 			</c:forEach>
 		</div>
 		<hr>
-		
 		<!-- 버튼 기능 -->
 		<div id="mainButtonRow" class="row justify-content-left">
 			<input type="button" class="btn btn-secondary" value="목록" onclick="location.href='http://localhost:8080/${post.categoryId}'"/>
