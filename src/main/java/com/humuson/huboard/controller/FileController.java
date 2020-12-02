@@ -1,6 +1,7 @@
 package com.humuson.huboard.controller;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.humuson.huboard.model.DeleteFileListDto;
 import com.humuson.huboard.model.FileVo;
 import com.humuson.huboard.service.BoardService;
 import com.humuson.huboard.service.FileService;
@@ -35,11 +37,6 @@ public class FileController {
 		return '"'+ storedName +'"';
 	}
 	
-	//파일 서버에 업로드
-	@PostMapping("/file-server-ck")
-	public void fileToServerCk() throws Exception {
-	}
-	
 	//파일 DB에 등록
 	@PostMapping("/file-db")
 	@ResponseBody
@@ -48,17 +45,17 @@ public class FileController {
 		return "success";
 	}
 	
-	@DeleteMapping("/file-db/{fileId}")
+	//파일 DB에서 제거
+	@DeleteMapping("/file-db")
 	@ResponseBody
-	public ResponseEntity<Long> delete(@PathVariable Long fileId) throws Exception{
-		ResponseEntity<Long> status;
-		
-		try {
+	public ResponseEntity<Long> delete(@RequestBody DeleteFileListDto deleteFileListDto) throws Exception{	
+		List<String> delList = deleteFileListDto.getDeletefileList();
+		for (String i: delList) {
+			System.out.println(i);
+			Long fileId = Long.parseLong(i);
 			fileService.deleteFiles(fileId);
-			status = new ResponseEntity<>(fileId, HttpStatus.OK);
-		}catch (Exception e){
-			status = new ResponseEntity<>(fileId, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return status;
+		
+		return new ResponseEntity<>(1L, HttpStatus.OK);
 	}
 }

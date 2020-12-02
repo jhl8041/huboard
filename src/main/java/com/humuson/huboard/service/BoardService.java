@@ -42,14 +42,13 @@ public class BoardService {
 		return boardRepo.findTop10ByCategoryIdOrderByBoardIdDesc(categoryId);
 	}
 	
-	
 	public Page<BoardVo> findPostBySearch(String keyword, Long categoryId,Pageable pageable, String search_type) {
 		Page<BoardVo> searchPage = boardRepo.findByVisibleAndCategoryId("Y", categoryId, pageable);
 		if (search_type.equals("subject")) {
 			searchPage = boardRepo.findBySubjectContainingAndVisibleAndCategoryId(keyword, "Y", categoryId, pageable);
 		}
 		else if (search_type.equals("userId")) {
-			searchPage = boardRepo.findByUserIdContainingAndVisibleAndCategoryId(keyword, "Y", categoryId, pageable);
+			searchPage = boardRepo.findByNicknameContainingAndVisibleAndCategoryId(keyword, "Y", categoryId, pageable);
 		}
 		else if (search_type.equals("content")) {
 			searchPage = boardRepo.findByContentContainingAndVisibleAndCategoryId(keyword, "Y", categoryId, pageable);
@@ -57,14 +56,17 @@ public class BoardService {
 		return searchPage;
 	}
 	
+	//게시글 가져오기
 	public Optional<BoardVo> getPost(Long id){
 		return boardRepo.findById(id);
 	}
 	
+	//게시글 삭제
 	public void deletePost(Long id){
 		boardRepo.deleteById(id);
 	}
 	
+	//게시글 추가
 	public BoardVo addPost(BoardVo boardVo){
 		return boardRepo.save(boardVo);
 	}

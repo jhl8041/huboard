@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -43,7 +44,7 @@ public class BoardVo implements Serializable{
 	private List<FileVo> file = new ArrayList<>();
 	
 	@OneToMany(mappedBy="boardId", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval=true)
-	private List<LikeVo> likevo = new ArrayList<>();
+	private List<LikeVo> like = new ArrayList<>();
 	
 	private int commentCnt;
 	private String userId;

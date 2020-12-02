@@ -61,7 +61,7 @@
 			</script>
 		</div>
 		
-		<div class="hidden">
+		<div class="hidden" id="hiddenValues">
 			<input type="hidden" name="userId" id="userId" value="${member.getUserId()}"/>
 			<input type="hidden" name="userNum" id="userNum" value="${member.getUserNum()}"/>
 			<input type="hidden" name="boardId" id="boardId" value="${post.boardId}"/>
@@ -75,8 +75,8 @@
 				<c:forEach var="files" items="${files}" >
 				<tr id="row${files.fileId}">
 					<td>
-						<a href="/resources/uploads/${files.storedFileName}" download="${files.originFileName}">${files.originFileName}</a>
-						<a href="javascript:void(0)" onclick="deleteFile(${files.fileId})">x</a>
+						<a href="/resources/uploads/${files.storedFileName}" download="${files.originFileName}" id="fileName${files.fileId}">${files.originFileName}</a>
+						<a href="javascript:void(0)" onclick="addDeleteList(${files.fileId})" id="fileX${files.fileId}">x</a>
 						<br>
 					</td>
 				</tr>
@@ -90,7 +90,7 @@
 								파일을 드래그해서 업로드<br>
 								<small>또는</small><br>
 								<a href="javascript:void(0)" onclick="upload(); return false"><b>여기</b></a>를 눌러서 업로드
-								<input name="upload" multiple="multiple" type="file" id="fileinput" onchange="handleFile(this.files)"/>
+								<input name="upload" multiple="multiple" type="file" id="fileinput" onchange="selectFile(this.files)"/>
 							</div>
 						</td>
 					</tr>

@@ -12,7 +12,7 @@ import com.humuson.huboard.model.BoardVo;
 public interface BoardRepository extends JpaRepository<BoardVo, Long> {
 	public Page<BoardVo> findBySubjectContainingAndVisibleAndCategoryId(String subject, String visible, Long categoryId, Pageable pageable);
 	public Page<BoardVo> findByContentContainingAndVisibleAndCategoryId(String content, String visible, Long categoryId, Pageable pageable);
-	public Page<BoardVo> findByUserIdContainingAndVisibleAndCategoryId(String userId,  String visible, Long categoryId, Pageable pageable);
+	public Page<BoardVo> findByNicknameContainingAndVisibleAndCategoryId(String nickname,  String visible, Long categoryId, Pageable pageable);
 	
 	public Page<BoardVo> findByVisibleAndCategoryId(String visible, Long categoryId, Pageable pageable);
 	

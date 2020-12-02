@@ -41,6 +41,7 @@ import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CatRowColDto;
 import com.humuson.huboard.model.CategoryVo;
 import com.humuson.huboard.model.CommentVo;
+import com.humuson.huboard.model.DeleteFileListDto;
 import com.humuson.huboard.model.FileVo;
 import com.humuson.huboard.model.LikeVo;
 import com.humuson.huboard.model.MemberVo;
@@ -126,9 +127,6 @@ public class BoardController {
 			@PathVariable Long categoryId) {
 		boolean data;
 		if (boardId!=0) {
-			System.out.println(boardService.getPost(boardId).get());
-			System.out.println(boardService.getPost(boardId).get().getVisible());
-			
 			data = true;
 			model.addAttribute("post", boardService.getPost(boardId).get());
 		}
@@ -192,12 +190,14 @@ public class BoardController {
 	@ResponseBody
 	public ResponseEntity<BoardVo> boardEdit(Model model, @PathVariable Long boardId, @RequestBody BoardVo boardVo) {
 		ResponseEntity<BoardVo> status;
+		
 		try {
 			BoardVo boardPrev = boardService.getPost(boardId).get();
 			boardVo.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 			boardVo.setCreateDate(boardPrev.getCreateDate());
 			boardVo.setVisible(boardPrev.getVisible());
 			boardService.addPost(boardVo);
+			
 			status = new ResponseEntity<>(boardVo, HttpStatus.OK);
 		}catch (Exception e){
 			status = new ResponseEntity<>(boardVo, HttpStatus.INTERNAL_SERVER_ERROR);

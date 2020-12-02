@@ -89,10 +89,6 @@ function fileDropDown(){
  	});
 }
 
-function handleFile(files){
-	selectFile(files);
-}
-
 function selectFile(files){
     // 다중파일 등록
     if(files != null){
@@ -279,6 +275,28 @@ function uploadFile(fileName, fileSize, fIndex){
 function submitPost(){
 	checkUnload = false;
 	
+	var deleteFileListArr = [];
+	
+	var deleteFileListStr = document.getElementsByClassName('deleteFileList');
+	for(i=0;i<deleteFileListStr.length;i++){
+		deleteFileListArr.push(deleteFileListStr[i].value);
+	}
+	
+	$.ajax({
+        url : "/file-db",
+        type : "DELETE",
+        data : JSON.stringify({
+        	deletefileList: deleteFileListArr
+        }),
+        contentType: 'application/json',
+        success:function(xhr){
+        },
+		error:function(xhr,status,error){
+			console.log('error:'+error);
+		}
+    });
+	
+	
 	var categoryIdStr = document.getElementById("categorySelect").value;
 	var boardIdStr = document.getElementById("boardId").value;
     var userIdStr = document.getElementById("userId").value;
@@ -312,7 +330,7 @@ function submitPost(){
 			userId: userIdStr, 
     		subject: subjectStr, 
     		content: contentStr,
-    		nickname: nicknameStr,
+    		nickname: nicknameStr
 	};
 	
 	//글쓰기
@@ -358,6 +376,15 @@ function deleteFile(fileId){
 			console.log('error:'+error);
 		}
     });
+}
+
+function addDeleteList(fileId){
+	if (confirm("정말 삭제하시겠습니까?")){
+		var html = $("#hiddenValues").html();
+		html += "<input type='hidden' class='deleteFileList' id='fileId" + fileId + "' value='"+ fileId +"'>";
+		$("#row"+fileId).hide();
+		$("#hiddenValues").html(html);
+	}
 }
 
 
