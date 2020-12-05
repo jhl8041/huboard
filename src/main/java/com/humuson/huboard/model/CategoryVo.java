@@ -1,6 +1,5 @@
 package com.humuson.huboard.model;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 

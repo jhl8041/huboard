@@ -10,7 +10,7 @@ jQuery(document).ready(function($) {
         window.location = $(this).data("href");
     });
     
-    var pageSizeStr = $("#pageSize").val();
+    var pageSizeStr = $("#currSize").val();
     if (pageSizeStr){
     	$("#pageSelect").val(pageSizeStr).prop("selected", true);
     }

@@ -7,9 +7,53 @@
  	$("#footer-placeholder").load("http://localhost:8080/footer");
  	
  	memberLineChart();
+ 	genderPieChart();
  	viewBarChart();
 
  });
+ 
+ function genderPieChart(){
+ 	var ctx = document.getElementById('memberGenderPieChart'); 
+ 	var labelArr = [];
+ 	var dataArr = [];
+ 
+ 	
+ 	$.ajax({
+	        url : "/admin/genderpie",
+	        type : "POST",
+	        async: false,
+	        contentType: 'application/json',
+	        success : function(data){
+	        	for (i=0;i<data.length;i++){
+	        		labelArr.push(data[i].categoryName);
+	        		dataArr.push(data[i].cntView);
+	        	}
+	        },
+			error:function(xhr,status,error){
+				console.log('error:'+error);
+			}
+	});
+ 	
+	var myChart = new Chart(ctx, { 
+		type: 'pie', 
+		data: { 
+			labels: labelArr, 
+			datasets: [{ 
+				label: '남여 비율', 
+				data: dataArr, 
+				backgroundColor: [
+					"#4f81bb",
+					"#5f497a"
+				], 
+			}] 
+		}, 
+		options: {
+			pieceLabel: {
+            	render: 'value'
+         	}
+		}
+	});
+ }
  
  function viewBarChart(){
  	var ctx = document.getElementById('viewBarChart'); 

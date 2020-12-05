@@ -1,16 +1,10 @@
 package com.humuson.huboard.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
-import javax.servlet.annotation.MultipartConfig;
-import javax.swing.filechooser.FileSystemView;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,23 +23,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.humuson.huboard.model.BoardPageDto;
 import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CatRowColDto;
 import com.humuson.huboard.model.CategoryVo;
-import com.humuson.huboard.model.CommentVo;
-import com.humuson.huboard.model.DeleteFileListDto;
-import com.humuson.huboard.model.FileVo;
 import com.humuson.huboard.model.LikeVo;
 import com.humuson.huboard.model.MemberVo;
-import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.service.BoardService;
 import com.humuson.huboard.service.CategoryService;
 import com.humuson.huboard.service.FileService;
@@ -65,6 +51,13 @@ public class BoardController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	
+	@GetMapping("/")
+	public String indexPage() {
+		return "index";
+	}
+	
+	
 	//상단고정 메뉴바
 	@GetMapping("/navbar")
 	public String navBar(Model model, @AuthenticationPrincipal User user) {
@@ -78,7 +71,6 @@ public class BoardController {
 	public String footer() {
 		return "share/footer";
 	}
-	
 	
 	//게시글 홈페이지 - R
 	@GetMapping("/home")
@@ -104,14 +96,30 @@ public class BoardController {
 	}
 		
 	//게시글 목록 조회 - R
-	@GetMapping("/{categoryId}")
+	@GetMapping("/cat/{categoryId}")
 	public String boardCategory(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
 			@AuthenticationPrincipal User user, @PathVariable Long categoryId) {
 		Page<BoardVo> pager = boardService.getPagingPost(categoryId, pageable);
 		CategoryVo category = categoryService.getCategory(categoryId);
+			
+		//페이지 블록 사이즈 설정
+		int blockLen = 5;
+		int currBlock = pager.getNumber()/blockLen;
+		int blockStart = currBlock*blockLen;
+		int blockEnd = ((blockStart + blockLen - 1) >= pager.getTotalPages()) ? (pager.getTotalPages()-1) : (blockStart + blockLen - 1);
+				
+		BoardPageDto boardList = new BoardPageDto(
+				pager.getContent(),
+				pager.getNumber(),
+				pager.getSize(),
+				pager.getTotalElements(),
+				pager.getTotalPages(),
+				blockStart,
+				blockEnd
+				);
 		
 		//게시물 목록 및 카테고리 전송
-		model.addAttribute("list",pager);
+		model.addAttribute("pageInfo",boardList);
 		model.addAttribute("category", category);
 		
 		//로그인했을때만 계정정보 전송
@@ -225,9 +233,26 @@ public class BoardController {
 			@PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user){
 		
 		CategoryVo category = categoryService.getCategory(categoryId);
+		Page<BoardVo> pager = boardService.findPostBySearch(keyword, categoryId, pageable, searchType);
+			
+		//페이지 블록 사이즈 설정
+		int blockLen = 5;
+		int currBlock = pager.getNumber()/blockLen;
+		int blockStart = currBlock*blockLen;
+		int blockEnd = ((blockStart + blockLen - 1) >= pager.getTotalPages()) ? (pager.getTotalPages()-1) : (blockStart + blockLen - 1);
+				
+		BoardPageDto boardList = new BoardPageDto(
+				pager.getContent(),
+				pager.getNumber(),
+				pager.getSize(),
+				pager.getTotalElements(),
+				pager.getTotalPages(),
+				blockStart,
+				blockEnd
+				);
 		
 		//게시물 목록 및 카테고리 전송
-		model.addAttribute("list",boardService.findPostBySearch(keyword, categoryId, pageable, searchType));
+		model.addAttribute("pageInfo",boardList);
 		model.addAttribute("category", category);
 		model.addAttribute("keyword",keyword);
 		

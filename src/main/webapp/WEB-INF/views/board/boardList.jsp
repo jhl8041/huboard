@@ -25,6 +25,8 @@
 	<div id="nav-placeholder"></div>
 	
 	<input type="hidden" id="categoryId" value="${category.categoryId}">
+	<input type="hidden" id="currSize" value="${pageInfo.currSize}"/>
+	<input type="hidden" id="currPage" value="${pageInfo.currPage}"/>
 	
 	<div class="container" style="min-height:560px">
 		<div id="boardTitle" class="row justify-content-left">
@@ -38,7 +40,7 @@
 			<div class="col" id="boardInfo">
 				<p style="margin:0;padding-top:14px">
 					<small>
-						총 게시글 ${list.getTotalElements()}개,  페이지 (${list.getNumber()+1} / ${list.getTotalPages()})
+						총 게시글 ${pageInfo.totalBoards}개,  페이지 (${pageInfo.currPage+1} / ${pageInfo.totalPages})
 					</small>
 				</p>
 			</div>
@@ -49,7 +51,6 @@
 				  	<option value="50">50개씩 보기</option>
 				</select>
 			</div>
-			<input type="hidden" id="pageSize" value="${list.getSize()}"/>
 		</div>
 		
 		<jsp:useBean id="now" class="java.util.Date" />
@@ -69,9 +70,9 @@
 							<th style="width: 10%" scope="col">조회수</th>
 						</tr>
 					</thead>
-					<c:if test="${list.isEmpty() eq false}">
+					<c:if test="${pageInfo.pageBoardList.size() ne 0}">
 						<tbody>
-							<c:forEach var="list" items="${list.getContent()}" >
+							<c:forEach var="list" items="${pageInfo.pageBoardList}" >
 								<tr class='clickable-row' id='boardlist' data-href='http://localhost:8080/board/${list.boardId}'>
 									<td>${list.boardId}</td>
 									<td style="text-align:left">
@@ -96,7 +97,7 @@
 							</c:forEach>
 						</tbody>
 					</c:if>
-					<c:if test="${list.isEmpty() eq true}">
+					<c:if test="${pageInfo.pageBoardList.size() eq 0}">
 						<tbody>
 							<tr class="table-secondary" style="text-align:center">
 								<td colspan="6">게시글이 존재하지 않습니다</td>
@@ -114,69 +115,45 @@
 			</div>
 			<div id="paginavArea" class="row justify-content-center">
 				<!-- 페이징을 위한 변수 설정 -->
-				<c:if test="${list.isEmpty() eq false}">
-					<c:set var="paginav_len" value="5"/>
-				   	<c:set var="paginav_section" value="${list.getNumber()/paginav_len - (list.getNumber()/paginav_len)%1}"/>
-				   	
-				   	<c:set var="start_page" value="${paginav_section * paginav_len}"/>
-				   	<c:set var="end_page" value="${start_page + paginav_len - 1}"/>
-				   	
-				   	<c:if test="${end_page gt list.getTotalPages()}">
-				   		<c:set var="end_page" value="${list.getTotalPages()-1}"/>
-				   	</c:if>
-				   	
+				<c:if test="${pageInfo.pageBoardList.size() ne 0}">		   	
 				   	<c:choose>
-				   		<c:when test="${start_page eq 0 }">
+				   		<c:when test="${pageInfo.blockStart eq 0 }">
 				   			<c:set var="disable_trig_prev" value="disabled"/>
 				   		</c:when>
-				   		<c:when test="${start_page ne 0}">
+				   		<c:when test="${pageInfo.blockStart ne 0}">
 				   			<c:set var="disable_trig_prev" value=""/>
 				   		</c:when>
 				   	</c:choose>
 				   	
 				   	<c:choose>
-				   		<c:when test="${end_page eq list.getTotalPages()-1}"> 
+				   		<c:when test="${pageInfo.blockEnd eq pageInfo.totalPages-1}"> 
 				   			<c:set var="disable_trig_next" value="disabled"/>
 				   		</c:when>
-				   		<c:when test="${end_page ne list.getTotalPages()-1}"> 
+				   		<c:when test="${pageInfo.blockEnd ne pageInfo.totalPages-1}"> 
 				   			<c:set var="disable_trig_next" value=""/>
 				   		</c:when>
 				   	</c:choose>
-				   	
-				   	<fmt:parseNumber var="previous" value="${start_page - 1}" integerOnly="true"/>
-				   	<fmt:parseNumber var="next" value="${end_page + 1}" integerOnly="true"/>
-				   	
-				   	<c:set var="currSize" value="10"/> 
-				   	<c:if test="${empty param.size}">
-				   		<c:set var="currSize" value="10"/> 
-				   	</c:if>
-				   	<c:if test="${not empty param.size}">
-				   		<c:set var="currSize" value="${param.size}"/> 
-				   	</c:if>
-				   	<input type="hidden" id="currPage" value="${list.getNumber()}">
-				   	<input type="hidden" id="currSize" value="${currSize}">
-				   	
 				   	
 				   	<!-- 페이징 구현 -->
 					<nav aria-label="Page navigation example">
 						<ul class="pagination">
 							<li class="page-item">
-					      		<a class="page-link" href="?size=${currSize}&page=0" tabindex="-2" aria-disabled="true">처음으로</a>
+					      		<a class="page-link" href="?size=${pageInfo.currSize}&page=0" tabindex="-2" aria-disabled="true">처음으로</a>
 					    	</li>
 					    	<li class="page-item ${disable_trig_prev}">
-					      		<a class="page-link" href="?size=${currSize}&page=${previous}" tabindex="-1" aria-disabled="true">이전</a>
+					      		<a class="page-link" href="?size=${pageInfo.currSize}&page=${pageInfo.blockStart-1}" tabindex="-1" aria-disabled="true">이전</a>
 					    	</li>
-					    	<c:forEach var="page" begin="${start_page}" end="${end_page}">
-							    <li class="page-item" id="page${page}"><a class="page-link" href="?size=${list.getSize()}&page=${page}">${page+1}</a></li>
+					    	<c:forEach var="page" begin="${pageInfo.blockStart}" end="${pageInfo.blockEnd}">
+							    <li class="page-item" id="page${page}"><a class="page-link" href="?size=${pageInfo.currSize}&page=${page}">${page+1}</a></li>
 							</c:forEach>
 							<li>
 								&nbsp;&nbsp; . &nbsp; . &nbsp; . &nbsp;&nbsp;
 							</li>
 							<li class="page-item">
-					      		<a class="page-link" href="?size=${currSize}&page=${list.getTotalPages()-1}">${list.getTotalPages()}</a>
+					      		<a class="page-link" href="?size=${pageInfo.currSize}&page=${pageInfo.totalPages-1}">${pageInfo.totalPages}</a>
 					    	</li>
 					    	<li class="page-item ${disable_trig_next}">
-					      		<a class="page-link" href="?size=${currSize}&page=${next}">다음</a>
+					      		<a class="page-link" href="?size=${pageInfo.currSize}&page=${pageInfo.blockEnd+1}">다음</a>
 					    	</li>
 					  	</ul>
 					</nav>

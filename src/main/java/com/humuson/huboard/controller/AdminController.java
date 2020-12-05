@@ -3,15 +3,11 @@ package com.humuson.huboard.controller;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -22,12 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.humuson.huboard.model.BoardVo;
-import com.humuson.huboard.model.CatRowColDto;
+import com.humuson.huboard.model.BarDto;
 import com.humuson.huboard.model.CategoryVo;
 import com.humuson.huboard.model.MemberLineDto;
 import com.humuson.huboard.model.MemberVo;
-import com.humuson.huboard.model.ViewBarDto;
+import com.humuson.huboard.service.AdminService;
 import com.humuson.huboard.service.BoardService;
 import com.humuson.huboard.service.CategoryService;
 import com.humuson.huboard.service.MemberService;
@@ -42,6 +37,9 @@ public class AdminController {
 	
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	AdminService adminService;
 	
 	//상단고정 메뉴바
 	@GetMapping("/navbaradmin")
@@ -71,19 +69,15 @@ public class AdminController {
 	public List<MemberLineDto> adminMemberLine() throws ParseException {
 		List<MemberLineDto> memberLineDtoList = new ArrayList<>();
 		
-		System.out.println("testing");
-		
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM");
 
 		String startDateStr = formatDate.format(memberService.getFirstDate());
 		Date startDate = formatDate.parse(startDateStr);
-		
-		String endDateStr = formatDate.format(new Date());
-		Date endDate = formatDate.parse(endDateStr);
-				
 		Calendar start = Calendar.getInstance();
 		start.setTime(startDate);
 		
+		String endDateStr = formatDate.format(new Date());
+		Date endDate = formatDate.parse(endDateStr);
 		Calendar end = Calendar.getInstance();
 		end.setTime(endDate);
 		end.add(Calendar.MONTH,1);
@@ -93,7 +87,7 @@ public class AdminController {
 			dater.setTime(date);
 			dater.add(Calendar.MONTH,1);
 			
-			int memberCnt = memberService.getMemberCntBetween(dater.getTime());
+			int memberCnt = adminService.getMemberCntBetween(dater.getTime());
 			memberLineDtoList.add(new MemberLineDto(formatDate.format(date), memberCnt));	
 		}
 				
@@ -104,18 +98,31 @@ public class AdminController {
 	//카테고리별 조회수 바 그래프
 	@PostMapping("/admin/viewbar")
 	@ResponseBody
-	public List<ViewBarDto> adminViewBar() {
-		List<ViewBarDto> viewbardtolist = new ArrayList<>();
+	public List<BarDto> adminViewBar() {
+		List<BarDto> viewbardtolist = new ArrayList<>();
 		List<CategoryVo> category = categoryService.getAllCategory();
 		
 		for (CategoryVo c: category) {
-			String catName = c.getCategoryName();
-			int viewCnt = boardService.getViewCntByCategoryId(c.getCategoryId());
-			viewbardtolist.add(new ViewBarDto(catName, viewCnt));
+			viewbardtolist.add(new BarDto(c.getCategoryName(), adminService.getViewCntByCategoryId(c.getCategoryId())));
 		}
 		
 		return viewbardtolist;
 	}
+	
+	//카테고리별 조회수 바 그래프
+	@PostMapping("/admin/genderpie")
+	@ResponseBody
+	public List<BarDto> adminGenderPie() {
+		List<BarDto> viewbardtolist = new ArrayList<>();
+		
+		viewbardtolist.add(new BarDto("남", adminService.getMemberCntGender("남")));
+		viewbardtolist.add(new BarDto("여", adminService.getMemberCntGender("여")));
+		
+		System.out.println(viewbardtolist);
+		
+		return viewbardtolist;
+	}
+		
 	
 	//관리자 관리 페이지 - R
 	@GetMapping("/admin/admincontrol")

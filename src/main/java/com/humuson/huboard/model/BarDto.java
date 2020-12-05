@@ -2,7 +2,6 @@ package com.humuson.huboard.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -10,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class ViewBarDto {
+public class BarDto {
     private String categoryName;
     private int cntView;
 }

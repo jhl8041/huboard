@@ -338,7 +338,7 @@ function submitPost(){
 		console.log("글쓰기중!");
 		urlStr="/board";
 		typeStr="post";
-		successUrlStr = "http://localhost:8080/"+categoryIdStr;
+		successUrlStr = "http://localhost:8080/cat/"+categoryIdStr;
 	}
 	//수정하기
 	else {

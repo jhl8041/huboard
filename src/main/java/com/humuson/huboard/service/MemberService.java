@@ -4,10 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -20,9 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.model.EmailDto;
 import com.humuson.huboard.model.MemberVo;
@@ -51,15 +45,6 @@ public class MemberService implements UserDetailsService {
 	
 	public boolean findSameEmail(String email) {
 		return memberRepo.findByEmail(email).isPresent();
-	}
-	
-	public int getMemberCntBetween(java.util.Date yearMonth) {
-		java.sql.Date startDate = new java.sql.Date(memberRepo.findTopByOrderByJoinDate().get().getJoinDate().getTime());
-		java.sql.Date endDate = new java.sql.Date(yearMonth.getTime());
-		List<MemberVo> members = memberRepo.findByJoinDateBetween(startDate, endDate);
-		int memberCnt = members.size();
-	
-		return memberCnt;
 	}
 	
 	public java.util.Date getFirstDate(){

@@ -87,7 +87,7 @@
 		<hr>
 		<!-- 버튼 기능 -->
 		<div id="mainButtonRow" class="row justify-content-left">
-			<input type="button" class="btn btn-secondary" value="목록" onclick="location.href='http://localhost:8080/${post.categoryId}'"/>
+			<input type="button" class="btn btn-secondary" value="목록" onclick="location.href='http://localhost:8080/cat/${post.categoryId}'"/>
 			<!-- 작성자 본인만 사용하는 기능 -->
 			<c:if test="${member.userId eq post.userId}">
 				<input type="button" class="btn btn-secondary" style="margin-left:5px" value="수정" onclick="location.href='/editor/${post.boardId}/${post.categoryId}'"/>

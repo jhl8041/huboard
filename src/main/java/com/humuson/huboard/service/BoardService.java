@@ -1,26 +1,16 @@
 package com.humuson.huboard.service;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-
 import com.humuson.huboard.model.BoardVo;
 import com.humuson.huboard.model.CommentVo;
-import com.humuson.huboard.model.FileVo;
 import com.humuson.huboard.model.LikeVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.repository.CommentRepository;
-import com.humuson.huboard.repository.FileRepository;
 import com.humuson.huboard.repository.LikeRepository;
 
 @Service
@@ -34,14 +24,17 @@ public class BoardService {
 	@Autowired
 	private LikeRepository likeRepo;
 	
+	//게시글 페이지 객체로 변환 및 반환
 	public Page<BoardVo> getPagingPost(Long categoryId, Pageable pageable){	
 		return boardRepo.findByVisibleAndCategoryId("Y", categoryId,  pageable);
 	}
 	
+	//게시글 상위 10개 조회
 	public List<BoardVo> getTopTen(Long categoryId){
 		return boardRepo.findTop10ByCategoryIdOrderByBoardIdDesc(categoryId);
 	}
 	
+	//게시글 검색
 	public Page<BoardVo> findPostBySearch(String keyword, Long categoryId,Pageable pageable, String search_type) {
 		Page<BoardVo> searchPage = boardRepo.findByVisibleAndCategoryId("Y", categoryId, pageable);
 		if (search_type.equals("subject")) {
@@ -70,7 +63,8 @@ public class BoardService {
 	public BoardVo addPost(BoardVo boardVo){
 		return boardRepo.save(boardVo);
 	}
-
+	
+	//댓글수 업데이트
 	public void updateCommentCnt(Long boardId) {
 		BoardVo board = boardRepo.findById(boardId).get();
 		List<CommentVo> comments = commentRepo.findByBoardId(boardId);
@@ -78,15 +72,7 @@ public class BoardService {
 		boardRepo.save(board);
 	}
 	
-	public int getViewCntByCategoryId(Long categoryId) {
-		int totalCnt = 0;
-		List<BoardVo> boards = boardRepo.findByVisibleAndCategoryId("Y", categoryId);
-		for (BoardVo b: boards) {
-			totalCnt += b.getView();
-		}
-		return totalCnt;
-	}
-	
+	//좋아요 여부
 	public boolean getIfILike(Long boardId, Long UserNum) {
 		if (likeRepo.findByBoardIdAndUserNum(boardId, UserNum).isEmpty()) {
 			return false;
@@ -94,14 +80,17 @@ public class BoardService {
 		return true;
 	}
 	
+	//좋아요 행 추가
 	public void addLike(LikeVo likevo) {
 		likeRepo.save(likevo);
 	}
 	
+	//좋아요 행 삭제
 	public void deleteLike(Long boardId, Long userNum) {
 		likeRepo.deleteByBoardIdAndUserNum(boardId, userNum);
 	}
 	
+	//게시글별 좋아요 조회
 	public int getLikeCntByBoardId(Long boardId) {
 		return likeRepo.findByBoardId(boardId).size();
 	}

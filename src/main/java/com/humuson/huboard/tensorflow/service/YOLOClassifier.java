@@ -59,7 +59,7 @@ public class YOLOClassifier {
     public List<Recognition> classifyImage(final float[] tensorFlowOutput, final List<String> labels) {
         int numClass = (int) (tensorFlowOutput.length / (Math.pow(SIZE,2) * NUMBER_OF_BOUNDING_BOX) - 5);
         BoundingBox[][][] boundingBoxPerCell = new BoundingBox[SIZE][SIZE][NUMBER_OF_BOUNDING_BOX];
-        PriorityQueue<Recognition> priorityQueue = new PriorityQueue(MAX_RECOGNIZED_CLASSES, new RecognitionComparator());
+        PriorityQueue<Recognition> priorityQueue = new PriorityQueue<>(MAX_RECOGNIZED_CLASSES, new RecognitionComparator());
 
         int offset = 0;
         for (int cy=0; cy<SIZE; cy++) {        // SIZE * SIZE cells
@@ -109,7 +109,7 @@ public class YOLOClassifier {
     }
 
     private List<Recognition> getRecognition(final PriorityQueue<Recognition> priorityQueue) {
-        List<Recognition> recognitions = new ArrayList();
+        List<Recognition> recognitions = new ArrayList<>();
 
         if (priorityQueue.size() > 0) {
             // Best recognition

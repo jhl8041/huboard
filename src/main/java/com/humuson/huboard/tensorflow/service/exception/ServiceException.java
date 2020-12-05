@@ -4,7 +4,12 @@ package com.humuson.huboard.tensorflow.service.exception;
  * ServiceException to throw in case if something wrong happen in the service layer.
  */
 public class ServiceException extends RuntimeException {
-    public ServiceException() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public ServiceException() {
         super();
     }
 

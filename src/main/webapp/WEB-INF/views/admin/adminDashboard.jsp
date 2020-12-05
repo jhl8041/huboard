@@ -12,15 +12,12 @@
 	
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/member/css/memberLogin.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/css/adminDashboard.css">
 	
 	<!-- Script -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	
 	<script type="text/javascript" src="/resources/admin/js/adminDashboard.js" charset="utf-8"></script>
-	
-	
-	
 	
 </head>
 <body>
@@ -35,11 +32,21 @@
 			<hr>
 		</div>
 		<div class="row justify-content-center" style="min-height:300px; margin-top:30px;">
-			<div class="card" style="width:100%;">
-			  	<h5 class="card-header">회원수 현황</h5>
-			  	<div class="card-body">
-				    <canvas id="memberCntLineChart"></canvas>	
-			  	</div>
+			<div class="col">
+				<div class="card" style="width:100%;">
+				  	<h5 class="card-header">회원수 현황</h5>
+				  	<div class="card-body">
+					    <canvas id="memberCntLineChart"></canvas>	
+				  	</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card" style="width:100%;">
+				  	<h5 class="card-header">회원성별 비율</h5>
+				  	<div class="card-body">
+					    <canvas id="memberGenderPieChart"></canvas>	
+				  	</div>
+				</div>
 			</div>
 		</div>
 		<div class="row justify-content-center" style="min-height:300px; margin-top:30px;">

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humuson.huboard.model.FileVo;
-import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.repository.FileRepository;
 
 @Service

@@ -1,7 +1,5 @@
 package com.humuson.huboard.controller;
 
-import java.text.SimpleDateFormat;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;

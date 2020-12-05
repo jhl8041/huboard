@@ -8,6 +8,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<link rel="icon" type="image/x-icon" href="/resources/favicon.ico" />
 	<title>휴머스보드 홈</title>
 	
 	<!-- AJAX -->
@@ -26,6 +27,8 @@
 	<c:set var="categoryList" value="${category}" scope="session" />
 	<div id="nav-placeholder"></div>
 	
+
+	
 	<c:set var="listCnt" value="0" scope="page"/>
 	<jsp:useBean id="now" class="java.util.Date" />
 	<fmt:parseNumber value="${now.time}" integerOnly="true" var="currentDate"></fmt:parseNumber>
@@ -37,8 +40,8 @@
 			<c:forEach var="col" begin="1" end="${catRowCol.getCol()}" >
 				<div class="col">
 					<c:if test="${not empty category[listCnt]}">
-					<div>
-						<a href="/${category[listCnt].categoryId}">${category[listCnt].categoryName}</a>
+					<div id="cateId">
+						<a href="/cat/${category[listCnt].categoryId}">${category[listCnt].categoryName}</a>
 					</div>
 					<!-- 게시글 리스트 -->
 					<table class="table table-hover" style="table-layout: fixed">
@@ -49,8 +52,8 @@
 										<td style="text-align:left; padding-top:8px; padding-bottom:8px">
 											<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
 											&nbsp;
-											${fn:substring(list.subject,0,18)}
-											<c:if test="${fn:length(list.subject) gt 18}">
+											${fn:substring(list.subject,0,40)}
+											<c:if test="${fn:length(list.subject) gt 40}">
 											..
 											</c:if>
 											&nbsp; 

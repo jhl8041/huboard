@@ -57,7 +57,7 @@ public class ObjectDetector {
             List<Recognition> recognitions = YOLOClassifier.getInstance().classifyImage(executeYOLOGraph(normalizedImage), LABELS);
             printToConsole(recognitions);
             String labeledFilePath = ImageUtil.getInstance(applicationProperties).labelImage(image, recognitions, IOUtil.getFileName(storedName));
-            Map<String, Object> result = new HashMap();
+            Map<String, Object> result = new HashMap<>();
             result.put("labeledFilePath", labeledFilePath);
             result.put("recognitions", recognitions);
             return result;

@@ -2,26 +2,17 @@
 
 /*background-color:#cc3399;*/
 
-#menubar{
-	background-color: #34626c;
-}
-
 body {
-	min-width: 900px;
-	background-color: #f4f4f2;
-}
-
-.btn{
-	background-color: #707070;
-	border-color: #707070;
+	background-color: #f3f2f2;
 }
 
 .container{
-	max-width: 900px;
+	max-width: 1500px;
 	margin-top:50px;
 	padding:0;
 }
 		
+
 .row{
 	width:100%;
 	margin-left:0px;
@@ -38,16 +29,4 @@ body {
 	text-align:center;
 	cursor: pointer;
 }
-a {
-	color: #484b52;
-}
-
-#cateId{
-	font-size: 25px;
-	font-weight: bold;
-	margin-bottom: 20px;
-
-
-}
-
 
