@@ -3,17 +3,31 @@
 /*background-color:#cc3399;*/
 
 #menubar{
-	background-color: #34626c;
+	background-color: #61b15a;
+	
+}
+
+#nav-placeholder{
+	box-shadow: 0 6px 2px -2px rgba(0,0,0,.2);
+}
+
+#footer-placeholder{
+	background-color: #61b15a;
 }
 
 body {
 	min-width: 900px;
-	background-color: #f4f4f2;
+	background-color: #ffffff;
 }
 
-.btn{
-	background-color: #707070;
-	border-color: #707070;
+.btn-primary{
+	background-color: #335d2d;
+	border-color: #335d2d;
+}
+
+.btn-primary:hover{
+	background-color: #adce74;
+	border-color: #adce74;
 }
 
 .container{

@@ -2,8 +2,22 @@
 
 /*background-color:#cc3399;*/
 
+#menubar{
+	background-color: #61b15a;
+	
+}
+
+#nav-placeholder{
+	box-shadow: 0 6px 2px -2px rgba(0,0,0,.2);
+}
+
+#footer-placeholder{
+	background-color: #61b15a;
+}
+
 body {
-	background-color: #f3f2f2;
+	min-width: 900px;
+	background-color: #ffffff;
 }
 
 .container{

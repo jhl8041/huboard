@@ -10,10 +10,10 @@
 <body>
 	
 	<!-- 네비게이션 바 -->
-	<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+	<nav id="menubar" class="navbar sticky-top navbar-expand-lg navbar-dark">
 		<!-- 홈버튼 -->
 		<a class="navbar-brand" href="/home">
-			<img class="navbar-brand" alt="not found" src="/resources/images/humus_logo_home.png" style="height:45px">
+			<img class="navbar-brand" alt="not found" src="/resources/images/humus_logo_home.png" style="height:37px">
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 	    	<span class="navbar-toggler-icon"></span>
