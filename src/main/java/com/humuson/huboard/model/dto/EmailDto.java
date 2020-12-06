@@ -1,4 +1,4 @@
-package com.humuson.huboard.model;
+package com.humuson.huboard.model.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

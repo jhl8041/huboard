@@ -26,12 +26,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.humuson.huboard.model.BoardPageDto;
 import com.humuson.huboard.model.BoardVo;
-import com.humuson.huboard.model.CatRowColDto;
 import com.humuson.huboard.model.CategoryVo;
 import com.humuson.huboard.model.LikeVo;
 import com.humuson.huboard.model.MemberVo;
+import com.humuson.huboard.model.dto.BoardPageDto;
+import com.humuson.huboard.model.dto.CatRowColDto;
 import com.humuson.huboard.service.BoardService;
 import com.humuson.huboard.service.CategoryService;
 import com.humuson.huboard.service.FileService;
@@ -77,6 +77,15 @@ public class BoardController {
 	public String boardHome(Model model, @PageableDefault(size=10, sort="boardId", direction=Sort.Direction.DESC) Pageable pageable, 
 			@AuthenticationPrincipal User user) {
 		
+		
+		MemberVo member;
+		List<BoardVo> recommList = new ArrayList<>();;
+		
+		if (user != null) {
+			member= memberService.getMemberByUserId(user.getUsername());
+			recommList = boardService.getRecommPost(member.getUserNum());
+		}
+		
 		List<List<BoardVo>> catList = new ArrayList<>();
 		List<CategoryVo> category = categoryService.getAllCategory();
 		
@@ -90,6 +99,7 @@ public class BoardController {
 		
 		CatRowColDto catRowCol = new CatRowColDto(catList, catRow, catCol);
 		
+		if (user != null) model.addAttribute("recommList", recommList);
 		model.addAttribute("category", category);
 		model.addAttribute("catRowCol",catRowCol);
 		return "board/home";

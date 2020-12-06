@@ -18,8 +18,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import com.humuson.huboard.model.CommentVo;
-import com.humuson.huboard.model.EmailDto;
 import com.humuson.huboard.model.MemberVo;
+import com.humuson.huboard.model.dto.EmailDto;
 import com.humuson.huboard.repository.CommentRepository;
 import com.humuson.huboard.repository.MemberRepository;
 

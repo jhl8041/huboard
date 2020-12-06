@@ -34,6 +34,45 @@
 	<fmt:parseNumber value="${now.time}" integerOnly="true" var="currentDate"></fmt:parseNumber>
 	
 	<div class="container" style="min-height:560px">
+		<div class="row justify-content-center" style="min-height:300px; margin-top:30px">
+		<div class="col">
+			<div id="cateId">
+				<a href="#">추천게시글</a>
+			</div>
+			<table class="table table-hover" style="table-layout: fixed">
+				<c:if test="${not empty recommList}">
+					<tbody>
+						<c:forEach var="list" items="${recommList}" >
+							<tr class='clickable-row' id='boardlist' data-href='http://localhost:8080/board/${list.boardId}'>
+								<td style="text-align:left; padding-top:8px; padding-bottom:8px">
+									<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
+									&nbsp;
+									${fn:substring(list.subject,0,40)}
+									<c:if test="${fn:length(list.subject) gt 40}">
+									..
+									</c:if>
+									&nbsp; 
+									[ ${list.commentCnt} ]
+									&nbsp; 
+									<c:if test="${currentDate/1000 - postDate/1000 lt 30}">
+										<img alt="not found" src="/resources/images/new.png" style="width:15px; height:15px">
+									</c:if>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</c:if>
+				<c:if test="${empty recommList}">
+					<tbody>
+						<tr class="table-secondary" style="text-align:center">
+							<td>추천게시글이 존재하지 않습니다</td>
+						<tr>
+					</tbody>
+				</c:if>
+			</table> <!-- End of Table  -->	
+			</div>
+		</div>
+		
 		<c:forEach var="row" begin="1" end="${catRowCol.getRow()}">
 			<div class="row justify-content-center" style="min-height:300px; margin-top:30px">
 			
@@ -52,8 +91,8 @@
 										<td style="text-align:left; padding-top:8px; padding-bottom:8px">
 											<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
 											&nbsp;
-											${fn:substring(list.subject,0,40)}
-											<c:if test="${fn:length(list.subject) gt 40}">
+											${fn:substring(list.subject,0,20)}
+											<c:if test="${fn:length(list.subject) gt 20}">
 											..
 											</c:if>
 											&nbsp; 

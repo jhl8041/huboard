@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.humuson.huboard.model.DeleteFileListDto;
 import com.humuson.huboard.model.FileVo;
+import com.humuson.huboard.model.dto.DeleteFileListDto;
 import com.humuson.huboard.service.FileService;
 
 @Controller

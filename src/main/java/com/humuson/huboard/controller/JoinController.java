@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.humuson.huboard.model.EmailDto;
 import com.humuson.huboard.model.MemberVo;
+import com.humuson.huboard.model.dto.EmailDto;
 import com.humuson.huboard.service.MemberService;
 
 @Controller

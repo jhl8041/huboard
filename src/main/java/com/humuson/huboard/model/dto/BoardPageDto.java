@@ -1,6 +1,8 @@
-package com.humuson.huboard.model;
+package com.humuson.huboard.model.dto;
 
 import java.util.List;
+
+import com.humuson.huboard.model.BoardVo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

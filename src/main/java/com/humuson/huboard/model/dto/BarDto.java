@@ -1,4 +1,4 @@
-package com.humuson.huboard.model;
+package com.humuson.huboard.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class MemberLineDto {
-    private String yearMonth;
-    private int cntMember;
+public class BarDto {
+    private String categoryName;
+    private int cntView;
 }

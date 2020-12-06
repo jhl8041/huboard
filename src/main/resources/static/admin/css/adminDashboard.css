@@ -11,13 +11,16 @@ body {
 	margin-top:50px;
 	padding:0;
 }
-		
 
 .row{
 	width:100%;
 	margin-left:0px;
 	margin-right:0px;
 }		
+
+.col{
+	padding-left:0;
+}
 
 .table{
 	height: fit-content;

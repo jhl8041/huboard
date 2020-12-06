@@ -58,6 +58,7 @@ public class BoardVo implements Serializable{
 	private String visible;
 	private int likeCnt;
 	
+	
 	public BoardVo(String userId, String visible) {
 		this.userId = userId;
 		this.visible = visible;

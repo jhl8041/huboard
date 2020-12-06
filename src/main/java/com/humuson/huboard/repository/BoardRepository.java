@@ -22,5 +22,8 @@ public interface BoardRepository extends JpaRepository<BoardVo, Long> {
 	
 	public List<BoardVo> findByVisibleAndCategoryId(String visible, Long categoryId);
 	public Long countByVisibleAndCategoryId(String visible, Long categoryId);
+	
+	//추천게시글 검색
+	public List<BoardVo> findTop10BySubjectContainingOrSubjectContainingOrSubjectContainingAndVisible(String keyword1, String keyword2, String keyword3, String visible);
 
 }

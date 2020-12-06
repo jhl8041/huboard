@@ -1,7 +1,11 @@
 package com.humuson.huboard.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +15,7 @@ import com.humuson.huboard.model.CommentVo;
 import com.humuson.huboard.model.LikeVo;
 import com.humuson.huboard.repository.BoardRepository;
 import com.humuson.huboard.repository.CommentRepository;
+import com.humuson.huboard.repository.LabRepository;
 import com.humuson.huboard.repository.LikeRepository;
 
 @Service
@@ -22,7 +27,35 @@ public class BoardService {
 	private CommentRepository commentRepo;
 	
 	@Autowired
+	private LabRepository labRepo;
+	
+	@Autowired
 	private LikeRepository likeRepo;
+	
+	
+	public List<BoardVo> getRecommPost(Long userNum){
+		List<String> bestTags = new ArrayList<>();
+		String tags = "";
+		if (labRepo.findByUserNum(userNum).isPresent()) {
+			tags = labRepo.findByUserNum(userNum).get().getBestTag();
+			tags = tags.substring(1,tags.length()-1);
+			bestTags = Arrays.asList(tags.split(", "));
+		}
+		
+		if (bestTags.size() == 0) {
+			return new ArrayList<>();
+		}
+		
+		Random r = new Random();
+		int low=0;
+		int high=bestTags.size();
+		int result = r.nextInt(high-low) + low;
+
+		List<BoardVo> recommList = boardRepo.findTop10BySubjectContainingOrSubjectContainingOrSubjectContainingAndVisible(bestTags.get(result), bestTags.get(result), bestTags.get(result), "Y");
+				
+		return recommList;
+	}
+	
 	
 	//게시글 페이지 객체로 변환 및 반환
 	public Page<BoardVo> getPagingPost(Long categoryId, Pageable pageable){	

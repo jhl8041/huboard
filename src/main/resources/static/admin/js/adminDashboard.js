@@ -9,6 +9,7 @@
  	memberLineChart();
  	genderPieChart();
  	viewBarChart();
+ 	boardBarChart();
 
  });
  
@@ -107,6 +108,52 @@
 				data: dataArr, 
 				backgroundColor: 'rgba(255, 99, 132, 0.2)', 
 				borderColor: 'rgba(255, 99, 132, 1)', 
+				borderWidth: 1 
+			}] 
+		}, 
+		options: {
+			scales: { 
+				yAxes: [{ 
+					ticks: { 
+						beginAtZero: true 
+					} 
+				}] 
+			} 
+		} 
+	});
+
+ }
+ 
+ function boardBarChart(){
+ 	var ctx = document.getElementById('boardBarChart'); 
+ 	var labelArr = [];
+ 	var dataArr = [];
+ 	
+ 	$.ajax({
+	        url : "/admin/boardbar",
+	        type : "POST",
+	        async: false,
+	        contentType: 'application/json',
+	        success : function(data){
+	        	for (i=0;i<data.length;i++){
+	        		labelArr.push(data[i].categoryName);
+	        		dataArr.push(data[i].cntView);
+	        	}
+	        },
+			error:function(xhr,status,error){
+				console.log('error:'+error);
+			}
+	});
+ 	
+	var myChart = new Chart(ctx, { 
+		type: 'bar', 
+		data: { 
+			labels: labelArr, 
+			datasets: [{ 
+				label: '조회수 통계', 
+				data: dataArr, 
+				backgroundColor: 'rgba(54, 162, 235, 0.2)', 
+				borderColor: 'rgba(54, 162, 235, 1)', 
 				borderWidth: 1 
 			}] 
 		}, 

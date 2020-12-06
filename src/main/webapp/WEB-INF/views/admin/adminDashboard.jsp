@@ -40,7 +40,7 @@
 				  	</div>
 				</div>
 			</div>
-			<div class="col">
+			<div class="col-3">
 				<div class="card" style="width:100%;">
 				  	<h5 class="card-header">회원성별 비율</h5>
 				  	<div class="card-body">
@@ -50,14 +50,25 @@
 			</div>
 		</div>
 		<div class="row justify-content-center" style="min-height:300px; margin-top:30px;">
-			<div class="card" style="width:100%;">
-			  	<h5 class="card-header">카테고리별 조회수 현황</h5>
-			  	<div class="card-body">
-				    <canvas id="viewBarChart"></canvas>	
-			  	</div>
+			<div class="col">
+				<div class="card" style="width:100%;">
+				  	<h5 class="card-header">카테고리별 게시글 수 현황</h5>
+				  	<div class="card-body">
+					    <canvas id="boardBarChart"></canvas>	
+				  	</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card" style="width:100%;">
+				  	<h5 class="card-header">카테고리별 조회수 현황</h5>
+				  	<div class="card-body">
+					    <canvas id="viewBarChart"></canvas>	
+				  	</div>
+				</div>
 			</div>
 		</div>
-	</div>
+		
+	</div> <!--End of Container  -->
 	
 	<!-- Footer -->
 	<div id="footer-placeholder"></div>

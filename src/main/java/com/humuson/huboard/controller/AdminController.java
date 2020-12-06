@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.humuson.huboard.model.BarDto;
 import com.humuson.huboard.model.CategoryVo;
-import com.humuson.huboard.model.MemberLineDto;
 import com.humuson.huboard.model.MemberVo;
+import com.humuson.huboard.model.dto.BarDto;
+import com.humuson.huboard.model.dto.MemberLineDto;
 import com.humuson.huboard.service.AdminService;
 import com.humuson.huboard.service.BoardService;
 import com.humuson.huboard.service.CategoryService;
@@ -99,17 +99,33 @@ public class AdminController {
 	@PostMapping("/admin/viewbar")
 	@ResponseBody
 	public List<BarDto> adminViewBar() {
-		List<BarDto> viewbardtolist = new ArrayList<>();
+		List<BarDto> bardto = new ArrayList<>();
 		List<CategoryVo> category = categoryService.getAllCategory();
 		
 		for (CategoryVo c: category) {
-			viewbardtolist.add(new BarDto(c.getCategoryName(), adminService.getViewCntByCategoryId(c.getCategoryId())));
+			bardto.add(new BarDto(c.getCategoryName(), adminService.getViewCntByCategoryId(c.getCategoryId())));
 		}
 		
-		return viewbardtolist;
+		return bardto;
 	}
 	
 	//카테고리별 조회수 바 그래프
+	@PostMapping("/admin/boardbar")
+	@ResponseBody
+	public List<BarDto> adminBoardBar() {
+		List<BarDto> bardto = new ArrayList<>();
+		List<CategoryVo> category = categoryService.getAllCategory();
+		
+		for (CategoryVo c: category) {
+			bardto.add(new BarDto(c.getCategoryName(), adminService.getBoardCntByCategoryId(c.getCategoryId())));
+		}
+		
+		return bardto;
+	}
+	
+	
+	
+	//남여 비율 파이차트
 	@PostMapping("/admin/genderpie")
 	@ResponseBody
 	public List<BarDto> adminGenderPie() {
