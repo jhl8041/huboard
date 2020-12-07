@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,12 +36,27 @@ public class FileController {
 		return '"'+ storedName +'"';
 	}
 	
+	//파일아이디 가져오기
+	@PostMapping("/filename/{fileName}")
+	@ResponseBody
+	public Long getFileId(@PathVariable String fileName) {
+		return fileService.getFileId(fileName);
+	}
+	
 	//파일 DB에 등록
 	@PostMapping("/file-db")
 	@ResponseBody
 	public String fileToDB(@RequestBody FileVo filevo) throws Exception {
 		fileService.addFileToDB(filevo);
-		return "success";
+		return "db file upload success";
+	}
+	
+	//파일 DB에서 제거
+	@DeleteMapping("/file-db/{fileId}")
+	@ResponseBody
+	public String deleteFileFromDb(@PathVariable Long fileId) throws Exception {
+		fileService.deleteFiles(fileId);
+		return "db file delete success";
 	}
 	
 	//파일 DB에서 제거

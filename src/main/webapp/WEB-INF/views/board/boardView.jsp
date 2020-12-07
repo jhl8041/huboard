@@ -87,11 +87,11 @@
 		<hr>
 		<!-- 버튼 기능 -->
 		<div id="mainButtonRow" class="row justify-content-left">
-			<input type="button" class="btn btn-secondary" value="목록" onclick="location.href='http://localhost:8080/cat/${post.categoryId}'"/>
+			<input type="button" class="btn btn-primary" value="목록" onclick="location.href='http://localhost:8080/cat/${post.categoryId}'"/>
 			<!-- 작성자 본인만 사용하는 기능 -->
 			<c:if test="${member.userId eq post.userId}">
-				<input type="button" class="btn btn-secondary" style="margin-left:5px" value="수정" onclick="location.href='/editor/${post.boardId}/${post.categoryId}'"/>
-				<input type="button" class="btn btn-secondary" style="margin-left:5px" value="삭제" onclick="deletePost()"/>
+				<input type="button" class="btn btn-primary" style="margin-left:5px" value="수정" onclick="location.href='/editor/${post.boardId}/${post.categoryId}'"/>
+				<input type="button" class="btn btn-danger" style="margin-left:5px" value="삭제" onclick="deletePost()"/>
 			</c:if>
 		</div>
 		<hr>
@@ -135,7 +135,7 @@
 					<input type="text" class="form-control" id="editedContent"/>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
 					<button type="button" class="btn btn-primary" onclick="editComment()">수정 및 저장</button>
 				</div>
 			</div>

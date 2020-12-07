@@ -123,13 +123,13 @@ function getFileId(fileName, fIndex){
     delete fileSizeList[fIndex]; // 파일 사이즈 배열 삭제
     
     $("#fileTr_" + fIndex).remove(); // 업로드 파일 테이블 목록에서 삭제
-
+	
 	$.ajax({
         url : "/filename/"+fileName,
         type : "POST",
         success : function(data){
         	console.log(data);
-       		deleteFile(data);
+        	deleteFile(data);
         },
 		error:function(xhr,status,error){
 			console.log('error:'+error);

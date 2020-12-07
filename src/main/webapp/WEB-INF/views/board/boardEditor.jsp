@@ -106,7 +106,7 @@
 					<input class="btn btn-primary" type="button" value="글쓰기" onclick="submitPost()"/>
 				</c:otherwise>
 			</c:choose>
-			<input class="btn btn-primary" type="button" value="취소" onclick="history.back()"/>
+			<input class="btn btn-danger" type="button" value="취소" onclick="history.back()"/>
 		</div>
 	</div>
 	

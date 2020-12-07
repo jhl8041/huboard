@@ -32,5 +32,6 @@ jQuery(document).ready(function($) {
 });
 
 function loading(){
-	
+	var img = document.getElementById('myImageId');
+    img.style.visibility = 'visible';
 }

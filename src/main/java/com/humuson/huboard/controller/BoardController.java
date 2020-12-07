@@ -273,12 +273,6 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
-	//파일아이디 가져오기
-	@PostMapping("/filename/{fileName}")
-	@ResponseBody
-	public Long getFileId(@PathVariable String fileName) {
-		return fileService.getFileId(fileName);
-	}
 	
 	//좋아요 활성화
 	@PostMapping("/likepost")

@@ -56,7 +56,7 @@
         </div>
         <div class="row justify-content-center">
 	        <div class="form-group">	
-				<input class="btn btn-primary" style="width:330px; margin-top:100px" type=button value=다시하기 onclick="location.href='/lab'">
+				<input class="btn btn-light" style="width:330px; margin-top:100px" type=button value=다시하기 onclick="location.href='/lab'">
 			</div>
 		</div>
     </div>
