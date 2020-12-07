@@ -51,7 +51,7 @@ public class BoardService {
 		int high=bestTags.size();
 		int result = r.nextInt(high-low) + low;
 
-		List<BoardVo> recommList = boardRepo.findTop10BySubjectContainingOrSubjectContainingOrSubjectContainingAndVisible(bestTags.get(result), bestTags.get(result), bestTags.get(result), "Y");
+		List<BoardVo> recommList = boardRepo.findTop10BySubjectContainingOrSubjectContainingOrSubjectContainingAndVisibleOrderByLikeCntDescViewDescUpdateDateDesc(bestTags.get(result), bestTags.get(result), bestTags.get(result), "Y");
 				
 		return recommList;
 	}

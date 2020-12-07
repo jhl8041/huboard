@@ -22,6 +22,10 @@ p{
 	margin-bottom:0px;
 }
 
+pre{
+	white-space: pre-line;
+}
+
 .container{
 	max-width: 900px;
 	min-height: 500px;
@@ -38,6 +42,16 @@ div{
 	width:100%;
 	margin-left:0px;
 	margin-right:0px;
+}
+
+.btn-primary{
+	background-color: #335d2d;
+	border-color: #335d2d;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
+	background-color: #adce74;
+	border-color: #adce74;
 }
 
 #postContent{

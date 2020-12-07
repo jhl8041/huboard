@@ -38,6 +38,15 @@
 				<a href="#">추천게시글</a>
 			</div>
 			<table class="table table-hover" style="table-layout: fixed">
+				<thead>
+					<tr id="thRow">
+						<th style="width: 55%" scope="col">제목</th>
+						<th style="width: 17%;text-align:center" scope="col">작성일</th>
+						<th style="width: 10%;text-align:center" scope="col">작성자</th>
+						<th style="width: 8%;text-align:center" scope="col">추천</th>
+						<th style="width: 10%;text-align:center" scope="col">조회수</th>
+					</tr>
+				</thead>
 				<c:if test="${not empty recommList}">
 					<tbody>
 						<c:forEach var="list" items="${recommList}" >
@@ -45,17 +54,24 @@
 								<td style="text-align:left; padding-top:8px; padding-bottom:8px">
 									<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
 									&nbsp;
-									${fn:substring(list.subject,0,40)}
-									<c:if test="${fn:length(list.subject) gt 40}">
+									${fn:substring(list.subject,0,25)}
+									<c:if test="${fn:length(list.subject) gt 25}">
 									..
 									</c:if>
 									&nbsp; 
 									[ ${list.commentCnt} ]
-									&nbsp; 
+									&nbsp;
+									<img alt="not found" src="/resources/images/hot.gif" style="width:20px; height:20px"> 
+									&nbsp;
 									<c:if test="${currentDate/1000 - postDate/1000 lt 30}">
 										<img alt="not found" src="/resources/images/new.png" style="width:15px; height:15px">
 									</c:if>
 								</td>
+								<td><fmt:formatDate value="${list.updateDate}" pattern="yyyy-MM-dd"/></td>
+								<td>${list.nickname}</td>
+								<td>${list.likeCnt}</td>
+								<td>${list.view}</td>
+								
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -63,7 +79,7 @@
 				<c:if test="${empty recommList}">
 					<tbody>
 						<tr class="table-secondary" style="text-align:center">
-							<td>추천게시글이 존재하지 않습니다</td>
+							<td colspan="5">추천게시글이 존재하지 않습니다</td>
 						<tr>
 					</tbody>
 				</c:if>
@@ -82,6 +98,12 @@
 					</div>
 					<!-- 게시글 리스트 -->
 					<table class="table table-hover" style="table-layout: fixed">
+						<thead>
+							<tr id="thRow">
+								<th style="width: 85%" scope="col">제목</th>
+								<th style="width: 15%;border-left: 1px solid #ddd;text-align:center" scope="col">추천</th>
+							</tr>
+						</thead>
 						<c:if test="${not empty catRowCol.catList[listCnt]}">
 							<tbody>
 								<c:forEach var="list" items="${catRowCol.catList[listCnt]}" >
@@ -89,17 +111,19 @@
 										<td style="text-align:left; padding-top:8px; padding-bottom:8px">
 											<fmt:parseNumber value="${list.updateDate.time}" integerOnly="true" var="postDate"></fmt:parseNumber>
 											&nbsp;
-											${fn:substring(list.subject,0,20)}
-											<c:if test="${fn:length(list.subject) gt 20}">
+											${fn:substring(list.subject,0,17)}
+											<c:if test="${fn:length(list.subject) gt 17}">
 											..
 											</c:if>
 											&nbsp; 
 											[ ${list.commentCnt} ]
 											&nbsp; 
+
 											<c:if test="${currentDate/1000 - postDate/1000 lt 30}">
 												<img alt="not found" src="/resources/images/new.png" style="width:15px; height:15px">
 											</c:if>
 										</td>
+										<td style="border-left: 1px solid #ddd;" >${list.likeCnt}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -107,7 +131,7 @@
 						<c:if test="${empty catRowCol.catList[listCnt]}">
 							<tbody>
 								<tr class="table-secondary" style="text-align:center">
-									<td>게시글이 존재하지 않습니다</td>
+									<td colspan="2">게시글이 존재하지 않습니다</td>
 								<tr>
 							</tbody>
 						</c:if>

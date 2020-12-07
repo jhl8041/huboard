@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 #menubar{
-	background-color: #61b15a;
+	background-color: #2e2e2e;
 	
 }
 
@@ -9,15 +9,34 @@
 	box-shadow: 0 6px 2px -2px rgba(0,0,0,.2);
 }
 
+#footer-placeholder{
+	background-color: #2e2e2e;
+}
+
 body {
 	min-width: 900px;
-	background-color: #ffffff;
+	min-height: 900px;
+	background-image: url('https://i.pinimg.com/originals/be/dc/0f/bedc0fafddaa65e935ac3fd1561bee4e.gif');
+    background-size: cover;
+}
+
+.table-bordered thead td, .table-bordered thead th{
+	text-align:center;
+	color: #ffffff;
+	font-weight:bold;
+	font-size: 20pt;
 }
 
 .container{
 	max-width: 900px;
 	margin-top:80px;
 	padding:0;
+}
+
+li{
+	color: #ffffff;
+	font-weight:bold;
+	font-size: 12pt;
 }
 
 div{

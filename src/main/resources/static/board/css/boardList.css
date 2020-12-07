@@ -15,6 +15,16 @@
 	background-color: #61b15a;
 }
 
+.btn-primary{
+	background-color: #335d2d;
+	border-color: #335d2d;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
+	background-color: #adce74;
+	border-color: #adce74;
+}
+
 body {
 	min-width: 900px;
 	background-color: #ffffff;
@@ -68,6 +78,18 @@ body {
 .table{
 	height: fit-content;
 	margin: 0;
+	border: 1px solid #ddd;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}   
+
+#thRow{
+	background-color:#dedede;
 }
 
 #boardlist {
@@ -93,6 +115,15 @@ body {
 
 #boardPageInfo{
 	margin-top:0;
+}
+
+.page-item.active .page-link{
+	background-color: #adce74;
+	border-color: #adce74;
+}
+
+.page-link{
+	color: #28a745;
 }
 
 hr{

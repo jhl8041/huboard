@@ -10,7 +10,7 @@
 	
 	<!-- CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lab/css/labUpload.css"></link>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lab/css/labResult.css"></link>
 	
 	<!-- Script -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/lab/js/labResult.js" charset="utf-8"></script>
@@ -33,7 +33,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>업로드 이미지</th>
+                        <th>업로드한 이미지</th>
                         <th>결과 이미지</th>
                     </tr>
                 </thead>
@@ -43,8 +43,7 @@
                         <td width="416" style="text-align: center; vertical-align: middle;"><img id="predictedImg" src="" onerror="this.src='/resources/images/loading.gif'" width="200"/></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td>
+                        <td colspan="2" style="text-align:center">
                             <ul>
                                 <c:forEach var="recognition" items="${recognitions}">
                                     <li><span>${recognition.title}</span><span> - </span><span>${recognition.confidence}</span></li>

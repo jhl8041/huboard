@@ -274,22 +274,24 @@ function showHtml(data) {
             	html +=			'삭제된 댓글입니다'+ '<br>';
             }
             else{
-            	html +=			"<pre style='margin:0'>" + data[i].commentContent  + '</pre>';
+            	html +=			"<pre style='margin:0; font-size:12pt'>" + data[i].commentContent  + '</pre>';
             }
             
             
+            html += "<div class='form-inline' style='margin-top:10px'>";
             if (data[i].depth <3 && data[i].visible == "Y"){
-            	html +=		"<a href='javascript:void(0);' onclick='triggerBox("+ data[i].commentId +");'>+답글</a> &nbsp;";  
+            	html +=		"<button type='button' class='btn btn-outline-success btn-sm' onclick='triggerBox("+ data[i].commentId +");'>+답글</button>";  
             }
             
 	        if (userIdStr == data[i].userId && data[i].visible == 'Y'){
-	        	html +=		"<a href='javascript:void(0);' onclick='editCommentShow("+ data[i].commentId + ", `"+ data[i].commentContent +"`)'>수정</a> &nbsp;";
-	       		html +=		"<a href='javascript:void(0);' onclick='deleteComment("+data[i].commentId+")'>삭제</a>";
+	        	html +=		"<button type='button' class='btn btn-outline-success btn-sm' onclick='editCommentShow("+ data[i].commentId + ", `"+ data[i].commentContent +"`)'>수정</button>";
+	       		html +=		"<button type='button' class='btn btn-outline-danger btn-sm' onclick='deleteComment("+data[i].commentId+")'>삭제</button>";
 	        }
+	        html += "</div>"
        
-            html +=			"<div style='display:none' id='cocobox"+ data[i].commentId +"'>";
+            html +=			"<div style='display:none;margin-top:5px;' id='cocobox"+ data[i].commentId +"'>";
             html += 			"<input type='text' class='form-control' id='commentContentOf" + data[i].commentId + "'/>";
-            html +=				"<input type='button' value='답글작성' onclick='addCoComment(" + data[i].commentId + ")'/>"
+            html +=				"<input type='button' style='margin-top:5px' class='btn btn-primary btn-sm' value='답글작성' onclick='addCoComment(" + data[i].commentId + ")'/>"
             html +=			"</div>";
             html +=			"<div style='display:none'>";
             html += 			"<input type='hidden' value='" + data[i].commentId + "' id='commentIdOf" + data[i].commentId + "' />";

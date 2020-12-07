@@ -61,7 +61,7 @@
 				<!-- 게시글 리스트 -->
 				<table class="table table-hover" style="table-layout: fixed">
 					<thead>
-						<tr style="text-align:center">
+						<tr id="thRow" style="text-align:center">
 							<th style="width: 7%" scope="col">번호</th>
 							<th style="width: 40%" scope="col">제목</th>
 							<th style="width: 20%" scope="col">작성일</th>
